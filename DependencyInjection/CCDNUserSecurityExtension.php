@@ -52,7 +52,7 @@ class CCDNUserSecurityExtension extends Extension
         $loader = new Loader\YamlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
         $loader->load('services.yml');
 		
-		$this->getAccountSection($container, $config);
+		$this->getDoNotLogRouteSection($container, $config);
     }
 	
 	
@@ -62,10 +62,20 @@ class CCDNUserSecurityExtension extends Extension
 	 * @access private
 	 * @param $container, $config
 	 */
-	private function getAccountSection($container, $config)
+	private function getDoNotLogRouteSection($container, $config)
 	{
-//		$container->setParameter('ccdn_user_user.account.show.layout_template', $config['account']['show']['layout_template']);
+			
+		$defaults = array(
+			array('bundle' => 'fosuserbundle', 'route' => 'fos_user_security_login'),
+			array('bundle' => 'fosuserbundle', 'route' => 'fos_user_security_check'),
+			array('bundle' => 'fosuserbundle', 'route' => 'fos_user_security_logout'),
+			array('bundle' => 'fosuserbundle', 'route' => 'fos_user_registration_register'),
+			array('bundle' => 'fosuserbundle', 'route' => 'fos_user_registration_check_email'),
+			array('bundle' => 'fosuserbundle', 'route' => 'fos_user_registration_confirm'),
+			array('bundle' => 'fosuserbundle', 'route' => 'fos_user_registration_confirmed'),
+		);
 		
+		$container->setParameter('ccdn_user_security.do_not_log_route', array_merge($config['do_not_log_route'], $defaults));
 		
 	}
 

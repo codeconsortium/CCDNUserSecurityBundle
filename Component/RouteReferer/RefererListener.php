@@ -70,8 +70,11 @@ class RefererListener
 		}
 
 		$request = $event->getRequest();
+		
 		$route = $request->get('_route');
 
+		$logIgnore = $this->container->getParameter('ccdn_user_security.do_not_log_route');
+				
 		//echo $request->getSession()->get('referer'); die();
 
 		if ($route !== 'fos_user_security_login'

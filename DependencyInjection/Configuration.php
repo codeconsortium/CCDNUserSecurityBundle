@@ -27,6 +27,9 @@ use Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition;
  */
 class Configuration implements ConfigurationInterface
 {
+	
+	
+	
     /**
      * {@inheritDoc}
      */
@@ -38,21 +41,9 @@ class Configuration implements ConfigurationInterface
         // Here you should define the parameters that are allowed to
         // configure your bundle. See the documentation linked above for
         // more information on that topic.
- //   	$rootNode
- //   		->children()
- //   			->arrayNode('user')
- //   				->children()
- //   					->scalarNode('profile_route')->defaultValue('cc_profile_show_by_id')->end()
- //   				->end()
- //   			->end()
- //   			->arrayNode('template')
- //   				->children()
- //   					->scalarNode('engine')->defaultValue('twig')->end()
- //   				->end()
- //   			->end()
- //   		->end();
+    	$rootNode;
 			
-		$this->addAccountSection($rootNode);
+		$this->addDoNotLogRouteSection($rootNode);
 		
         return $treeBuilder;
     }
@@ -64,30 +55,34 @@ class Configuration implements ConfigurationInterface
 	 * @access private
 	 * @param ArrayNodeDefinition $node
 	 */
-	private function addAccountSection(ArrayNodeDefinition $node)
+	private function addDoNotLogRouteSection(ArrayNodeDefinition $node)
 	{
-//		$node
-//			->children()
-//				->arrayNode('account')
-//					->addDefaultsIfNotSet()
-//					->canBeUnset()
-//					->children()
-//						->arrayNode('show')
-//							->addDefaultsIfNotSet()
-//							->children()
-//								->scalarNode('layout_template')->defaultValue('CCDNComponentCommonBundle:Layout:layout_body_right.html.twig')->end()
-//							->end()
-//						->end()
-//						->arrayNode('edit')
-//							->addDefaultsIfNotSet()
-//							->children()
-//								->scalarNode('layout_template')->defaultValue('CCDNComponentCommonBundle:Layout:layout_body_right.html.twig')->end()
-//								->scalarNode('form_theme')->defaultValue('CCDNUserUserBundle:Form:fields.html.twig')->end()
-//							->end()
-//						->end()
-//					->end()
-//				->end()
-//			->end();
+	
+		$node
+			->addDefaultsIfNotSet()
+			->canBeUnset()
+			->children()
+				->arrayNode('do_not_log_route')
+					->prototype('array')
+						->addDefaultsIfNotSet()
+						->children()
+							->scalarNode('bundle')->end()
+							->scalarNode('route')->isRequired()->end()
+							->scalarNode('path')->defaultNull()->end()
+						->end()
+						//->defaultValue(array('defaults' => array(
+						//	array('bundle' => 'fosuserbundle', 'route' => 'fos_user_security_login'),
+						//	array('bundle' => 'fosuserbundle', 'route' => 'fos_user_security_check'),
+						//	array('bundle' => 'fosuserbundle', 'route' => 'fos_user_security_logout'),
+						//	array('bundle' => 'fosuserbundle', 'route' => 'fos_user_registration_register'),
+						//	array('bundle' => 'fosuserbundle', 'route' => 'fos_user_registration_check_email'),
+						//	array('bundle' => 'fosuserbundle', 'route' => 'fos_user_registration_confirm'),
+						//	array('bundle' => 'fosuserbundle', 'route' => 'fos_user_registration_confirmed'),
+						//)))->end()
+					->end()
+				->end()
+			->end();
+
 	}
 	
 }
