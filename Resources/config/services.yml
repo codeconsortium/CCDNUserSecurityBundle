@@ -1,0 +1,37 @@
+parameters:
+    
+    ccdn_user_security.referer_listener.class:          CCDNUser\SecurityBundle\Component\RouteReferer\RefererListener
+
+    ccdn_user_security.login_failure_handler.class:     CCDNUser\SecurityBundle\Component\AuthenticationHandlers\LoginFailureHandler
+    ccdn_user_security.login_success_handler.class:     CCDNUser\SecurityBundle\Component\AuthenticationHandlers\LoginSuccessHandler
+    ccdn_user_security.logout_success_handler.class:    CCDNUser\SecurityBundle\Component\AuthenticationHandlers\LogoutSuccessHandler
+    
+services:
+    
+    #
+    # Referer Listener.
+    #
+    ccdn_user_security.referer_listener:
+        class: %ccdn_user_security.referer_listener.class%
+        arguments: [@service_container, @router]
+        tags:
+            - { name: kernel.event_listener, event: kernel.request, method: onKernelRequest }
+
+    #
+    # Login/Logout Success Handlers.
+    #
+    ccdn_user_security.login_failure_handler:
+        class:  %ccdn_user_security.login_failure_handler.class%
+        arguments:  [@service_container, @router, @security.context]
+        tags:
+            - { name: 'monolog.logger', channel: 'security' }    
+    ccdn_user_security.login_success_handler:
+        class:  %ccdn_user_security.login_success_handler.class%
+        arguments:  [@service_container, @router, @security.context]
+        tags:
+            - { name: 'monolog.logger', channel: 'security' }
+    ccdn_user_security.logout_success_handler:
+        class:  %ccdn_user_security.logout_success_handler.class%
+        arguments:  [@service_container, @router]
+        tags:
+            - { name: 'monolog.logger', channel: 'security' }
