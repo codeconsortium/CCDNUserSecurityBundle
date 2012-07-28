@@ -64,37 +64,34 @@ class RefererListener
 	 */
     public function onKernelRequest(GetResponseEvent $event)
     {
-
+	
+		// Abort if we are dealing with some symfony2 internal requests.
 		if ($event->getRequestType() !== \Symfony\Component\HttpKernel\HttpKernel::MASTER_REQUEST) {
 			return;
 		}
 
+		// Get the route from the request object.
 		$request = $event->getRequest();
 		
 		$route = $request->get('_route');
 
+		// Get the list of routes we must ignore.
 		$logIgnore = $this->container->getParameter('ccdn_user_security.do_not_log_route');
-				
-		//echo $request->getSession()->get('referer'); die();
-
-		if ($route !== 'fos_user_security_login'
-		&& $route !== 'fos_user_security_check'
-		&& $route !== 'fos_user_security_logout'
-		&& $route !== 'fos_user_registration_register'
-		&& $route !== 'fos_user_registration_check_email'
-		&& $route !== 'fos_user_registration_confirm'
-		&& $route !== 'fos_user_registration_confirmed'		
-		&& $route !== 'cc_message_action_bulk'
-		&& $route[0] !== '_') // last one checks incase of some of SF2 internal routes
-		{
-			$session = $request->getSession();
 			
-			//echo $request->getBasePath() . $request->getPathInfo(); die();
-			
-			$session->set('referer', $request->getBasePath() . $request->getPathInfo());			
-			
-			
+		// Abort if the route is ignorable.
+		foreach($logIgnore as $ignore) {
+			if ($route == $ignore['route']) { return; }
 		}
+		
+		// Check for any internal routes.
+		if ($route[0] == '_') { return; }
+		
+		// Get the session and assign it the url we are at presently.
+		$session = $request->getSession();
+		
+		$session->set('referer', $request->getBasePath() . $request->getPathInfo());			
+		//echo $request->getBasePath() . $request->getPathInfo(); die();
+
     }
 
 }
