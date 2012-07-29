@@ -6,6 +6,10 @@ parameters:
     ccdn_user_security.login_success_handler.class:     CCDNUser\SecurityBundle\Component\AuthenticationHandlers\LoginSuccessHandler
     ccdn_user_security.logout_success_handler.class:    CCDNUser\SecurityBundle\Component\AuthenticationHandlers\LogoutSuccessHandler
     
+    ccdn_user_security.session.repository.class:        CCDNUser\SecurityBundle\Repository\SessionRepository
+    
+    ccdn_user_security.session.manager.class:           CCDNUser\SecurityBundle\Manager\SessionManager
+    
 services:
     
     #
@@ -35,3 +39,20 @@ services:
         arguments:  [@service_container, @router]
         tags:
             - { name: 'monolog.logger', channel: 'security' }
+
+    #
+    # Repositories.
+    #
+    ccdn_user_security.session.repository:
+        class: %ccdn_user_security.session.repository.class%
+        factory_service: doctrine.orm.default_entity_manager
+        factory_method: getRepository 
+        arguments:
+            - 'CCDNUser\SecurityBundle\Entity\Session'
+
+    #
+    # Managers.
+    #
+    ccdn_user_security.session.manager:
+        class: %ccdn_user_security.session.manager.class%
+        arguments:  [@doctrine, @service_container]

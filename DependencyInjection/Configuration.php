@@ -44,6 +44,7 @@ class Configuration implements ConfigurationInterface
     	$rootNode;
 			
 		$this->addDoNotLogRouteSection($rootNode);
+		$this->addBruteForceLoginPreventionSection($rootNode);
 		
         return $treeBuilder;
     }
@@ -83,6 +84,31 @@ class Configuration implements ConfigurationInterface
 				->end()
 			->end();
 
+	}
+	
+	
+
+	/**
+	 *
+	 * @access private
+	 * @param ArrayNodeDefinition $node
+	 */
+	private function addBruteForceLoginPreventionSection(ArrayNodeDefinition $node)
+	{
+	
+		$node
+			->addDefaultsIfNotSet()
+			->children()
+				->arrayNode('brute_force_login_prevention')
+					->addDefaultsIfNotSet()
+					->children()
+						->scalarNode('enable_protection')->defaultValue(true)->end()
+						->scalarNode('login_attempts')->defaultValue(25)->end()
+						->scalarNode('block_in_minutes')->defaultValue(10)->end()
+					->end()
+				->end()
+			->end();
+					
 	}
 	
 }

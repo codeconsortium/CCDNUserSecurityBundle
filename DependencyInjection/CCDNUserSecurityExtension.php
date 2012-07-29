@@ -53,6 +53,8 @@ class CCDNUserSecurityExtension extends Extension
         $loader->load('services.yml');
 		
 		$this->getDoNotLogRouteSection($container, $config);
+		$this->getBruteForceLoginPreventionSection($container, $config);
+		
     }
 	
 	
@@ -78,5 +80,20 @@ class CCDNUserSecurityExtension extends Extension
 		$container->setParameter('ccdn_user_security.do_not_log_route', array_merge($config['do_not_log_route'], $defaults));
 		
 	}
+	
+	
+	
+	/**
+	 *
+	 * @access private
+	 * @param $container, $config
+	 */
+	private function getBruteForceLoginPreventionSection($container, $config)
+	{
+		
+		$container->setParameter('ccdn_user_security.brute_force_login_prevention.enable_protection', $config['brute_force_login_prevention']['enable_protection']);
+		$container->setParameter('ccdn_user_security.brute_force_login_prevention.login_attempts', $config['brute_force_login_prevention']['login_attempts']);
+		$container->setParameter('ccdn_user_security.brute_force_login_prevention.block_in_minutes', $config['brute_force_login_prevention']['block_in_minutes']);
 
+	}
 }

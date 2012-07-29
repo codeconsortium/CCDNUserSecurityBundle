@@ -68,7 +68,45 @@ class LoginFailureHandler implements AuthenticationFailureHandlerInterface
 	 */
 	public function onAuthenticationFailure(Request $request, AuthenticationException $exception)
 	{
+		
+		if ($this->container->getParameter('ccdn_user_security.brute_force_login_prevention.enable_protection'))
+		{
 
+			$session = $request->getSession();
+
+			// Get our visitors IP address.
+			$ipAddress = $request->getClientIp();
+
+			// Get the attempted username.
+			$token = $exception->getExtraInformation();
+			
+			if (preg_match('/user="(?:[a-zA-Z0-9_]*)"/', $token, $tokenUsername))
+			{
+				if ($tokenUsername[0] !== '' || $tokenUsername[0] !== null)
+				{
+					$username = substr($tokenUsername[0], 6, -1);
+				} else {
+					$username = '';
+				}
+			} else {
+				$username = '';
+			}
+
+			// Make a note of the failed login.
+			$this->container->get('ccdn_user_security.session.manager')->newRecord($ipAddress, 'foo');		
+
+			// Set a limit on how far back we want to look at failed login attempts.
+			$blockInMinutes = $this->container->getParameter('ccdn_user_security.brute_force_login_prevention.block_in_minutes');
+			
+			$timeLimit = new \DateTime('-' . $blockInMinutes . ' minutes ago');
+
+			// Get the failed login attempts matching our visitors IP.
+			$attempts = $this->container->get('ccdn_user_security.session.repository')->findByIpAddress($ipAddress, $timeLimit);				
+						
+			$session->set('auth_failed', $attempts);
+
+		}
+		
 	}
 	
 }
