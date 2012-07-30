@@ -98,11 +98,11 @@ class LoginFailureHandler implements AuthenticationFailureHandlerInterface
 			// Set a limit on how far back we want to look at failed login attempts.
 			$blockInMinutes = $this->container->getParameter('ccdn_user_security.login_shield.minutes_blocked_for');
 			
-			$timeLimit = new \DateTime('-' . $blockInMinutes . ' minutes ago');
-
+			$timeLimit = new \DateTime('-' . $blockInMinutes . ' minutes');
+			
 			// Get the failed login attempts matching our visitors IP.
 			$attempts = $this->container->get('ccdn_user_security.session.repository')->findByIpAddress($ipAddress, $timeLimit);				
-						
+			
 			$session->set('auth_failed', $attempts);
 		}
 		
