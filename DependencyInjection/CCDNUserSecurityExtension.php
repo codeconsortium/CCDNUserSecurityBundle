@@ -53,7 +53,7 @@ class CCDNUserSecurityExtension extends Extension
         $loader->load('services.yml');
 		
 		$this->getDoNotLogRouteSection($container, $config);
-		$this->getBruteForceLoginPreventionSection($container, $config);
+		$this->getBruteForceLoginShieldSection($container, $config);
 		
     }
 	
@@ -88,12 +88,21 @@ class CCDNUserSecurityExtension extends Extension
 	 * @access private
 	 * @param $container, $config
 	 */
-	private function getBruteForceLoginPreventionSection($container, $config)
+	private function getBruteForceLoginShieldSection($container, $config)
 	{
 		
-		$container->setParameter('ccdn_user_security.brute_force_login_prevention.enable_protection', $config['brute_force_login_prevention']['enable_protection']);
-		$container->setParameter('ccdn_user_security.brute_force_login_prevention.login_attempts', $config['brute_force_login_prevention']['login_attempts']);
-		$container->setParameter('ccdn_user_security.brute_force_login_prevention.block_in_minutes', $config['brute_force_login_prevention']['block_in_minutes']);
-
+		$container->setParameter('ccdn_user_security.brute_force_login_shield.enable_protection', $config['brute_force_login_shield']['enable_protection']);
+		$container->setParameter('ccdn_user_security.brute_force_login_shield.login_attempts', $config['brute_force_login_shield']['login_attempts']);
+		$container->setParameter('ccdn_user_security.brute_force_login_shield.block_in_minutes', $config['brute_force_login_shield']['block_in_minutes']);	
+	
+		$defaults = array(
+			'fos_user_security_login',
+			'fos_user_security_check',
+			'fos_user_security_logout',
+		);
+					
+		$container->setParameter('ccdn_user_security.brute_force_login_shield.login_routes', array_merge($config['brute_force_login_shield']['login_routes'], $defaults));
+		
 	}
+	
 }

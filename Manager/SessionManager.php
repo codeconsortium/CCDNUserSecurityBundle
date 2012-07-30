@@ -27,10 +27,7 @@ class SessionManager extends BaseManager implements ManagerInterface
 {
 	
 	
-	public function say()
-	{
-		echo 'say shit';
-	}
+	
 	/**
 	 *
 	 * @access public
@@ -43,7 +40,7 @@ class SessionManager extends BaseManager implements ManagerInterface
 
 		$session->setIpAddress($ipAddress);
 		$session->setLoginAttemptUsername($username);
-		$session->setLoginAttemptDate(new \DateTime());
+		$session->setLoginAttemptDate(new \DateTime('now'));
 		
 		$this->persist($session);
 		

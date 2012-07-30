@@ -90,7 +90,6 @@ class RefererListener
 		$session = $request->getSession();
 		
 		$session->set('referer', $request->getBasePath() . $request->getPathInfo());			
-		//echo $request->getBasePath() . $request->getPathInfo(); die();
 
     }
 

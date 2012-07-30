@@ -1,4 +1,6 @@
 parameters:
+
+    ccdn_user_security.authorisation.voter.class:       CCDNUser\SecurityBundle\Component\Authorisation\Voter\ClientLoginVoter
     
     ccdn_user_security.referer_listener.class:          CCDNUser\SecurityBundle\Component\RouteReferer\RefererListener
 
@@ -9,6 +11,7 @@ parameters:
     ccdn_user_security.session.repository.class:        CCDNUser\SecurityBundle\Repository\SessionRepository
     
     ccdn_user_security.session.manager.class:           CCDNUser\SecurityBundle\Manager\SessionManager
+    
     
 services:
     
@@ -22,7 +25,17 @@ services:
             - { name: kernel.event_listener, event: kernel.request, method: onKernelRequest }
 
     #
-    # Login/Logout Success Handlers.
+    # Authorisation Voter
+    #
+    ccdn_user_security.authorisation.voter:
+        class:      %ccdn_user_security.authorisation.voter.class%
+        arguments:  [@service_container, []]
+        public:     false
+        tags:
+            -       { name: security.voter }
+    
+    #
+    # Login/Logout Success/Failure Handlers.
     #
     ccdn_user_security.login_failure_handler:
         class:  %ccdn_user_security.login_failure_handler.class%
