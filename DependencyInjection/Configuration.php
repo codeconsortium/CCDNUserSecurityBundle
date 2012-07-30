@@ -44,7 +44,7 @@ class Configuration implements ConfigurationInterface
     	$rootNode;
 			
 		$this->addDoNotLogRouteSection($rootNode);
-		$this->addBruteForceLoginShieldSection($rootNode);
+		$this->addLoginShieldSection($rootNode);
 		
         return $treeBuilder;
     }
@@ -93,7 +93,7 @@ class Configuration implements ConfigurationInterface
 	 * @access private
 	 * @param ArrayNodeDefinition $node
 	 */
-	private function addBruteForceLoginShieldSection(ArrayNodeDefinition $node)
+	private function addLoginShieldSection(ArrayNodeDefinition $node)
 	{
 	
 		$node

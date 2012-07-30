@@ -11,7 +11,7 @@
  * file that was distributed with this source code.
  */
 
-namespace CCDNUser\SecurityBundle\Component\AuthenticationHandlers;
+namespace CCDNUser\SecurityBundle\Component\Authentication\Handler;
 
 use Symfony\Component\Security\Http\Authentication\AuthenticationFailureHandlerInterface;
 //use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;

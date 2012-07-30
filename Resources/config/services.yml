@@ -4,9 +4,9 @@ parameters:
     
     ccdn_user_security.referer_listener.class:          CCDNUser\SecurityBundle\Component\RouteReferer\RefererListener
 
-    ccdn_user_security.login_failure_handler.class:     CCDNUser\SecurityBundle\Component\AuthenticationHandlers\LoginFailureHandler
-    ccdn_user_security.login_success_handler.class:     CCDNUser\SecurityBundle\Component\AuthenticationHandlers\LoginSuccessHandler
-    ccdn_user_security.logout_success_handler.class:    CCDNUser\SecurityBundle\Component\AuthenticationHandlers\LogoutSuccessHandler
+    ccdn_user_security.component.authentication.handler.login_failure_handler.class:     CCDNUser\SecurityBundle\Component\Authentication\Handler\LoginFailureHandler
+    ccdn_user_security.component.authentication.handler.login_success_handler.class:     CCDNUser\SecurityBundle\Component\Authentication\Handler\LoginSuccessHandler
+    ccdn_user_security.component.authentication.handler.logout_success_handler.class:    CCDNUser\SecurityBundle\Component\Authentication\Handler\LogoutSuccessHandler
     
     ccdn_user_security.session.repository.class:        CCDNUser\SecurityBundle\Repository\SessionRepository
     
@@ -37,18 +37,18 @@ services:
     #
     # Login/Logout Success/Failure Handlers.
     #
-    ccdn_user_security.login_failure_handler:
-        class:  %ccdn_user_security.login_failure_handler.class%
+    ccdn_user_security.component.authentication.handler.login_failure_handler:
+        class:  %ccdn_user_security.component.authentication.handler.login_failure_handler.class%
         arguments:  [@service_container, @router, @security.context]
         tags:
             - { name: 'monolog.logger', channel: 'security' }    
-    ccdn_user_security.login_success_handler:
-        class:  %ccdn_user_security.login_success_handler.class%
+    ccdn_user_security.component.authentication.handler.login_success_handler:
+        class:  %ccdn_user_security.component.authentication.handler.login_success_handler.class%
         arguments:  [@service_container, @router, @security.context]
         tags:
             - { name: 'monolog.logger', channel: 'security' }
-    ccdn_user_security.logout_success_handler:
-        class:  %ccdn_user_security.logout_success_handler.class%
+    ccdn_user_security.component.authentication.handler.logout_success_handler:
+        class:  %ccdn_user_security.component.authentication.handler.logout_success_handler.class%
         arguments:  [@service_container, @router]
         tags:
             - { name: 'monolog.logger', channel: 'security' }

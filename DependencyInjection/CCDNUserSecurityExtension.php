@@ -53,7 +53,7 @@ class CCDNUserSecurityExtension extends Extension
         $loader->load('services.yml');
 		
 		$this->getDoNotLogRouteSection($container, $config);
-		$this->getBruteForceLoginShieldSection($container, $config);
+		$this->getLoginShieldSection($container, $config);
 		
     }
 	
@@ -88,7 +88,7 @@ class CCDNUserSecurityExtension extends Extension
 	 * @access private
 	 * @param $container, $config
 	 */
-	private function getBruteForceLoginShieldSection($container, $config)
+	private function getLoginShieldSection($container, $config)
 	{
 		
 		$container->setParameter('ccdn_user_security.login_shield.enable_protection', $config['login_shield']['enable_protection']);

@@ -15,8 +15,9 @@ Installation takes only 9 steps:
 4. Run vendors install script.
 5. Update your app/config/routing.yml. 
 6. Update your app/config/config.yml. 
-7. Symlink assets to your public web directory.
-8. Warmup the cache.
+7: Update your database schema.
+8. Symlink assets to your public web directory.
+9. Warmup the cache.
 
 ### Step 1: Download and install the dependencies.
 
@@ -82,10 +83,33 @@ In your app/config/config.yml add:
 # for CCDNUser SecurityBundle
 #
 ccdn_user_security:
+	do_not_log_route:
+		~
+	login_shield:
+		enable_protection: true
+		login_fail_limit_recover_account: 25 # 25 attempts before we do not show login form.
+		login_fail_limit_http_500: 40
+		minutes_blocked_for: 10 # time in minutes we will prevent login for.
+		login_routes:
+			~
 
 ```   
 
-### Step 7: Symlink assets to your public web directory.
+### Step 7: Update your database schema.
+
+From your projects root Symfony directory on the command line run:
+
+``` bash
+$ php app/console doctrine:schema:update --dump-sql
+```
+
+Take the SQL that is output and update your database manually.
+
+**Warning:**
+
+> Please take care when updating your database, check the output SQL before applying it.
+
+### Step 8: Symlink assets to your public web directory.
 
 From your projects root Symfony directory on the command line run:
 
@@ -93,7 +117,7 @@ From your projects root Symfony directory on the command line run:
 $ php app/console assets:install --symlink web/
 ```
 
-### Step 8: Warmup the cache.
+### Step 9: Warmup the cache.
 
 From your projects root Symfony directory on the command line run:
 
