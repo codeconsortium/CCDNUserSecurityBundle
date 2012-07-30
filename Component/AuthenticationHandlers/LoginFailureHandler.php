@@ -69,7 +69,7 @@ class LoginFailureHandler implements AuthenticationFailureHandlerInterface
 	public function onAuthenticationFailure(Request $request, AuthenticationException $exception)
 	{
 		
-		if ($this->container->getParameter('ccdn_user_security.brute_force_login_shield.enable_protection'))
+		if ($this->container->getParameter('ccdn_user_security.login_shield.enable_protection'))
 		{
 
 			$session = $request->getSession();
@@ -96,7 +96,7 @@ class LoginFailureHandler implements AuthenticationFailureHandlerInterface
 			$this->container->get('ccdn_user_security.session.manager')->newRecord($ipAddress, $username);		
 
 			// Set a limit on how far back we want to look at failed login attempts.
-			$blockInMinutes = $this->container->getParameter('ccdn_user_security.brute_force_login_shield.block_in_minutes');
+			$blockInMinutes = $this->container->getParameter('ccdn_user_security.login_shield.minutes_blocked_for');
 			
 			$timeLimit = new \DateTime('-' . $blockInMinutes . ' minutes ago');
 
