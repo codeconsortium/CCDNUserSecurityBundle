@@ -93,7 +93,7 @@ class LoginFailureHandler implements AuthenticationFailureHandlerInterface
 			}
 
 			// Make a note of the failed login.
-			$this->container->get('ccdn_user_security.session.manager')->newRecord($ipAddress, 'foo');		
+			$this->container->get('ccdn_user_security.session.manager')->newRecord($ipAddress, $username);		
 
 			// Set a limit on how far back we want to look at failed login attempts.
 			$blockInMinutes = $this->container->getParameter('ccdn_user_security.brute_force_login_shield.block_in_minutes');
