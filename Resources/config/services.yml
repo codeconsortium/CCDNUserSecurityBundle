@@ -2,11 +2,11 @@ parameters:
 
     ccdn_user_security.authorisation.voter.class:       CCDNUser\SecurityBundle\Component\Authorisation\Voter\ClientLoginVoter
     
-    ccdn_user_security.referer_listener.class:          CCDNUser\SecurityBundle\Component\RouteReferer\RefererListener
+    ccdn_user_security.component.listener.route_referer_listener.class:          CCDNUser\SecurityBundle\Component\Listener\RouteRefererListener
 
-    ccdn_user_security.component.authentication.handler.login_failure_handler.class:     CCDNUser\SecurityBundle\Component\Authentication\Handler\LoginFailureHandler
-    ccdn_user_security.component.authentication.handler.login_success_handler.class:     CCDNUser\SecurityBundle\Component\Authentication\Handler\LoginSuccessHandler
-    ccdn_user_security.component.authentication.handler.logout_success_handler.class:    CCDNUser\SecurityBundle\Component\Authentication\Handler\LogoutSuccessHandler
+    ccdn_user_security.component.authentication.handler.login_failure_handler.class: CCDNUser\SecurityBundle\Component\Authentication\Handler\LoginFailureHandler
+    ccdn_user_security.component.authentication.handler.login_success_handler.class: CCDNUser\SecurityBundle\Component\Authentication\Handler\LoginSuccessHandler
+    ccdn_user_security.component.authentication.handler.logout_success_handler.class: CCDNUser\SecurityBundle\Component\Authentication\Handler\LogoutSuccessHandler
     
     ccdn_user_security.session.repository.class:        CCDNUser\SecurityBundle\Repository\SessionRepository
     
@@ -18,8 +18,8 @@ services:
     #
     # Referer Listener.
     #
-    ccdn_user_security.referer_listener:
-        class: %ccdn_user_security.referer_listener.class%
+    ccdn_user_security.component.listener.route_referer_listener:
+        class: %ccdn_user_security.component.listener.route_referer_listener.class%
         arguments: [@service_container, @router]
         tags:
             - { name: kernel.event_listener, event: kernel.request, method: onKernelRequest }

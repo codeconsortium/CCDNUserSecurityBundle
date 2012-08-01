@@ -14,7 +14,7 @@
 namespace CCDNUser\SecurityBundle\Component\Authentication\Handler;
 
 use Symfony\Component\Security\Http\Logout\LogoutSuccessHandlerInterface;
-//use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
+use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Bundle\FrameworkBundle\Routing\Router;

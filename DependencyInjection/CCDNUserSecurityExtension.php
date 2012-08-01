@@ -75,6 +75,13 @@ class CCDNUserSecurityExtension extends Extension
 			array('bundle' => 'fosuserbundle', 'route' => 'fos_user_registration_check_email'),
 			array('bundle' => 'fosuserbundle', 'route' => 'fos_user_registration_confirm'),
 			array('bundle' => 'fosuserbundle', 'route' => 'fos_user_registration_confirmed'),
+			array('bundle' => 'fosuserbundle', 'route' => 'fos_user_resetting_request'),
+			array('bundle' => 'fosuserbundle', 'route' => 'fos_user_resetting_send_email'),
+			array('bundle' => 'fosuserbundle', 'route' => 'fos_user_resetting_check_email'),
+			array('bundle' => 'fosuserbundle', 'route' => 'fos_user_resetting_reset'),
+			array('bundle' => 'fosuserbundle', 'route' => 'fos_user_change_password'),
+			
+			
 		);
 		
 		$container->setParameter('ccdn_user_security.do_not_log_route', array_merge($config['do_not_log_route'], $defaults));
@@ -91,18 +98,24 @@ class CCDNUserSecurityExtension extends Extension
 	private function getLoginShieldSection($container, $config)
 	{
 		
-		$container->setParameter('ccdn_user_security.login_shield.enable_protection', $config['login_shield']['enable_protection']);
-		$container->setParameter('ccdn_user_security.login_shield.login_fail_limit_recover_account', $config['login_shield']['login_fail_limit_recover_account']);
-		$container->setParameter('ccdn_user_security.login_shield.login_fail_limit_http_500', $config['login_shield']['login_fail_limit_http_500']);
-		$container->setParameter('ccdn_user_security.login_shield.minutes_blocked_for', $config['login_shield']['minutes_blocked_for']);	
+		$container->setParameter('ccdn_user_security.login_shield.enable_shield', $config['login_shield']['enable_shield']);
+		$container->setParameter('ccdn_user_security.login_shield.block_for_minutes', $config['login_shield']['block_for_minutes']);	
+		$container->setParameter('ccdn_user_security.login_shield.limit_failed_login_attempts.before_recover_account', $config['login_shield']['limit_failed_login_attempts']['before_recover_account']);
+		$container->setParameter('ccdn_user_security.login_shield.limit_failed_login_attempts.before_return_http_500', $config['login_shield']['limit_failed_login_attempts']['before_return_http_500']);
 	
-		$defaults = array(
+		$container->setParameter('ccdn_user_security.login_shield.primary_login_route.name', $config['login_shield']['primary_login_route']['name']);
+		$container->setParameter('ccdn_user_security.login_shield.primary_login_route.params', $config['login_shield']['primary_login_route']['params']);		
+
+		$container->setParameter('ccdn_user_security.login_shield.recover_account_route.name', $config['login_shield']['recover_account_route']['name']);
+		$container->setParameter('ccdn_user_security.login_shield.recover_account_route.params', $config['login_shield']['recover_account_route']['params']);		
+		
+		$blockRoutesWhenDeniedDefaults = array(
 			'fos_user_security_login',
 			'fos_user_security_check',
 			'fos_user_security_logout',
 		);
 					
-		$container->setParameter('ccdn_user_security.login_shield.login_routes', array_merge($config['login_shield']['login_routes'], $defaults));
+		$container->setParameter('ccdn_user_security.login_shield.block_routes_when_denied', array_merge($config['login_shield']['block_routes_when_denied'], $blockRoutesWhenDeniedDefaults));
 		
 	}
 	

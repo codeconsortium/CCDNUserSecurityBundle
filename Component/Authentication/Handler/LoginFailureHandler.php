@@ -14,7 +14,7 @@
 namespace CCDNUser\SecurityBundle\Component\Authentication\Handler;
 
 use Symfony\Component\Security\Http\Authentication\AuthenticationFailureHandlerInterface;
-//use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
+use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Exception\AuthenticationException;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -51,10 +51,10 @@ class LoginFailureHandler implements AuthenticationFailureHandlerInterface
 	 * @access public
 	 * @param Router $router
 	 */
-	public function __construct($container, Router $router)
+	public function __construct($service_container, Router $router)
 	{
 		
-		$this->container = $container;
+		$this->container = $service_container;
 		
 		$this->router = $router;
 	}
@@ -69,7 +69,7 @@ class LoginFailureHandler implements AuthenticationFailureHandlerInterface
 	public function onAuthenticationFailure(Request $request, AuthenticationException $exception)
 	{
 		
-		if ($this->container->getParameter('ccdn_user_security.login_shield.enable_protection'))
+		if ($this->container->getParameter('ccdn_user_security.login_shield.enable_shield'))
 		{
 
 			$session = $request->getSession();
@@ -105,6 +105,8 @@ class LoginFailureHandler implements AuthenticationFailureHandlerInterface
 			
 			$session->set('auth_failed', $attempts);
 		}
+		
+		return new RedirectResponse();
 		
 	}
 	
