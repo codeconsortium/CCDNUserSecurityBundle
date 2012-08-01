@@ -17,6 +17,11 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\Security\Core\Authorization\Voter\VoterInterface;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 
+use Symfony\Component\HttpKernel\Kernel;
+use Symfony\Component\HttpKernel\HttpKernelInterface;
+use Symfony\Component\HttpFoundation\RedirectResponse;
+use Symfony\Component\HttpFoundation\Request;
+
 class ClientLoginVoter implements VoterInterface
 {
 	
@@ -57,15 +62,15 @@ class ClientLoginVoter implements VoterInterface
 		
 		$route = $request->get('_route');
 		
-		$loginRoutes = $this->container->getParameter('ccdn_user_security.login_shield.login_routes');
+		$blockRoutes = $this->container->getParameter('ccdn_user_security.login_shield.block_routes_when_denied');
 				
 		// Abort if the route is not a login route.
-		if ( ! in_array($route, $loginRoutes)) {
-			return;
+		if ( ! in_array($route, $blockRoutes)) {
+			return VoterInterface::ACCESS_ABSTAIN;
 		}
 
 		// Set a limit on how far back we want to look at failed login attempts.
-		$blockInMinutes = $this->container->getParameter('ccdn_user_security.login_shield.minutes_blocked_for');
+		$blockInMinutes = $this->container->getParameter('ccdn_user_security.login_shield.block_for_minutes');
 		
 		$timeLimit = new \DateTime('-' . $blockInMinutes . ' minutes');
 		
@@ -83,17 +88,11 @@ class ClientLoginVoter implements VoterInterface
 			
 			$attempts = $this->container->get('ccdn_user_security.session.repository')->findByIpAddress($ipAddress, $timeLimit);				
 		}
-
-		$attemptLimitRecover = $this->container->getParameter('ccdn_user_security.login_shield.login_fail_limit_recover_account');
-		$attemptLimitReturn500 = $this->container->getParameter('ccdn_user_security.login_shield.login_fail_limit_http_500');
 		
-		if (count($attempts) > $attemptLimitRecover)
+		$attemptLimitReturnHttp500 = $this->container->getParameter('ccdn_user_security.login_shield.limit_failed_login_attempts.before_return_http_500');
+
+		if (count($attempts) > $attemptLimitReturnHttp500)
 		{
-			if (count($attempts) > $attemptLimitReturn500)
-			{
-				return VoterInterface::ACCESS_DENIED;
-			}
-			
 			return VoterInterface::ACCESS_DENIED;
 		}
 		
