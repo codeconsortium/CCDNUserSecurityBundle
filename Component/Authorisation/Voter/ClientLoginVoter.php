@@ -76,29 +76,23 @@ class ClientLoginVoter implements VoterInterface
 			$blockInMinutes = $this->container->getParameter('ccdn_user_security.login_shield.block_for_minutes');
 		
 			$timeLimit = new \DateTime('-' . $blockInMinutes . ' minutes');
-		
+
 			// Get session and check if it has any entries of failed logins.
 			$session = $request->getSession();
-		
-			// Only load from the db if the session is not found.
-			if ($session->has('auth_failed')) {
-				$attempts = $session->get('auth_failed');
+
+			$ipAddress = $request->getClientIp();
 			
-				// Iterate over attempts and only reveal attempts that fall within the $timeLimit.
+			// Get number of failed login attempts.
+			$tracker = $this->container->get('ccdn_user_security.component.authentication.tracker.login_failure_tracker');
 			
-			} else {
-				$ipAddress = $request->getClientIp();
-			
-				$attempts = $this->container->get('ccdn_user_security.session.repository')->findByIpAddress($ipAddress, $timeLimit);				
-			}
-		
+			$attempts = $tracker->getAttempts($session, $ipAddress);
+						
 			$attemptLimitReturnHttp500 = $this->container->getParameter('ccdn_user_security.login_shield.limit_failed_login_attempts.before_return_http_500');
 
 			if (count($attempts) > $attemptLimitReturnHttp500)
 			{
 				return VoterInterface::ACCESS_DENIED;
 			}
-	
 		}
 	    
 		return VoterInterface::ACCESS_ABSTAIN;

@@ -17,6 +17,8 @@ use Symfony\Component\HttpKernel\HttpKernelInterface;
 use Symfony\Component\HttpKernel\Event\GetResponseEvent;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 
+use Symfony\Component\HttpKernel\Exception\HttpException;
+
 /**
  * 
  * @author Reece Fowell <reece@codeconsortium.com> 
@@ -96,30 +98,41 @@ class BlockingLoginListener
 			// Get session and check if it has any entries of failed logins.
 			$session = $request->getSession();
 
-			// Only load from the db if the session is not found.
-			if ($session->has('auth_failed')) {
-				$attempts = $session->get('auth_failed');
-	
-				// Iterate over attempts and only reveal attempts that fall within the $timeLimit.
-	
-			} else {
-				$ipAddress = $request->getClientIp();
-	
-				$attempts = $this->container->get('ccdn_user_security.session.repository')->findByIpAddress($ipAddress, $timeLimit);				
-			}
+			$ipAddress = $request->getClientIp();
 
+			// Get number of failed login attempts.
+			$tracker = $this->container->get('ccdn_user_security.component.authentication.tracker.login_failure_tracker');
+			
+			$attempts = $tracker->getAttempts($session, $ipAddress);
 
 			$attemptLimitRecoverAccount = $this->container->getParameter('ccdn_user_security.login_shield.limit_failed_login_attempts.before_recover_account');
+			$attemptLimitReturnHttp500 = $this->container->getParameter('ccdn_user_security.login_shield.limit_failed_login_attempts.before_return_http_500');
 
 			if (count($attempts) > $attemptLimitRecoverAccount)
-			{
-				$recoverAccountRouteName = $this->container->getParameter('ccdn_user_security.login_shield.recover_account_route.name');
-				$recoverAccountRouteParams = $this->container->getParameter('ccdn_user_security.login_shield.recover_account_route.params');
+			{		
+				$tracker->addAttempt($session, $ipAddress, '');
+			
+				$attempts = $tracker->getAttempts($session, $ipAddress);			
+				
+				if (count($attempts) < $attemptLimitReturnHttp500)
+				{			
+				
+					// Prepare a redirect
+					$recoverAccountRouteName = $this->container->getParameter('ccdn_user_security.login_shield.recover_account_route.name');
+					$recoverAccountRouteParams = $this->container->getParameter('ccdn_user_security.login_shield.recover_account_route.params');
 
-				$event->setResponse(new RedirectResponse($this->container->get('router')->generate($recoverAccountRouteName, $recoverAccountRouteParams)));
+					$event->setResponse(new RedirectResponse($this->container->get('router')->generate($recoverAccountRouteName, $recoverAccountRouteParams)));
+					
+					return;
+				}
+				
+				// In severe cases, block for a while.
+				//	$this->container->get('kernel')->shutdown();
+				
+				throw new HttpException(500, 'flood control');				
 			}
 		}
-		
+
 		return;
     }
 
