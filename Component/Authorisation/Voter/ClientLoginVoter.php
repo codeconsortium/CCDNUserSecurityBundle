@@ -58,45 +58,50 @@ class ClientLoginVoter implements VoterInterface
 
     function vote(TokenInterface $token, $object, array $attributes)
     {
-        $request = $this->container->get('request');
-		
-		$route = $request->get('_route');
-		
-		$blockRoutes = $this->container->getParameter('ccdn_user_security.login_shield.block_routes_when_denied');
-				
-		// Abort if the route is not a login route.
-		if ( ! in_array($route, $blockRoutes)) {
-			return VoterInterface::ACCESS_ABSTAIN;
-		}
-
-		// Set a limit on how far back we want to look at failed login attempts.
-		$blockInMinutes = $this->container->getParameter('ccdn_user_security.login_shield.block_for_minutes');
-		
-		$timeLimit = new \DateTime('-' . $blockInMinutes . ' minutes');
-		
-		// Get session and check if it has any entries of failed logins.
-		$session = $request->getSession();
-		
-		// Only load from the db if the session is not found.
-		if ($session->has('auth_failed')) {
-			$attempts = $session->get('auth_failed');
-			
-			// Iterate over attempts and only reveal attempts that fall within the $timeLimit.
-			
-		} else {
-			$ipAddress = $request->getClientIp();
-			
-			$attempts = $this->container->get('ccdn_user_security.session.repository')->findByIpAddress($ipAddress, $timeLimit);				
-		}
-		
-		$attemptLimitReturnHttp500 = $this->container->getParameter('ccdn_user_security.login_shield.limit_failed_login_attempts.before_return_http_500');
-
-		if (count($attempts) > $attemptLimitReturnHttp500)
+	
+		if ($this->container->getParameter('ccdn_user_security.login_shield.enable_shield'))
 		{
-			return VoterInterface::ACCESS_DENIED;
-		}
+	        $request = $this->container->get('request');
 		
-        return VoterInterface::ACCESS_ABSTAIN;
+			$route = $request->get('_route');
+		
+			$blockRoutes = $this->container->getParameter('ccdn_user_security.login_shield.block_routes_when_denied');
+				
+			// Abort if the route is not a login route.
+			if ( ! in_array($route, $blockRoutes)) {
+				return VoterInterface::ACCESS_ABSTAIN;
+			}
+
+			// Set a limit on how far back we want to look at failed login attempts.
+			$blockInMinutes = $this->container->getParameter('ccdn_user_security.login_shield.block_for_minutes');
+		
+			$timeLimit = new \DateTime('-' . $blockInMinutes . ' minutes');
+		
+			// Get session and check if it has any entries of failed logins.
+			$session = $request->getSession();
+		
+			// Only load from the db if the session is not found.
+			if ($session->has('auth_failed')) {
+				$attempts = $session->get('auth_failed');
+			
+				// Iterate over attempts and only reveal attempts that fall within the $timeLimit.
+			
+			} else {
+				$ipAddress = $request->getClientIp();
+			
+				$attempts = $this->container->get('ccdn_user_security.session.repository')->findByIpAddress($ipAddress, $timeLimit);				
+			}
+		
+			$attemptLimitReturnHttp500 = $this->container->getParameter('ccdn_user_security.login_shield.limit_failed_login_attempts.before_return_http_500');
+
+			if (count($attempts) > $attemptLimitReturnHttp500)
+			{
+				return VoterInterface::ACCESS_DENIED;
+			}
+	
+		}
+	    
+		return VoterInterface::ACCESS_ABSTAIN;
     }
 
 }

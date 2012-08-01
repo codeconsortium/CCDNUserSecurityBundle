@@ -59,6 +59,9 @@ class RouteRefererListener
 
 	/**
 	 *
+	 * Log all routes (except login/logout/registration etc) so that you can be
+	 * Redirected back to your original location once you login successfully.
+	 *
 	 * @access public
 	 * @param GetResponseEvent $event
 	 */
@@ -76,7 +79,7 @@ class RouteRefererListener
 		$route = $request->get('_route');
 
 		// Get the list of routes we must ignore.
-		$logIgnore = $this->container->getParameter('ccdn_user_security.do_not_log_route');
+		$logIgnore = $this->container->getParameter('ccdn_user_security.route_referer.route_ignore_list');
 			
 		// Abort if the route is ignorable.
 		foreach($logIgnore as $ignore) {

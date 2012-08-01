@@ -52,7 +52,7 @@ class CCDNUserSecurityExtension extends Extension
         $loader = new Loader\YamlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
         $loader->load('services.yml');
 		
-		$this->getDoNotLogRouteSection($container, $config);
+		$this->getRouteRefererSection($container, $config);
 		$this->getLoginShieldSection($container, $config);
 		
     }
@@ -64,7 +64,7 @@ class CCDNUserSecurityExtension extends Extension
 	 * @access private
 	 * @param $container, $config
 	 */
-	private function getDoNotLogRouteSection($container, $config)
+	private function getRouteRefererSection($container, $config)
 	{
 			
 		$defaults = array(
@@ -84,7 +84,7 @@ class CCDNUserSecurityExtension extends Extension
 			
 		);
 		
-		$container->setParameter('ccdn_user_security.do_not_log_route', array_merge($config['do_not_log_route'], $defaults));
+		$container->setParameter('ccdn_user_security.route_referer.route_ignore_list', array_merge($config['route_referer']['route_ignore_list'], $defaults));
 		
 	}
 	

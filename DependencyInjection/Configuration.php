@@ -43,7 +43,7 @@ class Configuration implements ConfigurationInterface
         // more information on that topic.
     	$rootNode;
 			
-		$this->addDoNotLogRouteSection($rootNode);
+		$this->addRouteRefererSection($rootNode);
 		$this->addLoginShieldSection($rootNode);
 		
         return $treeBuilder;
@@ -56,30 +56,34 @@ class Configuration implements ConfigurationInterface
 	 * @access private
 	 * @param ArrayNodeDefinition $node
 	 */
-	private function addDoNotLogRouteSection(ArrayNodeDefinition $node)
+	private function addRouteRefererSection(ArrayNodeDefinition $node)
 	{
 	
 		$node
 			->addDefaultsIfNotSet()
 			->canBeUnset()
 			->children()
-				->arrayNode('do_not_log_route')
-					->prototype('array')
-						->addDefaultsIfNotSet()
-						->children()
-							->scalarNode('bundle')->end()
-							->scalarNode('route')->isRequired()->end()
-							->scalarNode('path')->defaultNull()->end()
+				->arrayNode('route_referer')
+					->children()
+						->arrayNode('route_ignore_list')
+							->prototype('array')
+								->addDefaultsIfNotSet()
+								->children()
+									->scalarNode('bundle')->end()
+									->scalarNode('route')->isRequired()->end()
+									->scalarNode('path')->defaultNull()->end()
+								->end()
+								//->defaultValue(array('defaults' => array(
+								//	array('bundle' => 'fosuserbundle', 'route' => 'fos_user_security_login'),
+								//	array('bundle' => 'fosuserbundle', 'route' => 'fos_user_security_check'),
+								//	array('bundle' => 'fosuserbundle', 'route' => 'fos_user_security_logout'),
+								//	array('bundle' => 'fosuserbundle', 'route' => 'fos_user_registration_register'),
+								//	array('bundle' => 'fosuserbundle', 'route' => 'fos_user_registration_check_email'),
+								//	array('bundle' => 'fosuserbundle', 'route' => 'fos_user_registration_confirm'),
+								//	array('bundle' => 'fosuserbundle', 'route' => 'fos_user_registration_confirmed'),
+								//)))->end()
+							->end()
 						->end()
-						//->defaultValue(array('defaults' => array(
-						//	array('bundle' => 'fosuserbundle', 'route' => 'fos_user_security_login'),
-						//	array('bundle' => 'fosuserbundle', 'route' => 'fos_user_security_check'),
-						//	array('bundle' => 'fosuserbundle', 'route' => 'fos_user_security_logout'),
-						//	array('bundle' => 'fosuserbundle', 'route' => 'fos_user_registration_register'),
-						//	array('bundle' => 'fosuserbundle', 'route' => 'fos_user_registration_check_email'),
-						//	array('bundle' => 'fosuserbundle', 'route' => 'fos_user_registration_confirm'),
-						//	array('bundle' => 'fosuserbundle', 'route' => 'fos_user_registration_confirmed'),
-						//)))->end()
 					->end()
 				->end()
 			->end();
