@@ -61,13 +61,12 @@ class Configuration implements ConfigurationInterface
 	
 		$node
 			->addDefaultsIfNotSet()
-			->canBeUnset()
 			->children()
 				->arrayNode('route_referer')
+					->addDefaultsIfNotSet()
 					->children()
 						->arrayNode('route_ignore_list')
 							->prototype('array')
-								->addDefaultsIfNotSet()
 								->children()
 									->scalarNode('bundle')->end()
 									->scalarNode('route')->isRequired()->end()

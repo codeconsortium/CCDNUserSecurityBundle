@@ -64,10 +64,24 @@ class LoginFailureTracker
 
 			// Iterate over attempts and only reveal attempts that fall within the $timeLimit.
 			$freshenedAttempts = array();
-			foreach($attempts as $attempt)
-			{
-				
-			}
+
+			$limit = $timeLimit->getTimestamp();
+
+	    	foreach($attempts as $attempt)
+	    	{
+	    		if (array_key_exists('s_loginAttemptDate', $attempt))
+	    		{
+	    			$date = $attempt['s_loginAttemptDate']->getTimestamp();
+
+	    			if ($date > $limit)
+	    			{
+	    				$freshenedAttempts[] = $attempt;
+	    			}
+	    		}
+	    	}
+			
+			$attempts = $freshenedAttempts;
+			
 		} else {
 
 			$attempts = $this->container->get('ccdn_user_security.session.repository')->findByIpAddress($ipAddress, $timeLimit);				
