@@ -93,23 +93,28 @@ class LoginFailureHandler implements AuthenticationFailureHandlerInterface
 				$username = '';
 			}
 
-			// Get our visitors IP address.
+			// Get our visitors Session & IP address.
+			$session = $request->getSession();
+			
 			$ipAddress = $request->getClientIp();
 
 			// Make a note of the failed login.
-			$this->container->get('ccdn_user_security.session.manager')->newRecord($ipAddress, $username);		
-
-			// Set a limit on how far back we want to look at failed login attempts.
-			$blockInMinutes = $this->container->getParameter('ccdn_user_security.login_shield.block_for_minutes');
+			$tracker = $this->container->get('ccdn_user_security.component.authentication.tracker.login_failure_tracker');
 			
-			$timeLimit = new \DateTime('-' . $blockInMinutes . ' minutes');
-			
-			// Get the failed login attempts matching our visitors IP.
-			$attempts = $this->container->get('ccdn_user_security.session.repository')->findByIpAddress($ipAddress, $timeLimit);				
-
-			$session = $request->getSession();
-			
-			$session->set('auth_failed', $attempts);
+			$tracker->addAttempt($session, $ipAddress, $username);
+//			$this->container->get('ccdn_user_security.session.manager')->newRecord($ipAddress, $username);		
+//
+//			// Set a limit on how far back we want to look at failed login attempts.
+//			$blockInMinutes = $this->container->getParameter('ccdn_user_security.login_shield.block_for_minutes');
+//			
+//			$timeLimit = new \DateTime('-' . $blockInMinutes . ' minutes');
+//			
+//			// Get the failed login attempts matching our visitors IP.
+//			$attempts = $this->container->get('ccdn_user_security.session.repository')->findByIpAddress($ipAddress, $timeLimit);				
+//
+//			$session = $request->getSession();
+//			
+//			$session->set('auth_failed', $attempts);
 		}
 		
 		return new RedirectResponse();

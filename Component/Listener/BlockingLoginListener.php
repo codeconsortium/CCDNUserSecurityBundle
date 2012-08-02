@@ -116,7 +116,9 @@ class BlockingLoginListener
 				
 				// Only continue incrementing if on the account recovery page
 				// because the counter won't increase from the loginFailureHandler.
-				if ($route == $recoverAccountRouteName)	
+				$loginRouteName = $this->container->getParameter('ccdn_user_security.login_shield.primary_login_route.name');
+				
+				if ($route == $loginRouteName)	
 				{
 					$tracker->addAttempt($session, $ipAddress, '');
 
