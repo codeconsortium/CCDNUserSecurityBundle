@@ -108,19 +108,25 @@ class BlockingLoginListener
 			$attemptLimitRecoverAccount = $this->container->getParameter('ccdn_user_security.login_shield.limit_failed_login_attempts.before_recover_account');
 			$attemptLimitReturnHttp500 = $this->container->getParameter('ccdn_user_security.login_shield.limit_failed_login_attempts.before_return_http_500');
 
-			if (count($attempts) > $attemptLimitRecoverAccount)
-			{		
-				$tracker->addAttempt($session, $ipAddress, '');
-			
-				$attempts = $tracker->getAttempts($session, $ipAddress);			
+			if (count($attempts) > ($attemptLimitRecoverAccount -1))
+			{	
+				// Prepare a redirect
+				$recoverAccountRouteName = $this->container->getParameter('ccdn_user_security.login_shield.recover_account_route.name');
+				$recoverAccountRouteParams = $this->container->getParameter('ccdn_user_security.login_shield.recover_account_route.params');
 				
-				if (count($attempts) < $attemptLimitReturnHttp500)
+				// Only continue incrementing if on the account recovery page
+				// because the counter won't increase from the loginFailureHandler.
+				if ($route == $recoverAccountRouteName)	
+				{
+					$tracker->addAttempt($session, $ipAddress, '');
+
+					$attempts = $tracker->getAttempts($session, $ipAddress);								
+				}
+				
+				// Block the page when continuing to bypass the block.
+				if (count($attempts) < ($attemptLimitReturnHttp500 + 1))
 				{			
 				
-					// Prepare a redirect
-					$recoverAccountRouteName = $this->container->getParameter('ccdn_user_security.login_shield.recover_account_route.name');
-					$recoverAccountRouteParams = $this->container->getParameter('ccdn_user_security.login_shield.recover_account_route.params');
-
 					$event->setResponse(new RedirectResponse($this->container->get('router')->generate($recoverAccountRouteName, $recoverAccountRouteParams)));
 					
 					return;
@@ -129,7 +135,7 @@ class BlockingLoginListener
 				// In severe cases, block for a while.
 				//	$this->container->get('kernel')->shutdown();
 				
-				throw new HttpException(500, 'flood control');				
+				throw new HttpException(500, 'flood control - login blocked');
 			}
 		}
 
