@@ -32,7 +32,12 @@ SecurityBundle Provides the following features:
 
 1. Redirect user to last page they were on upon successful login.
 2. Redirect user to last page they were on upon successful logout.
-3. Prevent brute force attacks being carried out by limiting number of login attempts and blocking login when the limit is exceeded.
+3. Prevent brute force attacks being carried out by limiting number of login attempts:
+	1. When first limit is reached, redirect to an account recovery page.
+	2. When secondary limit is reached, return an HTTP 500 status to block login pages etc.
+4. All limits are configurable.
+5. Routes to block are configurable.
+6. Route for account recovery page is configurable.
 
 ## Documentation.
 
