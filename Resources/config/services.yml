@@ -57,12 +57,12 @@ services:
             -       { name: 'monolog.logger', channel: 'security' }    
     ccdn_user_security.component.authentication.handler.login_success_handler:
         class:      %ccdn_user_security.component.authentication.handler.login_success_handler.class%
-        arguments:  [@service_container, @router, @security.context]
+        arguments:  [@router, @security.context]
         tags:
             -       { name: 'monolog.logger', channel: 'security' }
     ccdn_user_security.component.authentication.handler.logout_success_handler:
         class:      %ccdn_user_security.component.authentication.handler.logout_success_handler.class%
-        arguments:  [@service_container, @router]
+        arguments:  []
         tags:
             -       { name: 'monolog.logger', channel: 'security' }
 

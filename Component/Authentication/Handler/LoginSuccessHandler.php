@@ -34,14 +34,6 @@ class LoginSuccessHandler implements AuthenticationSuccessHandlerInterface
 	 *
 	 * @access protected
 	 */
-	protected $container;
-
-	
-	
-	/**
-	 *
-	 * @access protected
-	 */
 	protected $router;
 	
 	
@@ -59,11 +51,8 @@ class LoginSuccessHandler implements AuthenticationSuccessHandlerInterface
 	 * @access public
 	 * @param Router $router, SecurityContext $security
 	 */
-	public function __construct($container, Router $router, SecurityContext $security)
-	{
-		
-		$this->container = $container;
-		
+	public function __construct(Router $router, SecurityContext $security)
+	{		
 		$this->router = $router;
 		
 		$this->security = $security;

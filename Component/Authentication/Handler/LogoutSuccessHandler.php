@@ -27,22 +27,6 @@ use Symfony\Bundle\FrameworkBundle\Routing\Router;
 class LogoutSuccessHandler implements LogoutSuccessHandlerInterface
 {
 	
-
-
-	/**
-	 *
-	 * @access protected
-	 */
-	protected $container;
-
-
-
-	/**
-	 *
-	 * @access protected
-	 */
-	protected $router;
-	
 	
 	
 	/**
@@ -50,12 +34,9 @@ class LogoutSuccessHandler implements LogoutSuccessHandlerInterface
 	 * @access public
 	 * @param Router $router
 	 */
-	public function __construct($container, Router $router)
+	public function __construct()
 	{
 		
-		$this->container = $container;
-		
-		$this->router = $router;
 	}
 	
 	

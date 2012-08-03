@@ -51,10 +51,10 @@ class LoginFailureHandler implements AuthenticationFailureHandlerInterface
 	 * @access public
 	 * @param Router $router
 	 */
-	public function __construct($service_container, Router $router)
+	public function __construct($container, Router $router)
 	{
 		
-		$this->container = $service_container;
+		$this->container = $container;
 		
 		$this->router = $router;
 	}
