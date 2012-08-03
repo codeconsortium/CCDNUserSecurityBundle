@@ -23,8 +23,25 @@ use CCDNUser\SecurityBundle\Entity\Session;
  * @author Reece Fowell <reece@codeconsortium.com> 
  * @version 1.0
  */
-class SessionManager extends BaseManager implements ManagerInterface
+class SessionManager
 {
+	
+	
+	
+	protected $doctrine;
+	
+	
+	
+	protected $em;
+	
+	
+	
+	public function __construct($doctrine)
+	{
+		$this->doctrine = $doctrine;
+		
+		$this->em = $doctrine->getEntityManager();		
+	}
 	
 	
 	
@@ -36,15 +53,16 @@ class SessionManager extends BaseManager implements ManagerInterface
 	 */	
 	public function newRecord($ipAddress, $username)
 	{
+		
 		$session = new Session();
 
 		$session->setIpAddress($ipAddress);
 		$session->setLoginAttemptUsername($username);
 		$session->setLoginAttemptDate(new \DateTime('now'));
 		
-		$this->persist($session);
+		$this->em->persist($session);
 		
-		$this->flushNow();
+		$this->em->flush();
 		
 		return $this;
 	}

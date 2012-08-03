@@ -24,7 +24,7 @@ Installation takes only 9 steps:
 Append the following to end of your deps file (found in the root of your Symfony2 installation):
 
 ``` ini
-[CCDNUserSecurityBundle]
+[CCDNUser_SecurityBundle]
 	git=http://github.com/codeconsortium/CCDNUserSecurityBundle.git
 	target=/bundles/CCDNUser/SecurityBundle
 ```
