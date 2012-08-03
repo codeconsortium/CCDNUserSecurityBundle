@@ -81,4 +81,4 @@ services:
     #
     ccdn_user_security.session.manager:
         class:      %ccdn_user_security.session.manager.class%
-        arguments:  [@doctrine, @service_container]
+        arguments:  [@doctrine]
