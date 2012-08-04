@@ -3,8 +3,8 @@
 /*
  * This file is part of the CCDNUser SecurityBundle
  *
- * (c) CCDN (c) CodeConsortium <http://www.codeconsortium.com/> 
- * 
+ * (c) CCDN (c) CodeConsortium <http://www.codeconsortium.com/>
+ *
  * Available on github <http://www.github.com/codeconsortium/>
  *
  * For the full copyright and license information, please view the LICENSE
@@ -23,35 +23,33 @@ use Doctrine\ORM\EntityRepository;
  */
 class SessionRepository extends EntityRepository
 {
-	
-	
-	
-	/**
-	 *
-	 * Find all records of failed login attempts by IP address.
-	 *
-	 * @access public
-	 * @param String $ipAddress
-	 */
-	public function findByIpAddress($ipAddress, $timeLimit)
-	{
-		
-		$qb = $this->getEntityManager()->createQueryBuilder();
-		
-		$query = $qb->add('select', 's')
-			->from('CCDNUserSecurityBundle:Session', 's')
-			->where($qb->expr()->andx(
-				$qb->expr()->eq('s.ipAddress', '?1'),
-				$qb->expr()->gt('s.loginAttemptDate', '?2')))
-			->setParameters(array('1' => $ipAddress, '2' => $timeLimit))
-			->getQuery();
 
-		try {
-			return $query->getScalarResult();
-	    } catch (\Doctrine\ORM\NoResultException $e) {
-	        return null;
-	    }
-		
-	}
-	
+    /**
+     *
+     * Find all records of failed login attempts by IP address.
+     *
+     * @access public
+     * @param String $ipAddress
+     */
+    public function findByIpAddress($ipAddress, $timeLimit)
+    {
+
+        $qb = $this->getEntityManager()->createQueryBuilder();
+
+        $query = $qb->add('select', 's')
+            ->from('CCDNUserSecurityBundle:Session', 's')
+            ->where($qb->expr()->andx(
+                $qb->expr()->eq('s.ipAddress', '?1'),
+                $qb->expr()->gt('s.loginAttemptDate', '?2')))
+            ->setParameters(array('1' => $ipAddress, '2' => $timeLimit))
+            ->getQuery();
+
+        try {
+            return $query->getScalarResult();
+        } catch (\Doctrine\ORM\NoResultException $e) {
+            return null;
+        }
+
+    }
+
 }

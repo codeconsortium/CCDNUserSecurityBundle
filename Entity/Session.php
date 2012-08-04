@@ -3,8 +3,8 @@
 /*
  * This file is part of the CCDNUser SecurityBundle
  *
- * (c) CCDN (c) CodeConsortium <http://www.codeconsortium.com/> 
- * 
+ * (c) CCDN (c) CodeConsortium <http://www.codeconsortium.com/>
+ *
  * Available on github <http://www.github.com/codeconsortium/>
  *
  * For the full copyright and license information, please view the LICENSE
@@ -14,9 +14,6 @@
 namespace CCDNUser\SecurityBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use Doctrine\Common\Collections\ArrayCollection;
-use Symfony\Component\Validator\Constraints as Assert;
-
 
 /**
  * @ORM\Entity(repositoryClass="CCDNUser\SecurityBundle\Repository\SessionRepository")
@@ -24,37 +21,33 @@ use Symfony\Component\Validator\Constraints as Assert;
  */
 class Session
 {
-	
-	
-	
-	/**
+
+    /**
      * @ORM\Id
      * @ORM\Column(type="integer")
      * @ORM\GeneratedValue(strategy="AUTO")
      */
-	protected $id;
-	
-	/**
+    protected $id;
+
+    /**
      * @ORM\Column(type="string", length=50, name="ip_address")
      */
     protected $ipAddress;
-	
-	/**
-	 * @ORM\Column(type="datetime", name="login_attempt_date")
+
+    /**
+     * @ORM\Column(type="datetime", name="login_attempt_date")
      */
-	protected $loginAttemptDate;
-	
-	/**
+    protected $loginAttemptDate;
+
+    /**
      * @ORM\Column(type="text", name="login_attempt_username")
      */
-	protected $loginAttemptUsername;
-	
-	
+    protected $loginAttemptUsername;
 
     /**
      * Get id
      *
-     * @return integer 
+     * @return integer
      */
     public function getId()
     {
@@ -74,7 +67,7 @@ class Session
     /**
      * Get ipAddress
      *
-     * @return text 
+     * @return text
      */
     public function getIpAddress()
     {
@@ -94,7 +87,7 @@ class Session
     /**
      * Get loginAttemptDate
      *
-     * @return integer 
+     * @return integer
      */
     public function getLoginAttemptDate()
     {
@@ -114,7 +107,7 @@ class Session
     /**
      * Get loginUsername
      *
-     * @return text 
+     * @return text
      */
     public function getLoginAttemptUsername()
     {

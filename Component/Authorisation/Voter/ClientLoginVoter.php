@@ -3,8 +3,8 @@
 /*
  * This file is part of the CCDNUser SecurityBundle
  *
- * (c) CCDN (c) CodeConsortium <http://www.codeconsortium.com/> 
- * 
+ * (c) CCDN (c) CodeConsortium <http://www.codeconsortium.com/>
+ *
  * Available on github <http://www.github.com/codeconsortium/>
  *
  * For the full copyright and license information, please view the LICENSE
@@ -17,16 +17,11 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\Security\Core\Authorization\Voter\VoterInterface;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 
-use Symfony\Component\HttpKernel\Kernel;
-use Symfony\Component\HttpKernel\HttpKernelInterface;
-use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 
 class ClientLoginVoter implements VoterInterface
 {
-	
-	
-	
+
     public function __construct(ContainerInterface $container, array $blacklistedIp = array())
     {
 
@@ -35,8 +30,6 @@ class ClientLoginVoter implements VoterInterface
         $this->blacklistedIp = $blacklistedIp;
 
     }
-
-
 
     public function supportsAttribute($attribute)
     {
@@ -56,46 +49,44 @@ class ClientLoginVoter implements VoterInterface
 
 
 
-    function vote(TokenInterface $token, $object, array $attributes)
+    public function vote(TokenInterface $token, $object, array $attributes)
     {
-	
-		if ($this->container->getParameter('ccdn_user_security.login_shield.enable_shield'))
-		{
-	        $request = $this->container->get('request');
-		
-			$route = $request->get('_route');
-		
-			$blockRoutes = $this->container->getParameter('ccdn_user_security.login_shield.block_routes_when_denied');
-				
-			// Abort if the route is not a login route.
-			if ( ! in_array($route, $blockRoutes)) {
-				return VoterInterface::ACCESS_ABSTAIN;
-			}
 
-			// Set a limit on how far back we want to look at failed login attempts.
-			$blockInMinutes = $this->container->getParameter('ccdn_user_security.login_shield.block_for_minutes');
-		
-			$timeLimit = new \DateTime('-' . $blockInMinutes . ' minutes');
+        if ($this->container->getParameter('ccdn_user_security.login_shield.enable_shield')) {
+            $request = $this->container->get('request');
 
-			// Get session and check if it has any entries of failed logins.
-			$session = $request->getSession();
+            $route = $request->get('_route');
 
-			$ipAddress = $request->getClientIp();
-			
-			// Get number of failed login attempts.
-			$tracker = $this->container->get('ccdn_user_security.component.authentication.tracker.login_failure_tracker');
-			
-			$attempts = $tracker->getAttempts($session, $ipAddress);
-						
-			$attemptLimitReturnHttp500 = $this->container->getParameter('ccdn_user_security.login_shield.limit_failed_login_attempts.before_return_http_500');
+            $blockRoutes = $this->container->getParameter('ccdn_user_security.login_shield.block_routes_when_denied');
 
-			if (count($attempts) > $attemptLimitReturnHttp500)
-			{
-				return VoterInterface::ACCESS_DENIED;
-			}
-		}
-	    
-		return VoterInterface::ACCESS_ABSTAIN;
+            // Abort if the route is not a login route.
+            if ( ! in_array($route, $blockRoutes)) {
+                return VoterInterface::ACCESS_ABSTAIN;
+            }
+
+            // Set a limit on how far back we want to look at failed login attempts.
+            $blockInMinutes = $this->container->getParameter('ccdn_user_security.login_shield.block_for_minutes');
+
+            $timeLimit = new \DateTime('-' . $blockInMinutes . ' minutes');
+
+            // Get session and check if it has any entries of failed logins.
+            $session = $request->getSession();
+
+            $ipAddress = $request->getClientIp();
+
+            // Get number of failed login attempts.
+            $tracker = $this->container->get('ccdn_user_security.component.authentication.tracker.login_failure_tracker');
+
+            $attempts = $tracker->getAttempts($session, $ipAddress);
+
+            $attemptLimitReturnHttp500 = $this->container->getParameter('ccdn_user_security.login_shield.limit_failed_login_attempts.before_return_http_500');
+
+            if (count($attempts) > $attemptLimitReturnHttp500) {
+                return VoterInterface::ACCESS_DENIED;
+            }
+        }
+
+        return VoterInterface::ACCESS_ABSTAIN;
     }
 
 }
