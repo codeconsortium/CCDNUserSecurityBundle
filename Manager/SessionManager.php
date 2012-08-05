@@ -15,24 +15,16 @@ namespace CCDNUser\SecurityBundle\Manager;
 
 use CCDNUser\SecurityBundle\Entity\Session;
 
+use CCDNUser\SecurityBundle\Manager\ManagerInterface;
+use CCDNUser\SecurityBundle\Manager\BaseManager;
+
 /**
  *
  * @author Reece Fowell <reece@codeconsortium.com>
  * @version 1.0
  */
-class SessionManager
+class SessionManager extends BaseManager implements ManagerInterface
 {
-
-    protected $doctrine;
-
-    protected $em;
-
-    public function __construct($doctrine)
-    {
-        $this->doctrine = $doctrine;
-
-        $this->em = $doctrine->getEntityManager();
-    }
 
     /**
      *
@@ -49,9 +41,9 @@ class SessionManager
         $session->setLoginAttemptUsername($username);
         $session->setLoginAttemptDate(new \DateTime('now'));
 
-        $this->em->persist($session);
+        $this->persist($session);
 
-        $this->em->flush();
+        $this->flush();
 
         return $this;
     }
