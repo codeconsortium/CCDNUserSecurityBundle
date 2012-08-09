@@ -29,7 +29,7 @@ class SessionManager extends BaseManager implements ManagerInterface
     /**
      *
      * @access public
-     * @param $user_id
+     * @param String $ipAddress, String $username
      * @return $this
      */
     public function newRecord($ipAddress, $username)
