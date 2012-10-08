@@ -92,8 +92,9 @@ class LoginFailureHandler implements AuthenticationFailureHandlerInterface
             $tracker->addAttempt($session, $ipAddress, $username);
         }
 
-        return new RedirectResponse();
-
+        return new RedirectResponse($this->container->get('router')->generate(
+			$this->container->getParameter('ccdn_user_security.login_shield.primary_login_route.name'),
+			$this->container->getParameter('ccdn_user_security.login_shield.primary_login_route.params')));
     }
 
 }
