@@ -16,7 +16,6 @@ namespace CCDNUser\SecurityBundle\Component\Authentication\Handler;
 use Symfony\Component\Security\Http\Logout\LogoutSuccessHandlerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RedirectResponse;
-use Symfony\Bundle\FrameworkBundle\Routing\Router;
 
 /**
  *
@@ -29,7 +28,6 @@ class LogoutSuccessHandler implements LogoutSuccessHandlerInterface
     /**
      *
      * @access public
-     * @param Router $router
      */
     public function __construct()
     {

@@ -52,12 +52,12 @@ services:
     #
     ccdn_user_security.component.authentication.handler.login_failure_handler:
         class:      %ccdn_user_security.component.authentication.handler.login_failure_handler.class%
-        arguments:  [@service_container, @router, @security.context]
+        arguments:  [@service_container]
         tags:
             -       { name: 'monolog.logger', channel: 'security' }
     ccdn_user_security.component.authentication.handler.login_success_handler:
         class:      %ccdn_user_security.component.authentication.handler.login_success_handler.class%
-        arguments:  [@router, @security.context]
+        arguments:  []
         tags:
             -       { name: 'monolog.logger', channel: 'security' }
     ccdn_user_security.component.authentication.handler.logout_success_handler:

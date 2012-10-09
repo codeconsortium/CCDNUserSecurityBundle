@@ -14,11 +14,9 @@
 namespace CCDNUser\SecurityBundle\Component\Authentication\Handler;
 
 use Symfony\Component\Security\Http\Authentication\AuthenticationFailureHandlerInterface;
-use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Exception\AuthenticationException;
-use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RedirectResponse;
-use Symfony\Bundle\FrameworkBundle\Routing\Router;
+use Symfony\Component\HttpFoundation\Request;
 
 /**
  *
@@ -36,21 +34,13 @@ class LoginFailureHandler implements AuthenticationFailureHandlerInterface
 
     /**
      *
-     * @access protected
-     */
-    protected $router;
-
-    /**
-     *
      * @access public
-     * @param Router $router
+     * @param Container $container
      */
-    public function __construct($container, Router $router)
+    public function __construct($container)
     {
 
         $this->container = $container;
-
-        $this->router = $router;
     }
 
     /**
