@@ -22,15 +22,23 @@ use Symfony\Component\HttpFoundation\Request;
 class ClientLoginVoter implements VoterInterface
 {
 
+	/**
+	 *
+	 * @access public
+	 * @param ContainerInterface $container, array $blackListedIp
+	 */
     public function __construct(ContainerInterface $container, array $blacklistedIp = array())
     {
-
         $this->container     = $container;
-
         $this->blacklistedIp = $blacklistedIp;
-
     }
 
+	/**
+	 *
+	 * @access public
+	 * @param $attribute
+ 	 * @return bool
+	 */
     public function supportsAttribute($attribute)
     {
 
@@ -39,7 +47,12 @@ class ClientLoginVoter implements VoterInterface
     }
 
 
-
+	/**
+	 *
+	 * @access public
+	 * @param $class
+	 * @return bool
+	 */
     public function supportsClass($class)
     {
 
@@ -47,8 +60,12 @@ class ClientLoginVoter implements VoterInterface
         return true;
     }
 
-
-
+	/**
+	 *
+	 * @access public
+	 * @param TokenInterface $token, object $object, array $attributes
+	 * @return int
+	 */
     public function vote(TokenInterface $token, $object, array $attributes)
     {
 

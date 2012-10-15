@@ -49,7 +49,7 @@ class BaseManager
 	 *
 	 * @access public
 	 * @param $entity
-	 * @return $this
+	 * @return self
 	 */
     public function persist($entity)
     {
@@ -62,7 +62,7 @@ class BaseManager
 	 *
 	 * @access public
 	 * @param $entity
-	 * @return $this
+	 * @return self
 	 */
     public function remove($entity)
     {
@@ -74,7 +74,7 @@ class BaseManager
 	/**
 	 *
 	 * @access public
-	 * @return $this
+	 * @return self
 	 */
     public function flush()
     {
@@ -87,7 +87,7 @@ class BaseManager
 	 *
 	 * @access public
 	 * @param $entity
-	 * @return $this
+	 * @return self
 	 */
     public function refresh($entity)
     {

@@ -38,7 +38,7 @@ class LoginSuccessHandler implements AuthenticationSuccessHandlerInterface
     /**
      *
      * @access public
-     * @param  Request $request, TokenInterface $token
+     * @param Request $request, TokenInterface $token
      * @return RedirectResponse
      */
     public function onAuthenticationSuccess(Request $request, TokenInterface $token)

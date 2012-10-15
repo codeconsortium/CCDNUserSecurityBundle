@@ -38,7 +38,7 @@ class RouteRefererListener
     /**
      *
      * @access public
-     * @param $router, $container
+     * @param $container, $router
      */
     public function __construct($container, $router)
     {
@@ -86,8 +86,6 @@ class RouteRefererListener
 		$script = ($request->getScriptName() == $request->getBasePath() . '/app_dev.php') ? $request->getScriptName() : $request->getBasePath();
 
         $session->set('referer', $script . $request->getPathInfo());
-
-        return;
     }
 
 }

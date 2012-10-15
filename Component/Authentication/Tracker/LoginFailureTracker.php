@@ -42,7 +42,7 @@ class LoginFailureTracker
      *
      * @access public
      * @param $session, $ipAddress
-     * @return Array()
+     * @return array
      */
     public function getAttempts($session, $ipAddress)
     {
@@ -84,7 +84,7 @@ class LoginFailureTracker
     /**
      *
      * @access public
-     * @param $session, $ipAddress, $username
+     * @param Session $session, string $ipAddress, string $username
      */
     public function addAttempt($session, $ipAddress, $username)
     {

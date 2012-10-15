@@ -29,7 +29,7 @@ class SessionRepository extends EntityRepository
      * Find all records of failed login attempts by IP address.
      *
      * @access public
-     * @param String $ipAddress
+     * @param string $ipAddress, $timeLimit
      */
     public function findByIpAddress($ipAddress, $timeLimit)
     {

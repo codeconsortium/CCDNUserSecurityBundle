@@ -41,7 +41,7 @@ class BlockingLoginListener
     /**
      *
      * @access public
-     * @param $router, $container
+     * @param $container, $router
      */
     public function __construct($container, $router)
     {
@@ -52,7 +52,6 @@ class BlockingLoginListener
     }
 
     /**
-     *
      * If you have failed to login too many times, a log of this will be present
      * in your session and the databse (incase session is dropped the record remains).
      *
