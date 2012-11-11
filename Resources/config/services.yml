@@ -1,5 +1,6 @@
 parameters:
 
+    ccdn_user_security.component.route_referer_ignore.chain.class:          CCDNUser\SecurityBundle\Component\Listener\Chain\RouteRefererIgnoreChain
     ccdn_user_security.component.listener.route_referer_listener.class:     CCDNUser\SecurityBundle\Component\Listener\RouteRefererListener
     ccdn_user_security.component.listener.blocking_login_listener.class:    CCDNUser\SecurityBundle\Component\Listener\BlockingLoginListener
 
@@ -18,6 +19,13 @@ parameters:
 
 services:
 
+    
+    #
+    # Components.
+    #
+    ccdn_user_security.component.route_referer_ignore.chain:
+        class: %ccdn_user_security.component.route_referer_ignore.chain.class%
+        
     #
     # Referer Listener.
     #

@@ -72,8 +72,12 @@ class RouteRefererListener
         // Get the list of routes we must ignore.
         $logIgnore = $this->container->getParameter('ccdn_user_security.route_referer.route_ignore_list');
 
+		$routeIgnoreChain = $this->container->get('ccdn_user_security.component.route_referer_ignore.chain')->getRoutes();
+		
+		$ignorable = array_merge($routeIgnoreChain, $logIgnore);
+		
         // Abort if the route is ignorable.
-        foreach ($logIgnore as $ignore) {
+        foreach ($ignorable as $ignore) {
             if ($route == $ignore['route']) { return; }
         }
 

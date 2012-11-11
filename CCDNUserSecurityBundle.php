@@ -14,6 +14,9 @@
 namespace CCDNUser\SecurityBundle;
 
 use Symfony\Component\HttpKernel\Bundle\Bundle;
+use Symfony\Component\DependencyInjection\ContainerBuilder;
+
+use CCDNUser\SecurityBundle\DependencyInjection\Compiler\RouteRefererIgnoreCompilerPass;
 
 /**
  *
@@ -22,4 +25,15 @@ use Symfony\Component\HttpKernel\Bundle\Bundle;
  */
 class CCDNUserSecurityBundle extends Bundle
 {
+		
+    /**
+     *
+     */
+    public function build(ContainerBuilder $container)
+    {
+        parent::build($container);
+
+        $container->addCompilerPass(new RouteRefererIgnoreCompilerPass());
+    }
+
 }
