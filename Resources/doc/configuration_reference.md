@@ -30,12 +30,14 @@ ccdn_user_security:
             before_return_http_500: 10
         primary_login_route:
             name: fos_user_security_login
+		#	params: 
         recover_account_route:
             name: fos_user_resetting_request
+		# 	params:
         block_routes_when_denied:
-            - fos_user_security_login
-            - fos_user_security_check
-            - fos_user_security_logout
+        #    - fos_user_security_login
+        #    - fos_user_security_check
+        #    - fos_user_security_logout
 			
 ```
 
