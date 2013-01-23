@@ -13,10 +13,9 @@
 
 namespace CCDNUser\SecurityBundle\Component\Listener;
 
+use Symfony\Component\HttpKernel\Exception\HttpException;
 use Symfony\Component\HttpKernel\Event\GetResponseEvent;
 use Symfony\Component\HttpFoundation\RedirectResponse;
-
-use Symfony\Component\HttpKernel\Exception\HttpException;
 
 /**
  *

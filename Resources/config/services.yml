@@ -16,10 +16,8 @@ parameters:
 
     ccdn_user_security.session.manager.class:    CCDNUser\SecurityBundle\Manager\SessionManager
 
-
 services:
 
-    
     #
     # Components.
     #
@@ -31,7 +29,7 @@ services:
     #
     ccdn_user_security.component.listener.route_referer_listener:
         class:      %ccdn_user_security.component.listener.route_referer_listener.class%
-        arguments:  [@service_container, @router]
+        arguments:  [@router, @ccdn_user_security.component.route_referer_ignore.chain, %ccdn_user_security.route_referer.route_ignore_list%]
         tags:
             -       { name: kernel.event_listener, event: kernel.request, method: onKernelRequest }
 

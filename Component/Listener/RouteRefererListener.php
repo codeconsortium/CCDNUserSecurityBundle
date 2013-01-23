@@ -22,30 +22,20 @@ use Symfony\Component\HttpKernel\Event\GetResponseEvent;
  */
 class RouteRefererListener
 {
-
-    /**
-     *
-     * @access protected
-     */
-    protected $container;
-
-    /**
-     *
-     * @access protected
-     */
     protected $router;
+    protected $routeIgnoreChain;
+    protected $routeIgnoreList;
 
     /**
-     *
-     * @access public
-     * @param $container, $router
+     * @param $router
+     * @param $routeIgnoreChain
+     * @param $routeIgnoreList
      */
-    public function __construct($container, $router)
+    public function __construct($router, $routeIgnoreChain, $routeIgnoreList)
     {
-
-        $this->container = $container;
-
         $this->router = $router;
+        $this->routeIgnoreChain = $routeIgnoreChain;
+        $this->routeIgnoreList = $routeIgnoreList;
     }
 
     /**
@@ -70,9 +60,9 @@ class RouteRefererListener
         $route = $request->get('_route');
 
         // Get the list of routes we must ignore.
-        $logIgnore = $this->container->getParameter('ccdn_user_security.route_referer.route_ignore_list');
+        $logIgnore = $this->routeIgnoreList;
 
-		$routeIgnoreChain = $this->container->get('ccdn_user_security.component.route_referer_ignore.chain')->getRoutes();
+		$routeIgnoreChain = $this->routeIgnoreChain;
 		
 		$ignorable = array_merge($routeIgnoreChain, $logIgnore);
 		
