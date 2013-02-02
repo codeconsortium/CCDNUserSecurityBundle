@@ -57,9 +57,11 @@ class Configuration implements ConfigurationInterface
 
         $node
             ->addDefaultsIfNotSet()
+            ->canBeUnset()
             ->children()
                 ->arrayNode('route_referer')
                     ->addDefaultsIfNotSet()
+                    ->canBeUnset()
                     ->children()
                         ->arrayNode('route_ignore_list')
                             ->prototype('array')
@@ -95,14 +97,17 @@ class Configuration implements ConfigurationInterface
 
         $node
             ->addDefaultsIfNotSet()
+            ->canBeUnset()
             ->children()
                 ->arrayNode('login_shield')
                     ->addDefaultsIfNotSet()
+                    ->canBeUnset()
                     ->children()
                         ->scalarNode('enable_shield')->defaultValue(true)->end()
                         ->scalarNode('block_for_minutes')->defaultValue(10)->end()
                         ->arrayNode('limit_failed_login_attempts')
                             ->addDefaultsIfNotSet()
+                            ->canBeUnset()
                             ->children()
                                 ->scalarNode('before_recover_account')->defaultValue(25)->end()
                                 ->scalarNode('before_return_http_500')->defaultValue(50)->end()
@@ -110,6 +115,7 @@ class Configuration implements ConfigurationInterface
                         ->end()
                         ->arrayNode('primary_login_route')
                             ->addDefaultsIfNotSet()
+                            ->canBeUnset()
                             ->children()
                                 ->scalarNode('name')->defaultValue('fos_user_security_login')->end()
                                 ->arrayNode('params')

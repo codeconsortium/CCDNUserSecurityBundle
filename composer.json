@@ -1,5 +1,5 @@
 {
-    "name": "ccdn-user/security-bundle",
+    "name": "codeconsortium/ccdn-user-security-bundle",
     "type": "symfony-bundle",
     "description": "CCDN User Security Bundle",
     "keywords": ["user", "security", "brute force", "dictionary attack", "login"],
