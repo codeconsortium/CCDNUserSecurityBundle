@@ -64,7 +64,7 @@ class RouteRefererListener
 
 		$routeIgnoreChain = $this->routeIgnoreChain;
 		
-		$ignorable = array_merge($routeIgnoreChain, $logIgnore);
+		$ignorable = is_array($routeIgnoreChain) ? array_merge($routeIgnoreChain, $logIgnore) : $logIgnore;
 		
         // Abort if the route is ignorable.
         foreach ($ignorable as $ignore) {
