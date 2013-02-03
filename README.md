@@ -11,7 +11,7 @@ This project uses Doctrine 2.1.x and so does not require any specific database.
 
 This file is part of the CCDNUser bundles(s)
 
-(c) CCDN (c) [CodeConsortium](http://www.codeconsortium.com/)
+&copy; CCDN &copy; [CodeConsortium](http://www.codeconsortium.com/)
 
 Available on [github](http://www.github.com/codeconsortium/)
 
