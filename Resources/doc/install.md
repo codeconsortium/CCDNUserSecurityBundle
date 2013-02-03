@@ -1,4 +1,4 @@
-Installing CCDNUser SecurityBundle 1.0
+Installing CCDNUser SecurityBundle 1.x
 ======================================
 
 ## Dependencies:
@@ -7,77 +7,57 @@ No Dependencies.
 
 ## Installation:
 
-Installation takes only 9 steps:
+Installation takes only 5 steps:
 
-1. Download and install the dependencies.
-2. Register bundles with autoload.php.
-3. Register bundles with AppKernel.php.  
-4. Run vendors install script.
-5. Update your app/config/routing.yml. 
-6. Update your app/config/config.yml. 
-7: Update your database schema.
-8. Symlink assets to your public web directory.
-9. Warmup the cache.
+1. Download and install dependencies via Composer.
+2. Register bundles with AppKernel.php.
+3. Update your app/config/config.yml.
+4. Update your database schema.
 
-### Step 1: Download and install the dependencies.
+### Step 1: Download and install dependencies via Composer.
 
-Append the following to end of your deps file (found in the root of your Symfony2 installation):
+Append the following to end of your applications composer.json file (found in the root of your Symfony2 installation):
 
-``` ini
-[CCDNUser_SecurityBundle]
-	git=http://github.com/codeconsortium/CCDNUserSecurityBundle.git
-	target=/bundles/CCDNUser/SecurityBundle
-    version=v1.0
+``` js
+// composer.json
+{
+    // ...
+    "require": {
+        // ...
+        "codeconsortium/ccdn-user-security-bundle": "dev-master"
+    }
+}
 ```
 
-### Step 2: Register bundles with autoload.php.
+NOTE: Please replace ``dev-master`` in the snippet above with the latest stable branch, for example ``2.0.*``.
 
-Add the following to the registerNamespaces array in the method by appending it to the end of the array.
+Then, you can install the new dependencies by running Composer's ``update``
+command from the directory where your ``composer.json`` file is located:
 
-``` php
-// app/autoload.php
-$loader->registerNamespaces(array(
-    'CCDNUser'        => __DIR__.'/../vendor/bundles',
-	**...**
-);
+``` bash
+$ php composer.phar update
 ```
 
-### Step 3: Register bundles with AppKernel.php.  
+### Step 2: Register bundles with AppKernel.php.
 
-In your AppKernel.php add the following bundles to the registerBundles method array:  
+Now, Composer will automatically download all required files, and install them
+for you. All that is left to do is to update your ``AppKernel.php`` file, and
+register the new bundle:
 
 ``` php
 // app/AppKernel.php
 public function registerBundles()
 {
     $bundles = array(
-	    new CCDNUser\SecurityBundle\CCDNUserSecurityBundle(),    
-		**...**
+		new CCDNUser\SecurityBundle\CCDNUserSecurityBundle(),
+		...
 	);
 }
-``` 
-
-### Step 4: Run vendors install script.
-
-From your projects root Symfony directory on the command line run:
-
-``` bash
-$ php bin/vendors install
 ```
 
-### Step 5: Update your app/config/routing.yml. 
+### Step 3: Update your app/config/config.yml.
 
-In your app/config/routing.yml add:  
-
-``` yml
-CCDNUserSecurityBundle:
-    resource: "@CCDNUserSecurityBundle/Resources/config/routing.yml"
-    prefix: /
-```
-
-### Step 6: Update your app/config/config.yml. 
-
-In your app/config/config.yml add:    
+In your app/config/config.yml add:
 
 ``` yml
 #
@@ -112,12 +92,30 @@ ccdn_user_security:
             - fos_user_security_login
             - fos_user_security_check
             - fos_user_security_logout
+```
 
-```   
+### Step 4: Update your database schema.
 
-See [Configuration Reference](configuration_reference.md) for more information.
+Make sure to add the ForumBundle to doctrines mapping configuration:
 
-### Step 7: Update your database schema.
+```
+# app/config/config.yml
+# Doctrine Configuration
+doctrine:
+    orm:
+        default_entity_manager: default
+        auto_generate_proxy_classes: "%kernel.debug%"
+        entity_managers:
+            default:
+                mappings:
+                    CCDNUserSecurityBundle:
+                        mapping:              true
+                        type:                 yml
+                        dir:                  "Resources/config/doctrine"
+                        alias:                ~
+                        prefix:               CCDNUser\SecurityBundle\Entity
+                        is_bundle:            true
+```
 
 From your projects root Symfony directory on the command line run:
 
@@ -130,22 +128,6 @@ Take the SQL that is output and update your database manually.
 **Warning:**
 
 > Please take care when updating your database, check the output SQL before applying it.
-
-### Step 8: Symlink assets to your public web directory.
-
-From your projects root Symfony directory on the command line run:
-
-``` bash
-$ php app/console assets:install --symlink web/
-```
-
-### Step 9: Warmup the cache.
-
-From your projects root Symfony directory on the command line run:
-
-``` bash
-$ php app/console cache:warmup
-```
 
 ## Next Steps.
 
