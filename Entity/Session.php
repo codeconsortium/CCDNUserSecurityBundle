@@ -15,32 +15,22 @@ namespace CCDNUser\SecurityBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 
-/**
- * @ORM\Entity(repositoryClass="CCDNUser\SecurityBundle\Repository\SessionRepository")
- * @ORM\Table(name="CC_Security_Session")
- */
 class Session
 {
-
-    /**
-     * @ORM\Id
-     * @ORM\Column(type="integer")
-     * @ORM\GeneratedValue(strategy="AUTO")
-     */
     protected $id;
 
     /**
-     * @ORM\Column(type="string", length=50, name="ip_address")
+     * @Ovar string $ipAddress
      */
     protected $ipAddress;
 
     /**
-     * @ORM\Column(type="datetime", name="login_attempt_date")
+     * @var \Datetime $loginAttemptDate
      */
     protected $loginAttemptDate;
 
     /**
-     * @ORM\Column(type="text", name="login_attempt_username")
+     * @var string $loginAttemptUsername
      */
     protected $loginAttemptUsername;
 
@@ -57,7 +47,7 @@ class Session
     /**
      * Set ipAddress
      *
-     * @param text $ipAddress
+     * @param string $ipAddress
      */
     public function setIpAddress($ipAddress)
     {
@@ -67,7 +57,7 @@ class Session
     /**
      * Get ipAddress
      *
-     * @return text
+     * @return string
      */
     public function getIpAddress()
     {
@@ -97,7 +87,7 @@ class Session
     /**
      * Set loginUsername
      *
-     * @param text $loginUsername
+     * @param string $loginUsername
      */
     public function setLoginAttemptUsername($loginAttemptUsername)
     {
@@ -107,7 +97,7 @@ class Session
     /**
      * Get loginUsername
      *
-     * @return text
+     * @return string
      */
     public function getLoginAttemptUsername()
     {

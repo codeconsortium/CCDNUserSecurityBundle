@@ -1,0 +1,19 @@
+CCDNUser\SecurityBundle\Entity\Session:
+    type: entity
+    table: CC_Security_Session
+    repositoryClass: CCDNUser\SecurityBundle\Repository\SessionRepository
+    id:
+        id:
+            type: integer
+            generator: { strategy: AUTO }
+    fields:
+        ipAddress:
+            type: string
+            name: ip_address
+            length: 50
+        loginAttemptDate:
+            type: datetime
+            name: login_attempt_date
+        loginAttemptUsername:
+            type: text
+            name: login_attempt_username
