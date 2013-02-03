@@ -20,7 +20,7 @@ Theme and Sprite graphics courtesy of [twitter bootstrap](http://twitter.github.
 
 Other graphics are works of CodeConsortium.
 
-For the full copyright and license information, please view the LICENSE file that was distributed with this source code.
+For the full copyright and license information, please view the [LICENSE](http://github.com/codeconsortium/CCDNUserSecurity/blob/master/Resources/meta/LICENSE) file that was distributed with this source code.
 
 ## Description:
 

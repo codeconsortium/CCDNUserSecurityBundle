@@ -100,7 +100,7 @@ Use the ignore list for routes you do not want to track for the redirect path af
 
 ### Step 4: Update your database schema.
 
-Make sure to add the ForumBundle to doctrines mapping configuration:
+Make sure to add the SecurityBundle to doctrines mapping configuration:
 
 ```
 # app/config/config.yml
