@@ -94,6 +94,10 @@ ccdn_user_security:
             - fos_user_security_logout
 ```
 
+Add or remove routes as you see fit to the ignore list or list of routes to block when denied.
+
+Use the ignore list for routes you do not want to track for the redirect path after a successful login.
+
 ### Step 4: Update your database schema.
 
 Make sure to add the ForumBundle to doctrines mapping configuration:
