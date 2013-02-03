@@ -24,7 +24,7 @@ For the full copyright and license information, please view the [LICENSE](http:/
 
 ## Description:
 
-Use this bundle to redirect users upon login/logout success to the last page they were on.
+Use this bundle to redirect users upon login/logout success to the last page they were on and mitigate brute force dictionary attacks on your sites login.
 
 ## Features.
 
