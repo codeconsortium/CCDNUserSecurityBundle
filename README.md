@@ -22,7 +22,7 @@ Theme and Sprite graphics courtesy of [twitter bootstrap](http://twitter.github.
 
 Other graphics are works of CodeConsortium.
 
-For the full copyright and license information, please view the [LICENSE](http://github.com/codeconsortium/CCDNUserSecurity/blob/master/Resources/meta/LICENSE) file that was distributed with this source code.
+For the full copyright and license information, please view the [LICENSE](http://github.com/codeconsortium/CCDNUserSecurityBundle/blob/master/Resources/meta/LICENSE) file that was distributed with this source code.
 
 ## Description:
 
@@ -57,7 +57,7 @@ This software is licensed under the MIT license. See the complete license file i
 
 	Resources/meta/LICENSE
 
-[Read the License](http://github.com/codeconsortium/CCDNUserSecurity/blob/master/Resources/meta/LICENSE).
+[Read the License](http://github.com/codeconsortium/CCDNUserSecurityBundle/blob/master/Resources/meta/LICENSE).
 
 ## About.
 
