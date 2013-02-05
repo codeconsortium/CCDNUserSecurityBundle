@@ -7,7 +7,7 @@ No Dependencies.
 
 ## Installation:
 
-Installation takes only 5 steps:
+Installation takes only 4 steps:
 
 1. Download and install dependencies via Composer.
 2. Register bundles with AppKernel.php.
