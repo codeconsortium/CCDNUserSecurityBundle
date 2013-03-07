@@ -15,6 +15,7 @@ namespace CCDNUser\SecurityBundle\Component\Authentication\Handler;
 
 use Symfony\Component\Security\Http\Authentication\AuthenticationFailureHandlerInterface;
 use Symfony\Component\Security\Core\Exception\AuthenticationException;
+use Symfony\Component\Security\Core\SecurityContext;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -80,6 +81,8 @@ class LoginFailureHandler implements AuthenticationFailureHandlerInterface
             $tracker = $this->container->get('ccdn_user_security.component.authentication.tracker.login_failure_tracker');
 
             $tracker->addAttempt($session, $ipAddress, $username);
+
+            $session->set(SecurityContext::AUTHENTICATION_ERROR, $exception);
         }
 
         return new RedirectResponse($this->container->get('router')->generate(
