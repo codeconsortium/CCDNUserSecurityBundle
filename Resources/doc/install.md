@@ -7,12 +7,13 @@ No Dependencies.
 
 ## Installation:
 
-Installation takes only 4 steps:
+Installation takes only 5 steps:
 
 1. Download and install dependencies via Composer.
 2. Register bundles with AppKernel.php.
 3. Update your app/config/config.yml.
-4. Update your database schema.
+4. enable handlers
+5. Update your database schema.
 
 ### Step 1: Download and install dependencies via Composer.
 
