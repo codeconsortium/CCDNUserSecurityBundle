@@ -98,7 +98,29 @@ Add or remove routes as you see fit to the ignore list or list of routes to bloc
 
 Use the ignore list for routes you do not want to track for the redirect path after a successful login.
 
-### Step 4: Update your database schema.
+### Step 4: enable handlers
+
+You have to enable your login-/logout-handlers via app/config/security.yml:
+
+```
+security:
+    firewalls:
+        main:
+            form_login:
+                provider:       fos_userbundle
+                login_path:     /login
+                use_forward:    false
+                check_path:     /login_check
+                success_handler: ccdn_user_security.component.authentication.handler.login_success_handler
+                failure_handler: ccdn_user_security.component.authentication.handler.login_failure_handler
+                failure_path:   null
+            logout:
+                path:   /logout
+                success_handler: ccdn_user_security.component.authentication.handler.logout_success_handler
+```
+
+
+### Step 5: Update your database schema.
 
 Make sure to add the SecurityBundle to doctrines mapping configuration:
 
