@@ -18,6 +18,7 @@ use Symfony\Component\Security\Core\Exception\AuthenticationException;
 use Symfony\Component\Security\Core\SecurityContext;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 
 /**
  *
@@ -85,9 +86,15 @@ class LoginFailureHandler implements AuthenticationFailureHandlerInterface
             $session->set(SecurityContext::AUTHENTICATION_ERROR, $exception);
         }
 
-        return new RedirectResponse($this->container->get('router')->generate(
-			$this->container->getParameter('ccdn_user_security.login_shield.primary_login_route.name'),
-			$this->container->getParameter('ccdn_user_security.login_shield.primary_login_route.params')));
+        if ($request->isXmlHttpRequest() || $request->request->get('_format') === 'json') {
+            $response = new Response(json_encode(array('status' => 'failed', 'errors' => array($exception->getMessage()))));
+            $response->headers->set('Content-Type', 'application/json');
+            return $response;
+        } else {
+            return new RedirectResponse($this->container->get('router')->generate(
+                $this->container->getParameter('ccdn_user_security.login_shield.primary_login_route.name'),
+                $this->container->getParameter('ccdn_user_security.login_shield.primary_login_route.params')));
+        }
     }
 
 }
