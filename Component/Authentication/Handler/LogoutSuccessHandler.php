@@ -14,8 +14,9 @@
 namespace CCDNUser\SecurityBundle\Component\Authentication\Handler;
 
 use Symfony\Component\Security\Http\Logout\LogoutSuccessHandlerInterface;
-use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RedirectResponse;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 
 /**
  *
@@ -54,6 +55,11 @@ class LogoutSuccessHandler implements LogoutSuccessHandlerInterface
         } else {
             // if no referer then go to homepage
             $response = new RedirectResponse($request->getBasePath() . '/');
+        }
+
+        if ($request->isXmlHttpRequest() || $request->request->get('_format') === 'json') {
+            $response = new Response(json_encode(array('status' => 'success')));
+            $response->headers->set('Content-Type', 'application/json');
         }
 
         return $response;
