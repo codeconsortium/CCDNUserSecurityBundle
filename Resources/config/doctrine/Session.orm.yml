@@ -1,6 +1,6 @@
 CCDNUser\SecurityBundle\Entity\Session:
     type: entity
-    table: CC_Security_Session
+    table: cc_security_session
     repositoryClass: CCDNUser\SecurityBundle\Repository\SessionRepository
     id:
         id:
