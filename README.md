@@ -4,7 +4,7 @@ CCDNUser SecurityBundle README.
 
 ## Notes:  
   
-This bundle is for the symfony framework and requires Symfony >=2.1 and PHP 5.4
+This bundle is for the symfony framework and requires Symfony >=2.1 and PHP >=5.3.2
   
 This project uses Doctrine >=2.1 and so does not require any specific database.
   
