@@ -27,7 +27,6 @@ use Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition;
  */
 class Configuration implements ConfigurationInterface
 {
-
     /**
      * {@inheritDoc}
      */
@@ -54,7 +53,6 @@ class Configuration implements ConfigurationInterface
      */
     private function addRouteRefererSection(ArrayNodeDefinition $node)
     {
-
         $node
             ->addDefaultsIfNotSet()
             ->canBeUnset()
@@ -84,7 +82,6 @@ class Configuration implements ConfigurationInterface
                     ->end()
                 ->end()
             ->end();
-
     }
 
     /**
@@ -94,7 +91,6 @@ class Configuration implements ConfigurationInterface
      */
     private function addLoginShieldSection(ArrayNodeDefinition $node)
     {
-
         $node
             ->addDefaultsIfNotSet()
             ->canBeUnset()
@@ -141,7 +137,5 @@ class Configuration implements ConfigurationInterface
                     ->end()
                 ->end()
             ->end();
-
     }
-
 }

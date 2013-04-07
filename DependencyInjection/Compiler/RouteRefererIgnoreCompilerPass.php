@@ -24,7 +24,6 @@ use Symfony\Component\DependencyInjection\Reference;
  */
 class RouteRefererIgnoreCompilerPass implements CompilerPassInterface
 {
-
     /**
      *
      * @access public
@@ -42,5 +41,4 @@ class RouteRefererIgnoreCompilerPass implements CompilerPassInterface
             $definition->addMethodCall('addRoutesToIgnore', array(new Reference($id)));
         }
     }
-
 }

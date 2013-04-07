@@ -28,7 +28,6 @@ use Symfony\Component\Config\FileLocator;
  */
 class CCDNUserSecurityExtension extends Extension
 {
-
     /**
      * {@inheritDoc}
      */
@@ -59,7 +58,6 @@ class CCDNUserSecurityExtension extends Extension
      */
     private function getRouteRefererSection($container, $config)
     {
-
         $defaults = array(
             array('bundle' => 'fosuserbundle', 'route' => 'fos_user_security_login'),
             array('bundle' => 'fosuserbundle', 'route' => 'fos_user_security_check'),
@@ -77,7 +75,6 @@ class CCDNUserSecurityExtension extends Extension
         );
 
         $container->setParameter('ccdn_user_security.route_referer.route_ignore_list', array_merge($config['route_referer']['route_ignore_list'], $defaults));
-
     }
 
     /**
@@ -87,7 +84,6 @@ class CCDNUserSecurityExtension extends Extension
      */
     private function getLoginShieldSection($container, $config)
     {
-
         $container->setParameter('ccdn_user_security.login_shield.enable_shield', $config['login_shield']['enable_shield']);
         $container->setParameter('ccdn_user_security.login_shield.block_for_minutes', $config['login_shield']['block_for_minutes']);
         $container->setParameter('ccdn_user_security.login_shield.limit_failed_login_attempts.before_recover_account', $config['login_shield']['limit_failed_login_attempts']['before_recover_account']);
@@ -106,7 +102,5 @@ class CCDNUserSecurityExtension extends Extension
         );
 
         $container->setParameter('ccdn_user_security.login_shield.block_routes_when_denied', array_merge($config['login_shield']['block_routes_when_denied'], $blockRoutesWhenDeniedDefaults));
-
     }
-
 }
