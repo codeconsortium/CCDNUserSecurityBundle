@@ -16,58 +16,65 @@ namespace CCDNUser\SecurityBundle\Component\Authorisation\Voter;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\Security\Core\Authorization\Voter\VoterInterface;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
-
 use Symfony\Component\HttpFoundation\Request;
+
+use CCDNUser\SecurityBundle\Component\Authentication\Tracker\LoginFailureTracker;
 
 class ClientLoginVoter implements VoterInterface
 {
 	/**
 	 *
 	 * @access protected
+	 * @var \Symfony\Component\DependencyInjection\ContainerInterface $container
 	 */
 	protected $container;
 	
 	/**
 	 *
 	 * @access protected
+	 * @var \CCDNUser\SecurityBundle\Component\Authentication\Tracker\LoginFailureTracker $loginFailureTracker
 	 */
 	protected $loginFailureTracker;
 	
 	/**
 	 *
 	 * @access protected
+	 * @var bool $enableShield
 	 */
 	protected $enableShield;
 	
 	/**
 	 *
 	 * @access protected
+	 * @var array $blockRoutes
 	 */
 	protected $blockRoutes;
 	
 	/**
 	 *
 	 * @access protected
+	 * @var int $blockForMinutes
 	 */
 	protected $blockForMinutes;
 	
 	/**
 	 *
 	 * @access protected
+	 * @var int $limitBeforeHttp500
 	 */
 	protected $limitBeforeHttp500;
 	
 	/**
 	 *
 	 * @access public
-	 * @param $request
-	 * @param $loginFailureTracker
-	 * @param $enableShield
-	 * @param $blockRoutes
-	 * @param $blockForMinutes
-	 * @param $limitBeforeHttp500
+	 * @param \Symfony\Component\HttpFoundation\Request $request
+	 * @param \CCDNUser\SecurityBundle\Component\Authentication\Tracker\LoginFailureTracker $loginFailureTracker
+	 * @param bool $enableShield
+	 * @param array $blockRoutes
+	 * @param int $blockForMinutes
+	 * @param int $limitBeforeHttp500
 	 */
-    public function __construct(ContainerInterface $container, $loginFailureTracker, $enableShield, $blockRoutes, $blockForMinutes, $limitBeforeHttp500)
+    public function __construct(ContainerInterface $container, LoginFailureTracker $loginFailureTracker, $enableShield, $blockRoutes, $blockForMinutes, $limitBeforeHttp500)
     {
 		$this->container = $container;
 		$this->loginFailureTracker = $loginFailureTracker;
@@ -105,7 +112,7 @@ class ClientLoginVoter implements VoterInterface
 	/**
 	 *
 	 * @access public
-	 * @param TokenInterface $token
+	 * @param \Symfony\Component\Security\Core\Authentication\Token\TokenInterface $token
 	 * @param object $object
 	 * @param array $attributes
 	 * @return int

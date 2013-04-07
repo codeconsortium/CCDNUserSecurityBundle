@@ -23,6 +23,7 @@ class RouteRefererIgnoreChain
     /**
      *
 	 * @access private
+	 * @var array $chain
      */
     private $chain;
 
@@ -38,7 +39,7 @@ class RouteRefererIgnoreChain
     /**
      *
  	 * @access public
-	 * @param array $ignore
+	 * @param array $list
      */
     public function addRoutesToIgnore($list)
     {

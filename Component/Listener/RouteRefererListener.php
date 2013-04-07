@@ -14,6 +14,8 @@
 namespace CCDNUser\SecurityBundle\Component\Listener;
 
 use Symfony\Component\HttpKernel\Event\GetResponseEvent;
+use Symfony\Bundle\FrameworkBundle\Routing\Router;
+use CCDNUser\SecurityBundle\Component\Listener\Chain\RouteRefererIgnoreChain;
 
 /**
  *
@@ -25,13 +27,14 @@ class RouteRefererListener
 	/**
 	 *
 	 * @access protected
+	 * @var \Symfony\Bundle\FrameworkBundle\Routing\Router $router
 	 */
     protected $router;
 	
 	/**
 	 *
 	 * @access protected
-	 * @var array $routeIgnoreChain
+	 * @var \CCDNUser\SecurityBundle\Component\Listener\Chain\RouteRefererIgnoreChain $routeIgnoreChain
 	 */
     protected $routeIgnoreChain;
 	
@@ -43,11 +46,11 @@ class RouteRefererListener
     protected $routeIgnoreList;
 
     /**
-     * @param $router
-     * @param $routeIgnoreChain
-     * @param $routeIgnoreList
+     * @param \Symfony\Bundle\FrameworkBundle\Routing\Router $router
+     * @param \CCDNUser\SecurityBundle\Component\Listener\Chain\RouteRefererIgnoreChain $routeIgnoreChain
+     * @param array $routeIgnoreList
      */
-    public function __construct($router, $routeIgnoreChain, $routeIgnoreList)
+    public function __construct(Router $router, RouteRefererIgnoreChain $routeIgnoreChain, $routeIgnoreList)
     {
         $this->router = $router;
         $this->routeIgnoreChain = $routeIgnoreChain;
@@ -60,7 +63,7 @@ class RouteRefererListener
      * Redirected back to your original location once you login successfully.
      *
      * @access public
-     * @param GetResponseEvent $event
+     * @param \Symfony\Component\HttpKernel\Event\GetResponseEvent $event
      */
     public function onKernelRequest(GetResponseEvent $event)
     {

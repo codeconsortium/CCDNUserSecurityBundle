@@ -16,6 +16,8 @@ namespace CCDNUser\SecurityBundle\Component\Listener;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 use Symfony\Component\HttpKernel\Event\GetResponseEvent;
 use Symfony\Component\HttpFoundation\RedirectResponse;
+use Symfony\Bundle\FrameworkBundle\Routing\Router;
+use CCDNUser\SecurityBundle\Component\Authentication\Tracker\LoginFailureTracker;
 
 /**
  *
@@ -27,69 +29,88 @@ class BlockingLoginListener
     /**
      *
      * @access protected
+	 * @var \Symfony\Bundle\FrameworkBundle\Routing\Router $router
      */
     protected $router;
 	
     /**
      *
      * @access protected
+	 * @var \CCDNUser\SecurityBundle\Component\Authentication\Tracker\LoginFailureTracker $loginFailureTracker
      */
     protected $loginFailureTracker;
 	
     /**
      *
      * @access protected
+	 * @var bool $enableShield
      */
     protected $enableShield;
 	
     /**
      *
      * @access protected
+	 * @var array $blockRoutes
      */
     protected $blockRoutes;
 	
     /**
      *
      * @access protected
+	 * @var int $blockForMinutes
      */
     protected $blockForMinutes;
 	
     /**
      *
      * @access protected
+	 * @var int $limitBeforeRecover
      */
     protected $limitBeforeRecover;
 	
     /**
      *
      * @access protected
+	 * @var int $limitBeforeHttp500
      */
     protected $limitBeforeHttp500;
 	
     /**
      *
      * @access protected
+	 * @var string $recoverRoute
      */
     protected $recoverRoute;
 	
     /**
      *
      * @access protected
+	 * @var array $recoverRouteParams
      */
     protected $recoverRouteParams;
 	
     /**
      *
      * @access protected
+	 * @var string $loginRoute
      */
     protected $loginRoute;
 	
     /**
      *
      * @access public
-     * @param $container, $router
+     * @param \Symfony\Bundle\FrameworkBundle\Routing\Router $router
+	 * @param \CCDNUser\SecurityBundle\Component\Authentication\Tracker\LoginFailureTracker $loginFailureTracker
+	 * @param bool $enableShield
+	 * @param array $blockRoutes
+	 * @param int $blockForMinutes
+	 * @param int $limitBeforeRecoverAccount
+	 * @param int $limitBeforeHttp500
+	 * @param string $recoverRoute
+	 * @param array $recoverRouteParams
+	 * @param string $loginRoute
      */
-    public function __construct($router, $loginFailureTracker, $enableShield, $blockRoutes, $blockForMinutes, $limitBeforeRecoverAccount, $limitBeforeHttp500, $recoverRoute, $recoverRouteParams, $loginRoute)
+    public function __construct(Router $router, LoginFailureTracker $loginFailureTracker, $enableShield, $blockRoutes, $blockForMinutes, $limitBeforeRecoverAccount, $limitBeforeHttp500, $recoverRoute, $recoverRouteParams, $loginRoute)
     {
         $this->router = $router;
 		$this->loginFailureTracker = $loginFailureTracker;
@@ -108,7 +129,7 @@ class BlockingLoginListener
      * in your session and the databse (incase session is dropped the record remains).
      *
      * @access public
-     * @param GetResponseEvent $event
+     * @param \Symfony\Component\HttpKernel\Event\GetResponseEvent $event
      */
     public function onKernelRequest(GetResponseEvent $event)
     {
