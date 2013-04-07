@@ -22,8 +22,24 @@ use Symfony\Component\HttpKernel\Event\GetResponseEvent;
  */
 class RouteRefererListener
 {
+	/**
+	 *
+	 * @access protected
+	 */
     protected $router;
+	
+	/**
+	 *
+	 * @access protected
+	 * @var array $routeIgnoreChain
+	 */
     protected $routeIgnoreChain;
+	
+	/**
+	 *
+	 * @access protected
+	 * @var array $routeIgnoreList
+	 */
     protected $routeIgnoreList;
 
     /**
@@ -48,7 +64,6 @@ class RouteRefererListener
      */
     public function onKernelRequest(GetResponseEvent $event)
     {
-
         // Abort if we are dealing with some symfony2 internal requests.
         if ($event->getRequestType() !== \Symfony\Component\HttpKernel\HttpKernel::MASTER_REQUEST) {
             return;
