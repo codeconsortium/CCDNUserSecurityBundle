@@ -20,6 +20,11 @@ use Symfony\Component\HttpFoundation\Request;
 
 use CCDNUser\SecurityBundle\Component\Authentication\Tracker\LoginFailureTracker;
 
+/**
+ *
+ * @author Reece Fowell <reece@codeconsortium.com>
+ * @version 1.0
+ */
 class ClientLoginVoter implements VoterInterface
 {
 	/**
