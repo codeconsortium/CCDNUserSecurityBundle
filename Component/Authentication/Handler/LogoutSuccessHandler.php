@@ -25,16 +25,6 @@ use Symfony\Component\HttpFoundation\Response;
  */
 class LogoutSuccessHandler implements LogoutSuccessHandlerInterface
 {
-
-    /**
-     *
-     * @access public
-     */
-    public function __construct()
-    {
-
-    }
-
     /**
      *
      * @access public
@@ -64,5 +54,4 @@ class LogoutSuccessHandler implements LogoutSuccessHandlerInterface
 
         return $response;
     }
-
 }

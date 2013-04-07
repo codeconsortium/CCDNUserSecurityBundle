@@ -13,19 +13,41 @@
 
 namespace CCDNUser\SecurityBundle\Manager;
 
-use CCDNUser\SecurityBundle\Entity\Session;
-
-use CCDNUser\SecurityBundle\Manager\ManagerInterface;
+use CCDNUser\SecurityBundle\Manager\BaseManagerInterface;
 use CCDNUser\SecurityBundle\Manager\BaseManager;
+
+use CCDNUser\SecurityBundle\Entity\Session;
 
 /**
  *
  * @author Reece Fowell <reece@codeconsortium.com>
  * @version 1.0
  */
-class SessionManager extends BaseManager implements ManagerInterface
+class SessionManager extends BaseManager implements BaseManagerInterface
 {
+    /**
+     *
+     * @access public
+     * @param string $ipAddress
+	 * @param string $timeLimit
+     * @return \CCDNUser\SecurityBundle\Manager\SessionManager
+     */
+	public function findAllByIpAddressAndLoginAttemptDate($ipAddress, $timeLimit)
+	{
+        $qb = $this->createSelectQuery(array('s'));
 
+		$params = array('1' => $ipAddress, '2' => $timeLimit);
+		
+		$qb
+            ->where($qb->expr()->andx(
+                $qb->expr()->eq('s.ipAddress', '?1'),
+                $qb->expr()->gt('s.loginAttemptDate', '?2'))
+			)
+		;
+
+		return $this->gateway->findSessions($qb, $params);
+	}
+	
     /**
      *
      * @access public
@@ -34,18 +56,17 @@ class SessionManager extends BaseManager implements ManagerInterface
      */
     public function newRecord($ipAddress, $username)
     {
-
         $session = new Session();
 
         $session->setIpAddress($ipAddress);
         $session->setLoginAttemptUsername($username);
         $session->setLoginAttemptDate(new \DateTime('now'));
 
-        $this->persist($session);
-
-        $this->flush();
+        $this
+			->persist($session)
+			->flush()
+		;
 
         return $this;
     }
-
 }

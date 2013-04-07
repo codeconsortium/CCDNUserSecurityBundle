@@ -24,32 +24,4 @@ use Doctrine\ORM\EntityRepository;
 class SessionRepository extends EntityRepository
 {
 
-    /**
-     *
-     * Find all records of failed login attempts by IP address.
-     *
-     * @access public
-     * @param string $ipAddress, $timeLimit
-     */
-    public function findByIpAddress($ipAddress, $timeLimit)
-    {
-
-        $qb = $this->getEntityManager()->createQueryBuilder();
-
-        $query = $qb->add('select', 's')
-            ->from('CCDNUserSecurityBundle:Session', 's')
-            ->where($qb->expr()->andx(
-                $qb->expr()->eq('s.ipAddress', '?1'),
-                $qb->expr()->gt('s.loginAttemptDate', '?2')))
-            ->setParameters(array('1' => $ipAddress, '2' => $timeLimit))
-            ->getQuery();
-
-        try {
-            return $query->getScalarResult();
-        } catch (\Doctrine\ORM\NoResultException $e) {
-            return null;
-        }
-
-    }
-
 }

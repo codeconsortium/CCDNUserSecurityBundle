@@ -20,7 +20,6 @@ namespace CCDNUser\SecurityBundle\Component\Listener\Chain;
  */
 class RouteRefererIgnoreChain
 {
-
     /**
      *
 	 * @access private
@@ -62,5 +61,4 @@ class RouteRefererIgnoreChain
 		
 		return $ignore;
     }
-
 }

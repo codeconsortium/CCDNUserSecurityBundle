@@ -26,16 +26,6 @@ use Symfony\Component\HttpFoundation\Response;
  */
 class LoginSuccessHandler implements AuthenticationSuccessHandlerInterface
 {
-
-    /**
-     *
-     * @access public
-     */
-    public function __construct()
-    {
-
-    }
-
     /**
      *
      * @access public
@@ -66,5 +56,4 @@ class LoginSuccessHandler implements AuthenticationSuccessHandlerInterface
 
         return $response;
     }
-
 }

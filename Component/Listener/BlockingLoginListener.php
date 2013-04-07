@@ -24,30 +24,83 @@ use Symfony\Component\HttpFoundation\RedirectResponse;
  */
 class BlockingLoginListener
 {
-
-    /**
-     *
-     * @access protected
-     */
-    protected $container;
-
     /**
      *
      * @access protected
      */
     protected $router;
-
+	
+    /**
+     *
+     * @access protected
+     */
+    protected $loginFailureTracker;
+	
+    /**
+     *
+     * @access protected
+     */
+    protected $enableShield;
+	
+    /**
+     *
+     * @access protected
+     */
+    protected $blockRoutes;
+	
+    /**
+     *
+     * @access protected
+     */
+    protected $blockForMinutes;
+	
+    /**
+     *
+     * @access protected
+     */
+    protected $limitBeforeRecover;
+	
+    /**
+     *
+     * @access protected
+     */
+    protected $limitBeforeHttp500;
+	
+    /**
+     *
+     * @access protected
+     */
+    protected $recoverRoute;
+	
+    /**
+     *
+     * @access protected
+     */
+    protected $recoverRouteParams;
+	
+    /**
+     *
+     * @access protected
+     */
+    protected $loginRoute;
+	
     /**
      *
      * @access public
      * @param $container, $router
      */
-    public function __construct($container, $router)
+    public function __construct($router, $loginFailureTracker, $enableShield, $blockRoutes, $blockForMinutes, $limitBeforeRecoverAccount, $limitBeforeHttp500, $recoverRoute, $recoverRouteParams, $loginRoute)
     {
-
-        $this->container = $container;
-
         $this->router = $router;
+		$this->loginFailureTracker = $loginFailureTracker;
+		$this->enableShield = $enableShield;
+		$this->blockRoutes = $blockRoutes;
+		$this->blockForMinutes = $blockForMinutes;
+		$this->limitBeforeRecoverAccount = $limitBeforeRecoverAccount;
+		$this->limitBeforeHttp500 = $limitBeforeHttp500;
+		$this->recoverRoute = $recoverRoute;
+		$this->recoverRouteParams = $recoverRouteParams;
+		$this->loginRoute = $loginRoute;		
     }
 
     /**
@@ -59,29 +112,24 @@ class BlockingLoginListener
      */
     public function onKernelRequest(GetResponseEvent $event)
     {
-
-        if ($this->container->getParameter('ccdn_user_security.login_shield.enable_shield')) {
+        if ($this->enableShield) {
             // Abort if we are dealing with some symfony2 internal requests.
             if ($event->getRequestType() !== \Symfony\Component\HttpKernel\HttpKernel::MASTER_REQUEST) {
                 return;
             }
 
             // Get the route from the request object.
-            $request = $this->container->get('request');
+			$request = $event->getRequest();
 
             $route = $request->get('_route');
 
-            $blockRoutes = $this->container->getParameter('ccdn_user_security.login_shield.block_routes_when_denied');
-
             // Abort if the route is not a login route.
-            if ( ! in_array($route, $blockRoutes)) {
+            if ( ! in_array($route, $this->blockRoutes)) {
                 return;
             }
 
             // Set a limit on how far back we want to look at failed login attempts.
-            $blockInMinutes = $this->container->getParameter('ccdn_user_security.login_shield.block_for_minutes');
-
-            $timeLimit = new \DateTime('-' . $blockInMinutes . ' minutes');
+            $timeLimit = new \DateTime('-' . $this->blockForMinutes . ' minutes');
 
             // Get session and check if it has any entries of failed logins.
             $session = $request->getSession();
@@ -89,44 +137,31 @@ class BlockingLoginListener
             $ipAddress = $request->getClientIp();
 
             // Get number of failed login attempts.
-            $tracker = $this->container->get('ccdn_user_security.component.authentication.tracker.login_failure_tracker');
+            $attempts = $this->loginFailureTracker->getAttempts($session, $ipAddress);
 
-            $attempts = $tracker->getAttempts($session, $ipAddress);
-
-            $attemptLimitRecoverAccount = $this->container->getParameter('ccdn_user_security.login_shield.limit_failed_login_attempts.before_recover_account');
-            $attemptLimitReturnHttp500 = $this->container->getParameter('ccdn_user_security.login_shield.limit_failed_login_attempts.before_return_http_500');
-
-            if (count($attempts) > ($attemptLimitRecoverAccount -1)) {
-                // Prepare a redirect
-                $recoverAccountRouteName = $this->container->getParameter('ccdn_user_security.login_shield.recover_account_route.name');
-                $recoverAccountRouteParams = $this->container->getParameter('ccdn_user_security.login_shield.recover_account_route.params');
-
+            if (count($attempts) > ($this->limitBeforeRecoverAccount -1)) {
                 // Only continue incrementing if on the account recovery page
                 // because the counter won't increase from the loginFailureHandler.
-                $loginRouteName = $this->container->getParameter('ccdn_user_security.login_shield.primary_login_route.name');
+                if ($route == $this->loginRoute) {
+                    $this->loginFailureTracker->addAttempt($session, $ipAddress, '');
 
-                if ($route == $loginRouteName) {
-                    $tracker->addAttempt($session, $ipAddress, '');
-
-                    $attempts = $tracker->getAttempts($session, $ipAddress);
+                    $attempts = $this->loginFailureTracker->getAttempts($session, $ipAddress);
                 }
 
                 // Block the page when continuing to bypass the block.
-                if (count($attempts) < ($attemptLimitReturnHttp500 + 1)) {
+                if (count($attempts) < ($this->limitBeforeHttp500 + 1)) {
 
-                    $event->setResponse(new RedirectResponse($this->container->get('router')->generate($recoverAccountRouteName, $recoverAccountRouteParams)));
+                    $event->setResponse(new RedirectResponse($this->router->generate($this->recoverRouteName, $this->recoverRouteParams)));
 
                     return;
                 }
 
                 // In severe cases, block for a while.
                 //	$this->container->get('kernel')->shutdown();
-
                 throw new HttpException(500, 'flood control - login blocked');
             }
         }
 
         return;
     }
-
 }

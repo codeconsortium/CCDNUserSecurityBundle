@@ -13,43 +13,128 @@
 
 namespace CCDNUser\SecurityBundle\Manager;
 
+use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Security\Core\SecurityContext;
+
+use Doctrine\Bundle\DoctrineBundle\Registry;
+use Doctrine\ORM\QueryBuilder;
+
+use CCDNUser\SecurityBundle\Manager\BaseManagerInterface;
+use CCDNUser\SecurityBundle\Gateway\BaseGatewayInterface;
+
 /**
  *
  * @author Reece Fowell <reece@codeconsortium.com>
  * @version 1.0
  */
-class BaseManager
+abstract class BaseManager implements BaseManagerInterface
 {
-	
 	/**
 	 *
 	 * @access protected
+	 * @var \Doctrine\Bundle\DoctrineBundle\Registry $doctrine
 	 */
     protected $doctrine;
 
 	/**
 	 *
 	 * @access protected
+	 * @var \Doctrine\ORM\EntityManager $em
 	 */
     protected $em;
 
 	/**
 	 *
-	 * @access public
-	 * @param $doctrine
+	 * @access protected
+	 * @var \CCDNUser\SecurityBundle\Manager\BaseManagerInterface $gateway
 	 */
-    public function __construct($doctrine)
+    protected $gateway;
+	
+	/**
+	 *
+	 * @access public
+	 * @param \Doctrine\Bundle\DoctrineBundle\Registry $doctrine
+	 * @param \CCDNUser\SecurityBundle\Gateway\BaseGatewayInterface $gateway
+	 */
+    public function __construct(Registry $doctrine, BaseGatewayInterface $gateway)
     {
         $this->doctrine = $doctrine;
 
         $this->em = $doctrine->getEntityManager();
+		
+		$this->gateway = $gateway;
     }
 
 	/**
 	 *
 	 * @access public
+	 * @return \CCDNUser\SecurityBundle\Gateway\BaseGatewayInterface
+	 */
+	public function getGateway()
+	{
+		return $this->gateway;
+	}
+
+	/**
+	 *
+	 * @access public
+	 * @return \Doctrine\ORM\QueryBuilder
+	 */	
+	public function getQueryBuilder()
+	{
+		return $this->gateway->getQueryBuilder();
+	}
+	
+	/**
+	 *
+	 * @access public
+	 * @param string $column = null
+	 * @param Array $aliases = null
+	 * @return \Doctrine\Common\Collections\ArrayCollection
+	 */	
+	public function createCountQuery($column = null, Array $aliases = null)
+	{
+		return $this->gateway->createCountQuery($column, $aliases);
+	}
+		
+	/**
+	 *
+	 * @access public
+	 * @param Array $aliases = null
+	 * @return \Doctrine\Common\Collections\ArrayCollection
+	 */	
+	public function createSelectQuery(Array $aliases = null)
+	{
+		return $this->gateway->createSelectQuery($aliases);
+	}
+	
+	/**
+	 *
+	 * @access public
+	 * @param \Doctrine\ORM\QueryBuilder $qb
+	 * @return \Doctrine\Common\Collections\ArrayCollection
+	 */	
+	public function one(QueryBuilder $qb)
+	{
+		return $this->gateway->one($qb);
+	}
+	
+	/**
+	 *
+	 * @access public
+	 * @param \Doctrine\ORM\QueryBuilder $qb
+	 * @return \Doctrine\ORM\QueryBuilder
+	 */	
+	public function all(QueryBuilder $qb)
+	{
+		return $this->gateway->all($qb);
+	}
+	
+	/**
+	 *
+	 * @access public
 	 * @param $entity
-	 * @return self
+	 * @return \CCDNUser\SecurityBundle\Manager\BaseManagerInterface
 	 */
     public function persist($entity)
     {
@@ -62,7 +147,7 @@ class BaseManager
 	 *
 	 * @access public
 	 * @param $entity
-	 * @return self
+	 * @return \CCDNUser\SecurityBundle\Manager\BaseManagerInterface
 	 */
     public function remove($entity)
     {
@@ -74,7 +159,7 @@ class BaseManager
 	/**
 	 *
 	 * @access public
-	 * @return self
+	 * @return \CCDNUser\SecurityBundle\Manager\BaseManagerInterface
 	 */
     public function flush()
     {
@@ -87,7 +172,7 @@ class BaseManager
 	 *
 	 * @access public
 	 * @param $entity
-	 * @return self
+	 * @return \CCDNUser\SecurityBundle\Manager\BaseManagerInterface
 	 */
     public function refresh($entity)
     {
@@ -95,5 +180,4 @@ class BaseManager
 
         return $this;
     }
-
 }

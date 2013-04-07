@@ -20,37 +20,41 @@ namespace CCDNUser\SecurityBundle\Component\Authentication\Tracker;
  */
 class LoginFailureTracker
 {
-
     /**
      *
      * @access protected
      */
-    protected $container;
+    protected $sessionManager;
+	
+    /**
+     *
+     * @access protected
+     */
+	protected $blockForMinutes;
 
     /**
      *
      * @access public
-     * @param $router, $container
+     * @param $sessionManager
+	 * @param $blockForMinutes
      */
-    public function __construct($container)
+    public function __construct($sessionManager, $blockForMinutes)
     {
-
-        $this->container = $container;
+		$this->sessionManager = $sessionManager;
+		$this->blockForMinutes = $blockForMinutes;
     }
 
     /**
      *
      * @access public
-     * @param $session, $ipAddress
+     * @param $session
+	 * @param string $ipAddress
      * @return array
      */
     public function getAttempts($session, $ipAddress)
     {
-
         // Set a limit on how far back we want to look at failed login attempts.
-        $blockInMinutes = $this->container->getParameter('ccdn_user_security.login_shield.block_for_minutes');
-
-        $timeLimit = new \DateTime('-' . $blockInMinutes . ' minutes');
+        $timeLimit = new \DateTime('-' . $this->blockForMinutes . ' minutes');
 
         // Only load from the db if the session is not found.
         if ($session->has('auth_failed')) {
@@ -75,7 +79,7 @@ class LoginFailureTracker
 
         } else {
 
-            $attempts = $this->container->get('ccdn_user_security.session.repository')->findByIpAddress($ipAddress, $timeLimit);
+            $attempts = $this->sessionManager->findAllByIpAddressAndLoginAttemptDate($ipAddress, $timeLimit);
         }
 
         return $attempts;
@@ -84,24 +88,21 @@ class LoginFailureTracker
     /**
      *
      * @access public
-     * @param Session $session, string $ipAddress, string $username
+     * @param Session $session
+	 * @param string $ipAddress
+	 * @param string $username
      */
     public function addAttempt($session, $ipAddress, $username)
     {
-
         // Make a note of the failed login.
-        $this->container->get('ccdn_user_security.session.manager')->newRecord($ipAddress, $username);
+        $this->sessionManager->newRecord($ipAddress, $username);
 
         // Set a limit on how far back we want to look at failed login attempts.
-        $blockInMinutes = $this->container->getParameter('ccdn_user_security.login_shield.block_for_minutes');
-
-        $timeLimit = new \DateTime('-' . $blockInMinutes . ' minutes');
+        $timeLimit = new \DateTime('-' . $this->blockForMinutes . ' minutes');
 
         // Update attempts list, because the loginFailureHandler will likely never get called now.
-        $attempts = $this->container->get('ccdn_user_security.session.repository')->findByIpAddress($ipAddress, $timeLimit);
+        $attempts = $this->sessionManager->findAllByIpAddressAndLoginAttemptDate($ipAddress, $timeLimit);
 
         $session->set('auth_failed', $attempts);
-
     }
-
 }

@@ -27,22 +27,52 @@ use Symfony\Component\HttpFoundation\Response;
  */
 class LoginFailureHandler implements AuthenticationFailureHandlerInterface
 {
-
     /**
      *
      * @access protected
      */
-    protected $container;
-
+    protected $loginFailureTracker;
+	
+    /**
+     *
+     * @access protected
+     */
+    protected $enableShield;
+	
+    /**
+     *
+     * @access protected
+     */
+    protected $loginRoute;
+	
+    /**
+     *
+     * @access protected
+     */
+    protected $loginRouteParams;
+	
+    /**
+     *
+     * @access protected
+     */
+    protected $router;
+	
     /**
      *
      * @access public
-     * @param Container $container
+     * @param $router
+	 * @param $loginFailureTracker
+	 * @param $enableShield
+	 * @param $loginRoute
+	 * @param $loginRouteParams
      */
-    public function __construct($container)
+    public function __construct($router, $loginFailureTracker, $enableShield, $loginRoute, $loginRouteParams)
     {
-
-        $this->container = $container;
+		$this->router = $router;
+		$this->loginFailureTracker = $loginFailureTracker;
+		$this->enableShield = $enableShield;
+		$this->loginRoute = $loginRoute;
+		$this->loginRouteParams = $loginRouteParams;
     }
 
     /**
@@ -52,49 +82,45 @@ class LoginFailureHandler implements AuthenticationFailureHandlerInterface
      */
     public function onAuthenticationFailure(Request $request, AuthenticationException $exception)
     {
-
-        if ($this->container->getParameter('ccdn_user_security.login_shield.enable_shield')) {
-
+        if ($this->enableShield) {
             // Get the attempted username.
-            $token = $exception->getExtraInformation();
-
-            if (preg_match('/user="(?:[a-zA-Z0-9_]*)"/', $token, $tokenUsername)) {
-                if ($tokenUsername[0] !== '' || $tokenUsername[0] !== null) {
-
-                    if (preg_match('/([a-zA-Z0-9_]*)/', $tokenUsername[0])) {
-                        $username = substr($tokenUsername[0], 6, -1);
-                    } else {
-                        $username = '';
-                    }
-                } else {
-                    $username = '';
-                }
-            } else {
-                $username = '';
-            }
-
+			if ($request->request->has('_username')) {
+				$username = $request->request->get('_username');				
+			} else {
+				$username = '';
+			}
+			
             // Get our visitors Session & IP address.
             $session = $request->getSession();
 
             $ipAddress = $request->getClientIp();
 
             // Make a note of the failed login.
-            $tracker = $this->container->get('ccdn_user_security.component.authentication.tracker.login_failure_tracker');
-
-            $tracker->addAttempt($session, $ipAddress, $username);
+            $this->loginFailureTracker->addAttempt($session, $ipAddress, $username);
 
             $session->set(SecurityContext::AUTHENTICATION_ERROR, $exception);
         }
 
         if ($request->isXmlHttpRequest() || $request->request->get('_format') === 'json') {
-            $response = new Response(json_encode(array('status' => 'failed', 'errors' => array($exception->getMessage()))));
+            $response = new Response(
+				json_encode(
+					array(
+						'status' => 'failed',
+						'errors' => array($exception->getMessage())
+					)
+				)
+			);
+			
             $response->headers->set('Content-Type', 'application/json');
+			
             return $response;
         } else {
-            return new RedirectResponse($this->container->get('router')->generate(
-                $this->container->getParameter('ccdn_user_security.login_shield.primary_login_route.name'),
-                $this->container->getParameter('ccdn_user_security.login_shield.primary_login_route.params')));
+            return new RedirectResponse(
+				$this->router->generate(
+	                $this->loginRoute,
+	                $this->loginRouteParams
+				)
+			);
         }
     }
-
 }

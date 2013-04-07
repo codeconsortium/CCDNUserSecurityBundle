@@ -81,5 +81,4 @@ class RouteRefererListener
 
         $session->set('referer', $script . $request->getPathInfo());
     }
-
 }

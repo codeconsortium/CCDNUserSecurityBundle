@@ -21,16 +21,60 @@ use Symfony\Component\HttpFoundation\Request;
 
 class ClientLoginVoter implements VoterInterface
 {
-
+	/**
+	 *
+	 * @access protected
+	 */
+	protected $container;
+	
+	/**
+	 *
+	 * @access protected
+	 */
+	protected $loginFailureTracker;
+	
+	/**
+	 *
+	 * @access protected
+	 */
+	protected $enableShield;
+	
+	/**
+	 *
+	 * @access protected
+	 */
+	protected $blockRoutes;
+	
+	/**
+	 *
+	 * @access protected
+	 */
+	protected $blockForMinutes;
+	
+	/**
+	 *
+	 * @access protected
+	 */
+	protected $limitBeforeHttp500;
+	
 	/**
 	 *
 	 * @access public
-	 * @param ContainerInterface $container, array $blackListedIp
+	 * @param $request
+	 * @param $loginFailureTracker
+	 * @param $enableShield
+	 * @param $blockRoutes
+	 * @param $blockForMinutes
+	 * @param $limitBeforeHttp500
 	 */
-    public function __construct(ContainerInterface $container, array $blacklistedIp = array())
+    public function __construct(ContainerInterface $container, $loginFailureTracker, $enableShield, $blockRoutes, $blockForMinutes, $limitBeforeHttp500)
     {
-        $this->container     = $container;
-        $this->blacklistedIp = $blacklistedIp;
+		$this->container = $container;
+		$this->loginFailureTracker = $loginFailureTracker;
+		$this->enableShield = $enableShield;
+		$this->blockRoutes = $blockRoutes;
+		$this->blockForMinutes = $blockForMinutes;
+		$this->limitBeforeHttp500 = $limitBeforeHttp500;
     }
 
 	/**
@@ -41,7 +85,6 @@ class ClientLoginVoter implements VoterInterface
 	 */
     public function supportsAttribute($attribute)
     {
-
         // we won't check against a user attribute, so we return true
         return true;
     }
@@ -55,7 +98,6 @@ class ClientLoginVoter implements VoterInterface
 	 */
     public function supportsClass($class)
     {
-
         // our voter supports all type of token classes, so we return true
         return true;
     }
@@ -63,28 +105,25 @@ class ClientLoginVoter implements VoterInterface
 	/**
 	 *
 	 * @access public
-	 * @param TokenInterface $token, object $object, array $attributes
+	 * @param TokenInterface $token
+	 * @param object $object
+	 * @param array $attributes
 	 * @return int
 	 */
     public function vote(TokenInterface $token, $object, array $attributes)
     {
-
-        if ($this->container->getParameter('ccdn_user_security.login_shield.enable_shield')) {
-            $request = $this->container->get('request');
-
+        if ($this->enableShield) {
+			$request = $this->container->get('request');
+			
             $route = $request->get('_route');
 
-            $blockRoutes = $this->container->getParameter('ccdn_user_security.login_shield.block_routes_when_denied');
-
             // Abort if the route is not a login route.
-            if ( ! in_array($route, $blockRoutes)) {
+            if ( ! in_array($route, $this->blockRoutes)) {
                 return VoterInterface::ACCESS_ABSTAIN;
             }
 
             // Set a limit on how far back we want to look at failed login attempts.
-            $blockInMinutes = $this->container->getParameter('ccdn_user_security.login_shield.block_for_minutes');
-
-            $timeLimit = new \DateTime('-' . $blockInMinutes . ' minutes');
+            $timeLimit = new \DateTime('-' . $this->blockForMinutes . ' minutes');
 
             // Get session and check if it has any entries of failed logins.
             $session = $request->getSession();
@@ -92,18 +131,13 @@ class ClientLoginVoter implements VoterInterface
             $ipAddress = $request->getClientIp();
 
             // Get number of failed login attempts.
-            $tracker = $this->container->get('ccdn_user_security.component.authentication.tracker.login_failure_tracker');
+            $attempts = $this->loginFailureTracker->getAttempts($session, $ipAddress);
 
-            $attempts = $tracker->getAttempts($session, $ipAddress);
-
-            $attemptLimitReturnHttp500 = $this->container->getParameter('ccdn_user_security.login_shield.limit_failed_login_attempts.before_return_http_500');
-
-            if (count($attempts) > $attemptLimitReturnHttp500) {
+            if (count($attempts) > $this->limitBeforeHttp500) {
                 return VoterInterface::ACCESS_DENIED;
             }
         }
 
         return VoterInterface::ACCESS_ABSTAIN;
     }
-
 }
