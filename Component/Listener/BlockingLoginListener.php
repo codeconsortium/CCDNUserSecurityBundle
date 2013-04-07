@@ -172,7 +172,7 @@ class BlockingLoginListener
                 // Block the page when continuing to bypass the block.
                 if (count($attempts) < ($this->limitBeforeHttp500 + 1)) {
 
-                    $event->setResponse(new RedirectResponse($this->router->generate($this->recoverRouteName, $this->recoverRouteParams)));
+                    $event->setResponse(new RedirectResponse($this->router->generate($this->recoverRoute, $this->recoverRouteParams)));
 
                     return;
                 }

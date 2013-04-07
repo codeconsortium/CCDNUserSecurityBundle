@@ -101,7 +101,6 @@ class ClientLoginVoter implements VoterInterface
         return true;
     }
 
-
 	/**
 	 *
 	 * @access public
@@ -144,7 +143,7 @@ class ClientLoginVoter implements VoterInterface
 
             // Get number of failed login attempts.
             $attempts = $this->loginFailureTracker->getAttempts($session, $ipAddress);
-
+			
             if (count($attempts) > $this->limitBeforeHttp500) {
                 return VoterInterface::ACCESS_DENIED;
             }

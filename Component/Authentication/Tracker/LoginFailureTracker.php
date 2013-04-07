@@ -60,7 +60,7 @@ class LoginFailureTracker
     {
         // Set a limit on how far back we want to look at failed login attempts.
         $timeLimit = new \DateTime('-' . $this->blockForMinutes . ' minutes');
-
+		
         // Only load from the db if the session is not found.
         if ($session->has('auth_failed')) {
             $attempts = $session->get('auth_failed');
@@ -71,19 +71,15 @@ class LoginFailureTracker
             $limit = $timeLimit->getTimestamp();
 
             foreach ($attempts as $attempt) {
-                if (array_key_exists('s_loginAttemptDate', $attempt)) {
-                    $date = $attempt['s_loginAttemptDate']->getTimestamp();
+                $date = $attempt->getLoginAttemptDate()->getTimestamp();
 
-                    if ($date > $limit) {
-                        $freshenedAttempts[] = $attempt;
-                    }
+                if ($date > $limit) {
+                    $freshenedAttempts[] = $attempt;
                 }
             }
-
+			
             $attempts = $freshenedAttempts;
-
         } else {
-
             $attempts = $this->sessionManager->findAllByIpAddressAndLoginAttemptDate($ipAddress, $timeLimit);
         }
 
