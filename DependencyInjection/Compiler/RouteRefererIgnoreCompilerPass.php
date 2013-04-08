@@ -27,7 +27,7 @@ class RouteRefererIgnoreCompilerPass implements CompilerPassInterface
     /**
      *
      * @access public
- 	 * @param ContainerBuilder $container
+     * @param ContainerBuilder $container
      */
     public function process(ContainerBuilder $container)
     {
