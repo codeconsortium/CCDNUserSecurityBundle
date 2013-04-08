@@ -35,17 +35,96 @@ class Configuration implements ConfigurationInterface
         $treeBuilder = new TreeBuilder();
         $rootNode = $treeBuilder->root('ccdn_user_security');
 
-        // Here you should define the parameters that are allowed to
-        // configure your bundle. See the documentation linked above for
-        // more information on that topic.
-        $rootNode;
-
+		// Class file namespaces.
+		$this->addEntitySection($rootNode);
+		$this->addGatewaySection($rootNode);
+		$this->addManagerSection($rootNode);
+		
+		// Configuration stuff.
         $this->addRouteRefererSection($rootNode);
         $this->addLoginShieldSection($rootNode);
 
         return $treeBuilder;
     }
 
+    /**
+     *
+     * @access private
+     * @param ArrayNodeDefinition $node
+     */
+    private function addEntitySection(ArrayNodeDefinition $node)
+	{
+        $node
+            ->addDefaultsIfNotSet()
+            ->children()
+                ->arrayNode('entity')
+                    ->addDefaultsIfNotSet()
+                    ->canBeUnset()
+                    ->children()
+				        ->arrayNode('session')
+		                    ->addDefaultsIfNotSet()
+		                    ->canBeUnset()
+				            ->children()
+								->scalarNode('class')->defaultValue('CCDNUser\SecurityBundle\Entity\Session')->end()
+							->end()
+						->end()
+					->end()
+				->end()
+			->end();
+	}
+	
+    /**
+     *
+     * @access private
+     * @param ArrayNodeDefinition $node
+     */
+    private function addGatewaySection(ArrayNodeDefinition $node)
+    {
+        $node
+            ->addDefaultsIfNotSet()
+            ->children()
+                ->arrayNode('gateway')
+                    ->addDefaultsIfNotSet()
+                    ->canBeUnset()
+                    ->children()
+                        ->arrayNode('session')
+		                    ->addDefaultsIfNotSet()
+		                    ->canBeUnset()
+                            ->children()
+								->scalarNode('class')->defaultValue('CCDNUser\SecurityBundle\Gateway\SessionGateway')->end()							
+							->end()
+						->end()
+					->end()
+				->end()
+			->end();
+	}
+	
+    /**
+     *
+     * @access private
+     * @param ArrayNodeDefinition $node
+     */
+    private function addManagerSection(ArrayNodeDefinition $node)
+    {
+        $node
+            ->addDefaultsIfNotSet()
+            ->children()
+                ->arrayNode('manager')
+                    ->addDefaultsIfNotSet()
+                    ->canBeUnset()
+                    ->children()
+                        ->arrayNode('session')
+		                    ->addDefaultsIfNotSet()
+		                    ->canBeUnset()
+                            ->children()
+								->scalarNode('class')->defaultValue('CCDNUser\SecurityBundle\Manager\SessionManager')->end()							
+							->end()
+						->end()
+					->end()
+				->end()
+			->end();
+	}
+	
     /**
      *
      * @access private

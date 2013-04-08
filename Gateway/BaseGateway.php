@@ -28,6 +28,13 @@ abstract class BaseGateway implements BaseGatewayInterface
 {
 	/**
 	 *
+	 * @access private
+	 * @var string $entityClass
+	 */
+	protected $entityClass;
+	
+	/**
+	 *
 	 * @access protected
 	 * @var \Doctrine\Bundle\DoctrineBundle\Registry $doctrine
 	 */
@@ -44,12 +51,15 @@ abstract class BaseGateway implements BaseGatewayInterface
 	 *
 	 * @access public
 	 * @param \Doctrine\Bundle\DoctrineBundle\Registry $doctrine
+	 * @param string $entityClass
 	 */
-	public function __construct(Registry $doctrine)
+	public function __construct(Registry $doctrine, $entityClass)
 	{
 		$this->doctrine = $doctrine;
 		
-		$this->em = $doctrine->getEntityManager();		
+		$this->em = $doctrine->getEntityManager();
+		
+		$this->entityClass = $entityClass;
 	}
 
 	/**

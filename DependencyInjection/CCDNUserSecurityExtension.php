@@ -44,13 +44,50 @@ class CCDNUserSecurityExtension extends Extension
         $configuration = new Configuration();
         $config = $this->processConfiguration($configuration, $configs);
 
+		// Class file namespaces.
+        $this->getEntitySection($container, $config);
+        $this->getGatewaySection($container, $config);
+        $this->getManagerSection($container, $config);
+		
+		// Configuration stuff.
         $this->getRouteRefererSection($container, $config);
         $this->getLoginShieldSection($container, $config);
 
+		// Load Service definitions.
         $loader = new Loader\YamlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
         $loader->load('services.yml');
     }
 
+    /**
+     *
+     * @access private
+     * @param $container, $config
+     */
+    private function getEntitySection($container, $config)
+    {
+        $container->setParameter('ccdn_user_security.entity.session.class', $config['entity']['session']['class']);				
+	}
+	
+    /**
+     *
+     * @access private
+     * @param $container, $config
+     */
+    private function getGatewaySection($container, $config)
+    {
+        $container->setParameter('ccdn_user_security.gateway.session.class', $config['gateway']['session']['class']);
+	}
+	
+    /**
+     *
+     * @access private
+     * @param $container, $config
+     */
+    private function getManagerSection($container, $config)
+    {
+        $container->setParameter('ccdn_user_security.manager.session.class', $config['manager']['session']['class']);		
+	}
+	
     /**
      *
      * @access private

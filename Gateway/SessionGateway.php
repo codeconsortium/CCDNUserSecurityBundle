@@ -32,13 +32,6 @@ class SessionGateway extends BaseGateway implements BaseGatewayInterface
 	/**
 	 *
 	 * @access private
-	 * @var string $entityClass
-	 */
-	private $entityClass = 'CCDNUser\SecurityBundle\Entity\Session';
-	
-	/**
-	 *
-	 * @access private
 	 * @var string $queryAlias
 	 */
 	private $queryAlias = 's';
