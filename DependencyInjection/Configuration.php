@@ -37,8 +37,10 @@ class Configuration implements ConfigurationInterface
 
 		// Class file namespaces.
 		$this->addEntitySection($rootNode);
+		$this->addRepositorySection($rootNode);
 		$this->addGatewaySection($rootNode);
 		$this->addManagerSection($rootNode);
+		$this->addComponentSection($rootNode);
 		
 		// Configuration stuff.
         $this->addRouteRefererSection($rootNode);
@@ -50,7 +52,7 @@ class Configuration implements ConfigurationInterface
     /**
      *
      * @access private
-     * @param ArrayNodeDefinition $node
+     * @param \Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition $node
      */
     private function addEntitySection(ArrayNodeDefinition $node)
 	{
@@ -76,7 +78,33 @@ class Configuration implements ConfigurationInterface
     /**
      *
      * @access private
-     * @param ArrayNodeDefinition $node
+     * @param \Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition $node
+     */
+    private function addRepositorySection(ArrayNodeDefinition $node)
+    {
+        $node
+            ->addDefaultsIfNotSet()
+            ->children()
+                ->arrayNode('repository')
+                    ->addDefaultsIfNotSet()
+                    ->canBeUnset()
+                    ->children()
+                        ->arrayNode('session')
+		                    ->addDefaultsIfNotSet()
+		                    ->canBeUnset()
+                            ->children()
+								->scalarNode('class')->defaultValue('CCDNUser\SecurityBundle\Repository\SessionRepository')->end()							
+							->end()
+						->end()
+					->end()
+				->end()
+			->end();
+	}
+	
+    /**
+     *
+     * @access private
+     * @param \Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition $node
      */
     private function addGatewaySection(ArrayNodeDefinition $node)
     {
@@ -102,7 +130,7 @@ class Configuration implements ConfigurationInterface
     /**
      *
      * @access private
-     * @param ArrayNodeDefinition $node
+     * @param \Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition $node
      */
     private function addManagerSection(ArrayNodeDefinition $node)
     {
@@ -128,7 +156,124 @@ class Configuration implements ConfigurationInterface
     /**
      *
      * @access private
-     * @param ArrayNodeDefinition $node
+     * @param \Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition $node
+     */
+    private function addComponentSection(ArrayNodeDefinition $node)
+    {
+        $node
+            ->addDefaultsIfNotSet()
+            ->children()
+                ->arrayNode('component')
+                    ->addDefaultsIfNotSet()
+                    ->canBeUnset()
+                    ->children()
+                        ->arrayNode('authentication')
+		                    ->addDefaultsIfNotSet()
+		                    ->canBeUnset()
+                            ->children()
+		                        ->arrayNode('handler')
+				                    ->addDefaultsIfNotSet()
+				                    ->canBeUnset()
+		                            ->children()
+				                        ->arrayNode('login_failure_handler')
+						                    ->addDefaultsIfNotSet()
+						                    ->canBeUnset()
+				                            ->children()
+												->scalarNode('class')->defaultValue('CCDNUser\SecurityBundle\Component\Authentication\Handler\LoginFailureHandler')->end()							
+											->end()
+										->end()
+				                        ->arrayNode('login_success_handler')
+						                    ->addDefaultsIfNotSet()
+						                    ->canBeUnset()
+				                            ->children()
+												->scalarNode('class')->defaultValue('CCDNUser\SecurityBundle\Component\Authentication\Handler\LoginSuccessHandler')->end()							
+											->end()
+										->end()
+				                        ->arrayNode('logout_success_handler')
+						                    ->addDefaultsIfNotSet()
+						                    ->canBeUnset()
+				                            ->children()
+												->scalarNode('class')->defaultValue('CCDNUser\SecurityBundle\Component\Authentication\Handler\LogoutSuccessHandler')->end()							
+											->end()
+										->end()
+									->end()
+								->end()
+		                        ->arrayNode('tracker')
+				                    ->addDefaultsIfNotSet()
+				                    ->canBeUnset()
+		                            ->children()
+				                        ->arrayNode('login_failure_tracker')
+						                    ->addDefaultsIfNotSet()
+						                    ->canBeUnset()
+				                            ->children()
+												->scalarNode('class')->defaultValue('CCDNUser\SecurityBundle\Component\Authentication\Tracker\LoginFailureTracker')->end()							
+											->end()
+										->end()
+									->end()
+								->end()
+							->end()
+						->end()
+                        ->arrayNode('authorisation')
+		                    ->addDefaultsIfNotSet()
+		                    ->canBeUnset()
+                            ->children()
+		                        ->arrayNode('voter')
+				                    ->addDefaultsIfNotSet()
+				                    ->canBeUnset()
+		                            ->children()
+				                        ->arrayNode('client_login_voter')
+						                    ->addDefaultsIfNotSet()
+						                    ->canBeUnset()
+				                            ->children()
+												->scalarNode('class')->defaultValue('CCDNUser\SecurityBundle\Component\Authorisation\Voter\ClientLoginVoter')->end()							
+											->end()										
+										->end()
+									->end()										
+								->end()
+							->end()										
+						->end()
+                        ->arrayNode('listener')
+		                    ->addDefaultsIfNotSet()
+		                    ->canBeUnset()
+                            ->children()
+		                        ->arrayNode('route_referer_listener')
+				                    ->addDefaultsIfNotSet()
+				                    ->canBeUnset()
+		                            ->children()
+										->scalarNode('class')->defaultValue('CCDNUser\SecurityBundle\Component\Listener\RouteRefererListener')->end()
+									->end()										
+								->end()
+		                        ->arrayNode('blocking_login_listener')
+				                    ->addDefaultsIfNotSet()
+				                    ->canBeUnset()
+		                            ->children()
+										->scalarNode('class')->defaultValue('CCDNUser\SecurityBundle\Component\Listener\BlockingLoginListener')->end()
+									->end()										
+								->end()
+							->end()										
+						->end()
+                        ->arrayNode('route_referer_ignore')
+		                    ->addDefaultsIfNotSet()
+		                    ->canBeUnset()
+                            ->children()
+		                        ->arrayNode('chain')
+				                    ->addDefaultsIfNotSet()
+				                    ->canBeUnset()
+		                            ->children()
+										->scalarNode('class')->defaultValue('CCDNUser\SecurityBundle\Component\Listener\Chain\RouteRefererIgnoreChain')->end()
+									->end()										
+								->end()
+							->end()										
+						->end()
+					->end()
+				->end()
+			->end();
+	}
+	
+    /**
+     *
+     * @access private
+     * @param \Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition $node
      */
     private function addRouteRefererSection(ArrayNodeDefinition $node)
     {
@@ -166,7 +311,7 @@ class Configuration implements ConfigurationInterface
     /**
      *
      * @access private
-     * @param ArrayNodeDefinition $node
+     * @param \Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition $node
      */
     private function addLoginShieldSection(ArrayNodeDefinition $node)
     {
