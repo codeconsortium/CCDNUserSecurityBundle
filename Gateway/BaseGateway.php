@@ -65,6 +65,16 @@ abstract class BaseGateway implements BaseGatewayInterface
 	/**
 	 *
 	 * @access public
+	 * @return string
+	 */
+	public function getEntityClass()
+	{
+		return $this->entityClass;
+	}
+	
+	/**
+	 *
+	 * @access public
 	 * @return \Doctrine\ORM\QueryBuilder
 	 */	
 	public function getQueryBuilder()

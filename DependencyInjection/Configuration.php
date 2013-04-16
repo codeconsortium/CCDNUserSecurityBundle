@@ -28,7 +28,9 @@ use Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition;
 class Configuration implements ConfigurationInterface
 {
     /**
-     * {@inheritDoc}
+     *
+	 * @access public
+	 * @return \Symfony\Component\Config\Definition\Builder\TreeBuilder
      */
     public function getConfigTreeBuilder()
     {
@@ -36,15 +38,19 @@ class Configuration implements ConfigurationInterface
         $rootNode = $treeBuilder->root('ccdn_user_security');
 
 		// Class file namespaces.
-		$this->addEntitySection($rootNode);
-		$this->addRepositorySection($rootNode);
-		$this->addGatewaySection($rootNode);
-		$this->addManagerSection($rootNode);
-		$this->addComponentSection($rootNode);
+		$this
+			->addEntitySection($rootNode)
+			->addRepositorySection($rootNode)
+			->addGatewaySection($rootNode)
+			->addManagerSection($rootNode)
+			->addComponentSection($rootNode)
+		;
 		
 		// Configuration stuff.
-        $this->addRouteRefererSection($rootNode);
-        $this->addLoginShieldSection($rootNode);
+        $this
+			->addRouteRefererSection($rootNode)
+	        ->addLoginShieldSection($rootNode)
+		;
 
         return $treeBuilder;
     }
@@ -53,6 +59,7 @@ class Configuration implements ConfigurationInterface
      *
      * @access private
      * @param \Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition $node
+	 * @return \CCDNUser\SecurityBundle\DependencyInjection\Configuration
      */
     private function addEntitySection(ArrayNodeDefinition $node)
 	{
@@ -72,13 +79,17 @@ class Configuration implements ConfigurationInterface
 						->end()
 					->end()
 				->end()
-			->end();
+			->end()
+		;
+		
+		return $this;
 	}
 	
     /**
      *
      * @access private
      * @param \Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition $node
+	 * @return \CCDNUser\SecurityBundle\DependencyInjection\Configuration
      */
     private function addRepositorySection(ArrayNodeDefinition $node)
     {
@@ -98,13 +109,17 @@ class Configuration implements ConfigurationInterface
 						->end()
 					->end()
 				->end()
-			->end();
+			->end()
+		;
+		
+		return $this;
 	}
 	
     /**
      *
      * @access private
      * @param \Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition $node
+	 * @return \CCDNUser\SecurityBundle\DependencyInjection\Configuration
      */
     private function addGatewaySection(ArrayNodeDefinition $node)
     {
@@ -124,13 +139,17 @@ class Configuration implements ConfigurationInterface
 						->end()
 					->end()
 				->end()
-			->end();
+			->end()
+		;
+		
+		return $this;
 	}
 	
     /**
      *
      * @access private
      * @param \Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition $node
+	 * @return \CCDNUser\SecurityBundle\DependencyInjection\Configuration
      */
     private function addManagerSection(ArrayNodeDefinition $node)
     {
@@ -150,13 +169,17 @@ class Configuration implements ConfigurationInterface
 						->end()
 					->end()
 				->end()
-			->end();
+			->end()
+		;
+		
+		return $this;
 	}
 	
     /**
      *
      * @access private
      * @param \Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition $node
+	 * @return \CCDNUser\SecurityBundle\DependencyInjection\Configuration
      */
     private function addComponentSection(ArrayNodeDefinition $node)
     {
@@ -267,13 +290,17 @@ class Configuration implements ConfigurationInterface
 						->end()
 					->end()
 				->end()
-			->end();
+			->end()
+		;
+		
+		return $this;
 	}
 	
     /**
      *
      * @access private
      * @param \Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition $node
+	 * @return \CCDNUser\SecurityBundle\DependencyInjection\Configuration
      */
     private function addRouteRefererSection(ArrayNodeDefinition $node)
     {
@@ -305,13 +332,17 @@ class Configuration implements ConfigurationInterface
                         ->end()
                     ->end()
                 ->end()
-            ->end();
+            ->end()
+		;
+		
+		return $this;
     }
 
     /**
      *
      * @access private
      * @param \Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition $node
+	 * @return \CCDNUser\SecurityBundle\DependencyInjection\Configuration
      */
     private function addLoginShieldSection(ArrayNodeDefinition $node)
     {
@@ -360,6 +391,9 @@ class Configuration implements ConfigurationInterface
                         ->end()
                     ->end()
                 ->end()
-            ->end();
+            ->end()
+		;
+		
+		return $this;
     }
 }

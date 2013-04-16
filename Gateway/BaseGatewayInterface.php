@@ -33,6 +33,13 @@ interface BaseGatewayInterface
 	 * @param string $entityClass
 	 */
 	public function __construct(Registry $doctrine, $entityClass);
+
+	/**
+	 *
+	 * @access public
+	 * @return string
+	 */
+	public function getEntityClass();
 	
 	/**
 	 *
