@@ -20,8 +20,14 @@ use CCDNUser\SecurityBundle\Entity\Session;
 
 /**
  *
- * @author Reece Fowell <reece@codeconsortium.com>
- * @version 1.0
+ * @category CCDNUser
+ * @package  SecurityBundle
+ *
+ * @author   Reece Fowell <reece@codeconsortium.com>
+ * @license  http://opensource.org/licenses/MIT MIT
+ * @version  Release: 1.0
+ * @link     https://github.com/codeconsortium/CCDNUserSecurityBundle
+ *
  */
 class SessionManager extends BaseManager implements BaseManagerInterface
 {
@@ -39,9 +45,11 @@ class SessionManager extends BaseManager implements BaseManagerInterface
         $params = array('1' => $ipAddress, '2' => $timeLimit);
 
         $qb
-            ->where($qb->expr()->andx(
-                $qb->expr()->eq('s.ipAddress', '?1'),
-                $qb->expr()->gt('s.loginAttemptDate', '?2'))
+            ->where(
+                $qb->expr()->andx(
+                    $qb->expr()->eq('s.ipAddress', '?1'),
+                    $qb->expr()->gt('s.loginAttemptDate', '?2')
+                )
             )
         ;
 

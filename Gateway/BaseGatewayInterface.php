@@ -20,9 +20,14 @@ use CCDNUser\SecurityBundle\Gateway\BaseGatewayInterface;
 
 /**
  *
- * @author Reece Fowell <reece@codeconsortium.com>
- * @version 1.0
- * @abstract
+ * @category CCDNUser
+ * @package  SecurityBundle
+ *
+ * @author   Reece Fowell <reece@codeconsortium.com>
+ * @license  http://opensource.org/licenses/MIT MIT
+ * @version  Release: 1.0
+ * @link     https://github.com/codeconsortium/CCDNUserSecurityBundle
+ *
  */
 interface BaseGatewayInterface
 {

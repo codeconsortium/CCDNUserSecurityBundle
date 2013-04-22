@@ -25,9 +25,10 @@ use CCDNUser\SecurityBundle\DependencyInjection\Compiler\RouteRefererIgnoreCompi
  */
 class CCDNUserSecurityBundle extends Bundle
 {
-
     /**
      *
+     * @access public
+     * @param Symfony\Component\DependencyInjection\ContainerBuilder $container
      */
     public function build(ContainerBuilder $container)
     {
@@ -35,5 +36,4 @@ class CCDNUserSecurityBundle extends Bundle
 
         $container->addCompilerPass(new RouteRefererIgnoreCompilerPass());
     }
-
 }

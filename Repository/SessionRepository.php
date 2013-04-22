@@ -16,13 +16,18 @@ namespace CCDNUser\SecurityBundle\Repository;
 use Doctrine\ORM\EntityRepository;
 
 /**
+ *
  * SessionRepository
  *
+ * @category CCDNUser
+ * @package  SecurityBundle
  *
- * @author Reece Fowell <reece@codeconsortium.com>
- * @version 1.0
+ * @author   Reece Fowell <reece@codeconsortium.com>
+ * @license  http://opensource.org/licenses/MIT MIT
+ * @version  Release: 1.0
+ * @link     https://github.com/codeconsortium/CCDNUserSecurityBundle
+ *
  */
 class SessionRepository extends EntityRepository
 {
-
 }

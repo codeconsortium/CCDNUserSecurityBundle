@@ -19,8 +19,14 @@ use CCDNUser\SecurityBundle\Component\Listener\Chain\RouteRefererIgnoreChain;
 
 /**
  *
- * @author Reece Fowell <reece@codeconsortium.com>
- * @version 1.0
+ * @category CCDNUser
+ * @package  SecurityBundle
+ *
+ * @author   Reece Fowell <reece@codeconsortium.com>
+ * @license  http://opensource.org/licenses/MIT MIT
+ * @version  Release: 1.0
+ * @link     https://github.com/codeconsortium/CCDNUserSecurityBundle
+ *
  */
 class RouteRefererListener
 {
@@ -86,11 +92,15 @@ class RouteRefererListener
 
         // Abort if the route is ignorable.
         foreach ($ignorable as $ignore) {
-            if ($route == $ignore['route']) { return; }
+            if ($route == $ignore['route']) {
+                return;
+            }
         }
 
         // Check for any internal routes.
-        if ($route[0] == '_') { return; }
+        if ($route[0] == '_') {
+            return;
+        }
 
         // Get the session and assign it the url we are at presently.
         $session = $request->getSession();

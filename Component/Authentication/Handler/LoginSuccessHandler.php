@@ -21,8 +21,14 @@ use Symfony\Component\HttpFoundation\Response;
 
 /**
  *
- * @author Reece Fowell <reece@codeconsortium.com>
- * @version 1.0
+ * @category CCDNUser
+ * @package  SecurityBundle
+ *
+ * @author   Reece Fowell <reece@codeconsortium.com>
+ * @license  http://opensource.org/licenses/MIT MIT
+ * @version  Release: 1.0
+ * @link     https://github.com/codeconsortium/CCDNUserSecurityBundle
+ *
  */
 class LoginSuccessHandler implements AuthenticationSuccessHandlerInterface
 {
@@ -38,9 +44,7 @@ class LoginSuccessHandler implements AuthenticationSuccessHandlerInterface
         $session = $request->getSession();
 
         if ($session->has('referer')) {
-            if ($session->get('referer') !== null
-            && $session->get('referer') !== '')
-            {
+            if ($session->get('referer') !== null && $session->get('referer') !== '') {
                 $response = new RedirectResponse($session->get('referer'));
             } else {
                 $response = new RedirectResponse($request->getBasePath() . '/');
