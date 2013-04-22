@@ -20,25 +20,32 @@ namespace CCDNUser\SecurityBundle\Entity;
  *
  * @author   Reece Fowell <reece@codeconsortium.com>
  * @license  http://opensource.org/licenses/MIT MIT
- * @version  Release: 1.0
+ * @version  Release: 2.0
  * @link     https://github.com/codeconsortium/CCDNUserSecurityBundle
  *
  */
 class Session
 {
+	/**
+	 * 
+	 * @var int $id
+	 */ 
     protected $id;
 
     /**
+     * 
      * @var string $ipAddress
      */
     protected $ipAddress;
 
     /**
+     * 
      * @var \Datetime $loginAttemptDate
      */
     protected $loginAttemptDate;
 
     /**
+     * 
      * @var string $loginAttemptUsername
      */
     protected $loginAttemptUsername;
