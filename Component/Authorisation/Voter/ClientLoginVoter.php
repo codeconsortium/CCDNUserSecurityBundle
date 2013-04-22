@@ -27,105 +27,105 @@ use CCDNUser\SecurityBundle\Component\Authentication\Tracker\LoginFailureTracker
  */
 class ClientLoginVoter implements VoterInterface
 {
-	/**
-	 *
-	 * @access protected
-	 * @var \Symfony\Component\DependencyInjection\ContainerInterface $container
-	 */
-	protected $container;
-	
-	/**
-	 *
-	 * @access protected
-	 * @var \CCDNUser\SecurityBundle\Component\Authentication\Tracker\LoginFailureTracker $loginFailureTracker
-	 */
-	protected $loginFailureTracker;
-	
-	/**
-	 *
-	 * @access protected
-	 * @var bool $enableShield
-	 */
-	protected $enableShield;
-	
-	/**
-	 *
-	 * @access protected
-	 * @var array $blockRoutes
-	 */
-	protected $blockRoutes;
-	
-	/**
-	 *
-	 * @access protected
-	 * @var int $blockForMinutes
-	 */
-	protected $blockForMinutes;
-	
-	/**
-	 *
-	 * @access protected
-	 * @var int $limitBeforeHttp500
-	 */
-	protected $limitBeforeHttp500;
-	
-	/**
-	 *
-	 * @access public
-	 * @param \Symfony\Component\HttpFoundation\Request $request
-	 * @param \CCDNUser\SecurityBundle\Component\Authentication\Tracker\LoginFailureTracker $loginFailureTracker
-	 * @param bool $enableShield
-	 * @param array $blockRoutes
-	 * @param int $blockForMinutes
-	 * @param int $limitBeforeHttp500
-	 */
+    /**
+     *
+     * @access protected
+     * @var \Symfony\Component\DependencyInjection\ContainerInterface $container
+     */
+    protected $container;
+
+    /**
+     *
+     * @access protected
+     * @var \CCDNUser\SecurityBundle\Component\Authentication\Tracker\LoginFailureTracker $loginFailureTracker
+     */
+    protected $loginFailureTracker;
+
+    /**
+     *
+     * @access protected
+     * @var bool $enableShield
+     */
+    protected $enableShield;
+
+    /**
+     *
+     * @access protected
+     * @var array $blockRoutes
+     */
+    protected $blockRoutes;
+
+    /**
+     *
+     * @access protected
+     * @var int $blockForMinutes
+     */
+    protected $blockForMinutes;
+
+    /**
+     *
+     * @access protected
+     * @var int $limitBeforeHttp500
+     */
+    protected $limitBeforeHttp500;
+
+    /**
+     *
+     * @access public
+     * @param \Symfony\Component\HttpFoundation\Request                                     $request
+     * @param \CCDNUser\SecurityBundle\Component\Authentication\Tracker\LoginFailureTracker $loginFailureTracker
+     * @param bool                                                                          $enableShield
+     * @param array                                                                         $blockRoutes
+     * @param int                                                                           $blockForMinutes
+     * @param int                                                                           $limitBeforeHttp500
+     */
     public function __construct(ContainerInterface $container, LoginFailureTracker $loginFailureTracker, $enableShield, $blockRoutes, $blockForMinutes, $limitBeforeHttp500)
     {
-		$this->container = $container;
-		$this->loginFailureTracker = $loginFailureTracker;
-		$this->enableShield = $enableShield;
-		$this->blockRoutes = $blockRoutes;
-		$this->blockForMinutes = $blockForMinutes;
-		$this->limitBeforeHttp500 = $limitBeforeHttp500;
+        $this->container = $container;
+        $this->loginFailureTracker = $loginFailureTracker;
+        $this->enableShield = $enableShield;
+        $this->blockRoutes = $blockRoutes;
+        $this->blockForMinutes = $blockForMinutes;
+        $this->limitBeforeHttp500 = $limitBeforeHttp500;
     }
 
-	/**
-	 *
-	 * @access public
-	 * @param $attribute
- 	 * @return bool
-	 */
+    /**
+     *
+     * @access public
+     * @param $attribute
+      * @return bool
+     */
     public function supportsAttribute($attribute)
     {
         // we won't check against a user attribute, so we return true
         return true;
     }
 
-	/**
-	 *
-	 * @access public
-	 * @param $class
-	 * @return bool
-	 */
+    /**
+     *
+     * @access public
+     * @param $class
+     * @return bool
+     */
     public function supportsClass($class)
     {
         // our voter supports all type of token classes, so we return true
         return true;
     }
 
-	/**
-	 *
-	 * @access public
-	 * @param \Symfony\Component\Security\Core\Authentication\Token\TokenInterface $token
-	 * @param object $object
-	 * @param array $attributes
-	 * @return int
-	 */
+    /**
+     *
+     * @access public
+     * @param  \Symfony\Component\Security\Core\Authentication\Token\TokenInterface $token
+     * @param  object                                                               $object
+     * @param  array                                                                $attributes
+     * @return int
+     */
     public function vote(TokenInterface $token, $object, array $attributes)
     {
         if ($this->enableShield) {
-			$request = $this->container->get('request');
-			
+            $request = $this->container->get('request');
+
             $route = $request->get('_route');
 
             // Abort if the route is not a login route.
@@ -143,7 +143,7 @@ class ClientLoginVoter implements VoterInterface
 
             // Get number of failed login attempts.
             $attempts = $this->loginFailureTracker->getAttempts($session, $ipAddress);
-			
+
             if (count($attempts) > $this->limitBeforeHttp500) {
                 return VoterInterface::ACCESS_DENIED;
             }

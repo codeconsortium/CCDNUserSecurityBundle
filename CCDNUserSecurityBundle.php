@@ -25,7 +25,7 @@ use CCDNUser\SecurityBundle\DependencyInjection\Compiler\RouteRefererIgnoreCompi
  */
 class CCDNUserSecurityBundle extends Bundle
 {
-		
+
     /**
      *
      */

@@ -29,99 +29,99 @@ class BlockingLoginListener
     /**
      *
      * @access protected
-	 * @var \Symfony\Bundle\FrameworkBundle\Routing\Router $router
+     * @var \Symfony\Bundle\FrameworkBundle\Routing\Router $router
      */
     protected $router;
-	
+
     /**
      *
      * @access protected
-	 * @var \CCDNUser\SecurityBundle\Component\Authentication\Tracker\LoginFailureTracker $loginFailureTracker
+     * @var \CCDNUser\SecurityBundle\Component\Authentication\Tracker\LoginFailureTracker $loginFailureTracker
      */
     protected $loginFailureTracker;
-	
+
     /**
      *
      * @access protected
-	 * @var bool $enableShield
+     * @var bool $enableShield
      */
     protected $enableShield;
-	
+
     /**
      *
      * @access protected
-	 * @var array $blockRoutes
+     * @var array $blockRoutes
      */
     protected $blockRoutes;
-	
+
     /**
      *
      * @access protected
-	 * @var int $blockForMinutes
+     * @var int $blockForMinutes
      */
     protected $blockForMinutes;
-	
+
     /**
      *
      * @access protected
-	 * @var int $limitBeforeRecover
+     * @var int $limitBeforeRecover
      */
     protected $limitBeforeRecover;
-	
+
     /**
      *
      * @access protected
-	 * @var int $limitBeforeHttp500
+     * @var int $limitBeforeHttp500
      */
     protected $limitBeforeHttp500;
-	
+
     /**
      *
      * @access protected
-	 * @var string $recoverRoute
+     * @var string $recoverRoute
      */
     protected $recoverRoute;
-	
+
     /**
      *
      * @access protected
-	 * @var array $recoverRouteParams
+     * @var array $recoverRouteParams
      */
     protected $recoverRouteParams;
-	
+
     /**
      *
      * @access protected
-	 * @var string $loginRoute
+     * @var string $loginRoute
      */
     protected $loginRoute;
-	
+
     /**
      *
      * @access public
-     * @param \Symfony\Bundle\FrameworkBundle\Routing\Router $router
-	 * @param \CCDNUser\SecurityBundle\Component\Authentication\Tracker\LoginFailureTracker $loginFailureTracker
-	 * @param bool $enableShield
-	 * @param array $blockRoutes
-	 * @param int $blockForMinutes
-	 * @param int $limitBeforeRecoverAccount
-	 * @param int $limitBeforeHttp500
-	 * @param string $recoverRoute
-	 * @param array $recoverRouteParams
-	 * @param string $loginRoute
+     * @param \Symfony\Bundle\FrameworkBundle\Routing\Router                                $router
+     * @param \CCDNUser\SecurityBundle\Component\Authentication\Tracker\LoginFailureTracker $loginFailureTracker
+     * @param bool                                                                          $enableShield
+     * @param array                                                                         $blockRoutes
+     * @param int                                                                           $blockForMinutes
+     * @param int                                                                           $limitBeforeRecoverAccount
+     * @param int                                                                           $limitBeforeHttp500
+     * @param string                                                                        $recoverRoute
+     * @param array                                                                         $recoverRouteParams
+     * @param string                                                                        $loginRoute
      */
     public function __construct(Router $router, LoginFailureTracker $loginFailureTracker, $enableShield, $blockRoutes, $blockForMinutes, $limitBeforeRecoverAccount, $limitBeforeHttp500, $recoverRoute, $recoverRouteParams, $loginRoute)
     {
         $this->router = $router;
-		$this->loginFailureTracker = $loginFailureTracker;
-		$this->enableShield = $enableShield;
-		$this->blockRoutes = $blockRoutes;
-		$this->blockForMinutes = $blockForMinutes;
-		$this->limitBeforeRecoverAccount = $limitBeforeRecoverAccount;
-		$this->limitBeforeHttp500 = $limitBeforeHttp500;
-		$this->recoverRoute = $recoverRoute;
-		$this->recoverRouteParams = $recoverRouteParams;
-		$this->loginRoute = $loginRoute;		
+        $this->loginFailureTracker = $loginFailureTracker;
+        $this->enableShield = $enableShield;
+        $this->blockRoutes = $blockRoutes;
+        $this->blockForMinutes = $blockForMinutes;
+        $this->limitBeforeRecoverAccount = $limitBeforeRecoverAccount;
+        $this->limitBeforeHttp500 = $limitBeforeHttp500;
+        $this->recoverRoute = $recoverRoute;
+        $this->recoverRouteParams = $recoverRouteParams;
+        $this->loginRoute = $loginRoute;
     }
 
     /**
@@ -140,7 +140,7 @@ class BlockingLoginListener
             }
 
             // Get the route from the request object.
-			$request = $event->getRequest();
+            $request = $event->getRequest();
 
             $route = $request->get('_route');
 

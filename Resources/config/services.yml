@@ -28,7 +28,7 @@ services:
     #
     ccdn_user_security.manager.session:
         class: %ccdn_user_security.manager.session.class%
-        arguments: 
+        arguments:
             - @doctrine
             - @ccdn_user_security.gateway.session
 

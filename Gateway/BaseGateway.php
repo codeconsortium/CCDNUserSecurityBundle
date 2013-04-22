@@ -26,137 +26,137 @@ use CCDNUser\SecurityBundle\Gateway\BaseGatewayInterface;
  */
 abstract class BaseGateway implements BaseGatewayInterface
 {
-	/**
-	 *
-	 * @access private
-	 * @var string $entityClass
-	 */
-	protected $entityClass;
-	
-	/**
-	 *
-	 * @access protected
-	 * @var \Doctrine\Bundle\DoctrineBundle\Registry $doctrine
-	 */
-	protected $doctrine;
+    /**
+     *
+     * @access private
+     * @var string $entityClass
+     */
+    protected $entityClass;
 
-	/**
-	 *
-	 * @access protected
-	 * @var \Doctrine\ORM\EntityManager $em
-	 */		
-	protected $em;
-	
-	/**
-	 *
-	 * @access public
-	 * @param \Doctrine\Bundle\DoctrineBundle\Registry $doctrine
-	 * @param string $entityClass
-	 */
-	public function __construct(Registry $doctrine, $entityClass)
-	{
-		$this->doctrine = $doctrine;
-		
-		$this->em = $doctrine->getManager();
-		
-		$this->entityClass = $entityClass;
-	}
+    /**
+     *
+     * @access protected
+     * @var \Doctrine\Bundle\DoctrineBundle\Registry $doctrine
+     */
+    protected $doctrine;
 
-	/**
-	 *
-	 * @access public
-	 * @return string
-	 */
-	public function getEntityClass()
-	{
-		return $this->entityClass;
-	}
-	
-	/**
-	 *
-	 * @access public
-	 * @return \Doctrine\ORM\QueryBuilder
-	 */	
-	public function getQueryBuilder()
-	{
-		return $this->em->createQueryBuilder();
-	}
-	
-	/**
-	 *
-	 * @access public
-	 * @param \Doctrine\ORM\QueryBuilder $qb
-	 * @param Array $parameters
-	 * @return \Doctrine\Common\Collections\ArrayCollection
-	 */	
-	public function one(QueryBuilder $qb, $parameters = array())
-	{
-		if (count($parameters)) {
-			$qb->setParameters($parameters);
-		}
-		
-		try {
-			return $qb->getQuery()->getSingleResult();
-		} catch (\Doctrine\ORM\NoResultException $e) {
-			return null;
-		}
-	}
-	
-	/**
-	 *
-	 * @access public
-	 * @param \Doctrine\ORM\QueryBuilder $qb
-	 * @param Array $parameters
-	 * @return \Doctrine\Common\Collections\ArrayCollection
-	 */	
-	public function all(QueryBuilder $qb, $parameters = array())
-	{
-		if (count($parameters)) {
-			$qb->setParameters($parameters);
-		}
-		
-		try {
-			return $qb->getQuery()->getResult();
-		} catch (\Doctrine\ORM\NoResultException $e) {
-			return null;
-		}
-	}
-	
-	/**
-	 *
-	 * @access protected
-	 * @param $item
-	 * @return \CCDNUser\SecurityBundle\Gateway\BaseGatewayInterface
-	 */
-	protected function persist($item)
-	{
-		$this->em->persist($item);
-		
-		return $this;
-	}
-	
-	/**
-	 *
-	 * @access protected
-	 * @param $item
-	 * @return \CCDNUser\SecurityBundle\Gateway\BaseGatewayInterface
-	 */
-	protected function remove($item)
-	{
-		$this->em->remove($item);
-		
-		return $this;
-	}
-	
-	/**
-	 *
-	 * @access public
-	 * @return \CCDNUser\SecurityBundle\Gateway\BaseGatewayInterface
-	 */
-	public function flush()
-	{
-		$this->em->flush();
-		
-		return $this;
-	}
+    /**
+     *
+     * @access protected
+     * @var \Doctrine\ORM\EntityManager $em
+     */
+    protected $em;
+
+    /**
+     *
+     * @access public
+     * @param \Doctrine\Bundle\DoctrineBundle\Registry $doctrine
+     * @param string                                   $entityClass
+     */
+    public function __construct(Registry $doctrine, $entityClass)
+    {
+        $this->doctrine = $doctrine;
+
+        $this->em = $doctrine->getEntityManager();
+
+        $this->entityClass = $entityClass;
+    }
+
+    /**
+     *
+     * @access public
+     * @return string
+     */
+    public function getEntityClass()
+    {
+        return $this->entityClass;
+    }
+
+    /**
+     *
+     * @access public
+     * @return \Doctrine\ORM\QueryBuilder
+     */
+    public function getQueryBuilder()
+    {
+        return $this->em->createQueryBuilder();
+    }
+
+    /**
+     *
+     * @access public
+     * @param  \Doctrine\ORM\QueryBuilder                   $qb
+     * @param  Array                                        $parameters
+     * @return \Doctrine\Common\Collections\ArrayCollection
+     */
+    public function one(QueryBuilder $qb, $parameters = array())
+    {
+        if (count($parameters)) {
+            $qb->setParameters($parameters);
+        }
+
+        try {
+            return $qb->getQuery()->getSingleResult();
+        } catch (\Doctrine\ORM\NoResultException $e) {
+            return null;
+        }
+    }
+
+    /**
+     *
+     * @access public
+     * @param  \Doctrine\ORM\QueryBuilder                   $qb
+     * @param  Array                                        $parameters
+     * @return \Doctrine\Common\Collections\ArrayCollection
+     */
+    public function all(QueryBuilder $qb, $parameters = array())
+    {
+        if (count($parameters)) {
+            $qb->setParameters($parameters);
+        }
+
+        try {
+            return $qb->getQuery()->getResult();
+        } catch (\Doctrine\ORM\NoResultException $e) {
+            return null;
+        }
+    }
+
+    /**
+     *
+     * @access protected
+     * @param $item
+     * @return \CCDNUser\SecurityBundle\Gateway\BaseGatewayInterface
+     */
+    protected function persist($item)
+    {
+        $this->em->persist($item);
+
+        return $this;
+    }
+
+    /**
+     *
+     * @access protected
+     * @param $item
+     * @return \CCDNUser\SecurityBundle\Gateway\BaseGatewayInterface
+     */
+    protected function remove($item)
+    {
+        $this->em->remove($item);
+
+        return $this;
+    }
+
+    /**
+     *
+     * @access public
+     * @return \CCDNUser\SecurityBundle\Gateway\BaseGatewayInterface
+     */
+    public function flush()
+    {
+        $this->em->flush();
+
+        return $this;
+    }
 }

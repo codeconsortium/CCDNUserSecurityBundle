@@ -29,8 +29,8 @@ class LoginSuccessHandler implements AuthenticationSuccessHandlerInterface
     /**
      *
      * @access public
-     * @param \Symfony\Component\HttpFoundation\Request $request
-	 * @param \Symfony\Component\Security\Core\Authentication\Token\TokenInterface $token
+     * @param  \Symfony\Component\HttpFoundation\Request                                                     $request
+     * @param  \Symfony\Component\Security\Core\Authentication\Token\TokenInterface                          $token
      * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
      */
     public function onAuthenticationSuccess(Request $request, TokenInterface $token)

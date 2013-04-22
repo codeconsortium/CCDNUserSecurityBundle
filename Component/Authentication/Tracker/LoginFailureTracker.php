@@ -26,41 +26,41 @@ class LoginFailureTracker
     /**
      *
      * @access protected
-	 * @var \CCDNUser\SecurityBundle\Manager\SessionManager $sessionManager
+     * @var \CCDNUser\SecurityBundle\Manager\SessionManager $sessionManager
      */
     protected $sessionManager;
-	
+
     /**
      *
      * @access protected
-	 * @var int $blockForMinutes
+     * @var int $blockForMinutes
      */
-	protected $blockForMinutes;
+    protected $blockForMinutes;
 
     /**
      *
      * @access public
      * @param \CCDNUser\SecurityBundle\Manager\SessionManager $sessionManager
-	 * @param int $blockForMinutes
+     * @param int                                             $blockForMinutes
      */
     public function __construct(SessionManager $sessionManager, $blockForMinutes)
     {
-		$this->sessionManager = $sessionManager;
-		$this->blockForMinutes = $blockForMinutes;
+        $this->sessionManager = $sessionManager;
+        $this->blockForMinutes = $blockForMinutes;
     }
 
     /**
      *
      * @access public
-     * @param \Symfony\Component\HttpFoundation\Session\Session $session
-	 * @param string $ipAddress
+     * @param  \Symfony\Component\HttpFoundation\Session\Session $session
+     * @param  string                                            $ipAddress
      * @return array
      */
     public function getAttempts(Session $session, $ipAddress)
     {
         // Set a limit on how far back we want to look at failed login attempts.
         $timeLimit = new \DateTime('-' . $this->blockForMinutes . ' minutes');
-		
+
         // Only load from the db if the session is not found.
         if ($session->has('auth_failed')) {
             $attempts = $session->get('auth_failed');
@@ -77,7 +77,7 @@ class LoginFailureTracker
                     $freshenedAttempts[] = $attempt;
                 }
             }
-			
+
             $attempts = $freshenedAttempts;
         } else {
             $attempts = $this->sessionManager->findAllByIpAddressAndLoginAttemptDate($ipAddress, $timeLimit);
@@ -90,8 +90,8 @@ class LoginFailureTracker
      *
      * @access public
      * @param \Symfony\Component\HttpFoundation\Session\Session $session
-	 * @param string $ipAddress
-	 * @param string $username
+     * @param string                                            $ipAddress
+     * @param string                                            $username
      */
     public function addAttempt(Session $session, $ipAddress, $username)
     {

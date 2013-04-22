@@ -13,8 +13,6 @@
 
 namespace CCDNUser\SecurityBundle\Entity;
 
-use Doctrine\ORM\Mapping as ORM;
-
 class Session
 {
     protected $id;
