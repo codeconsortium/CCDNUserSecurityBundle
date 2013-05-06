@@ -20,7 +20,7 @@ class Session
     protected $id;
 
     /**
-     * @Ovar string $ipAddress
+     * @var string $ipAddress
      */
     protected $ipAddress;
 
