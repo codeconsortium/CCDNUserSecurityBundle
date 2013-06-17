@@ -60,7 +60,7 @@ abstract class BaseManager implements BaseManagerInterface
     {
         $this->doctrine = $doctrine;
 
-        $this->em = $doctrine->getEntityManager();
+        $this->em = $doctrine->getManager();
 		
 		$this->gateway = $gateway;
     }
