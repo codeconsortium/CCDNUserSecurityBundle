@@ -57,7 +57,7 @@ abstract class BaseGateway implements BaseGatewayInterface
 	{
 		$this->doctrine = $doctrine;
 		
-		$this->em = $doctrine->getEntityManager();
+		$this->em = $doctrine->getManager();
 		
 		$this->entityClass = $entityClass;
 	}
