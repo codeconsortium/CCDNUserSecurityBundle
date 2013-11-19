@@ -11,13 +11,12 @@
  * file that was distributed with this source code.
  */
 
-namespace CCDNUser\SecurityBundle\Manager;
+namespace CCDNUser\SecurityBundle\Model\Repository;
 
-use Doctrine\Bundle\DoctrineBundle\Registry;
+use Doctrine\Common\Persistence\ObjectManager;
 use Doctrine\ORM\QueryBuilder;
 
-use CCDNUser\SecurityBundle\Manager\BaseManagerInterface;
-use CCDNUser\SecurityBundle\Gateway\BaseGatewayInterface;
+use CCDNUser\SecurityBundle\Model\Gateway\GatewayInterface;
 
 /**
  *
@@ -30,20 +29,28 @@ use CCDNUser\SecurityBundle\Gateway\BaseGatewayInterface;
  * @link     https://github.com/codeconsortium/CCDNUserSecurityBundle
  *
  */
-interface BaseManagerInterface
+interface RepositoryInterface
 {
     /**
      *
      * @access public
-     * @param \Doctrine\Bundle\DoctrineBundle\Registry              $doctrine
-     * @param \CCDNUser\SecurityBundle\Gateway\BaseGatewayInterface $gateway
+     * @param  \Doctrine\Common\Persistence\ObjectManager             $em
+     * @param  \CCDNUser\SecurityBundle\Model\Gateway\GatewayInterface $gateway
      */
-    public function __construct(Registry $doctrine, BaseGatewayInterface $gateway);
+    public function __construct(ObjectManager $em, GatewayInterface $gateway);
 
     /**
      *
      * @access public
-     * @return \CCDNUser\SecurityBundle\Gateway\BaseGatewayInterface
+     * @param  \CCDNUser\SecurityBundle\Model\Model\ModelInterface           $model
+     * @return \CCDNUser\SecurityBundle\Model\Repository\RepositoryInterface
+     */
+    public function setModel($model);
+
+    /**
+     *
+     * @access public
+     * @return \CCDNUser\SecurityBundle\Model\Gateway\GatewayInterface
      */
     public function getGateway();
 
@@ -86,35 +93,4 @@ interface BaseManagerInterface
      * @return \Doctrine\ORM\QueryBuilder
      */
     public function all(QueryBuilder $qb);
-
-    /**
-     *
-     * @access public
-     * @param $entity
-     * @return \CCDNUser\SecurityBundle\Manager\BaseManagerInterface
-     */
-    public function persist($entity);
-
-    /**
-     *
-     * @access public
-     * @param $entity
-     * @return \CCDNUser\SecurityBundle\Manager\BaseManagerInterface
-     */
-    public function remove($entity);
-
-    /**
-     *
-     * @access public
-     * @return \CCDNUser\SecurityBundle\Manager\BaseManagerInterface
-     */
-    public function flush();
-
-    /**
-     *
-     * @access public
-     * @param $entity
-     * @return \CCDNUser\SecurityBundle\Manager\BaseManagerInterface
-     */
-    public function refresh($entity);
 }

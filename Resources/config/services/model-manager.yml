@@ -1,0 +1,15 @@
+parameters:
+
+    # Service Parameters defined in app/config
+
+services:
+
+    #
+    # Managers.
+    #
+    ccdn_user_security.manager.session:
+        class: %ccdn_user_security.manager.session.class%
+        arguments:
+            - @event_dispatcher
+            - @doctrine
+            - @ccdn_user_security.gateway.session

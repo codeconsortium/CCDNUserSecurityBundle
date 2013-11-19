@@ -11,12 +11,10 @@
  * file that was distributed with this source code.
  */
 
-namespace CCDNUser\SecurityBundle\Gateway;
+namespace CCDNUser\SecurityBundle\Model\Gateway;
 
 use Doctrine\Bundle\DoctrineBundle\Registry;
 use Doctrine\ORM\QueryBuilder;
-
-use CCDNUser\SecurityBundle\Gateway\BaseGatewayInterface;
 
 /**
  *
@@ -30,7 +28,7 @@ use CCDNUser\SecurityBundle\Gateway\BaseGatewayInterface;
  * @abstract
  *
  */
-abstract class BaseGateway implements BaseGatewayInterface
+abstract class BaseGateway
 {
     /**
      *

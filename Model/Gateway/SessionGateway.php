@@ -11,14 +11,14 @@
  * file that was distributed with this source code.
  */
 
-namespace CCDNUser\SecurityBundle\Gateway;
+namespace CCDNUser\SecurityBundle\Model\Gateway;
 
 use Symfony\Component\Security\Core\User\UserInterface;
 
 use Doctrine\ORM\QueryBuilder;
 
-use CCDNUser\SecurityBundle\Gateway\BaseGatewayInterface;
-use CCDNUser\SecurityBundle\Gateway\BaseGateway;
+use CCDNUser\SecurityBundle\Model\Gateway\GatewayInterface;
+use CCDNUser\SecurityBundle\Model\Gateway\BaseGateway;
 
 use CCDNUser\SecurityBundle\Entity\Session;
 
@@ -33,7 +33,7 @@ use CCDNUser\SecurityBundle\Entity\Session;
  * @link     https://github.com/codeconsortium/CCDNUserSecurityBundle
  *
  */
-class SessionGateway extends BaseGateway implements BaseGatewayInterface
+class SessionGateway extends BaseGateway implements GatewayInterface
 {
     /**
      *
@@ -146,8 +146,8 @@ class SessionGateway extends BaseGateway implements BaseGatewayInterface
     /**
      *
      * @access public
-     * @param  \CCDNUser\SecurityBundle\Entity\Session               $session
-     * @return \CCDNUser\SecurityBundle\Gateway\BaseGatewayInterface
+     * @param  \CCDNUser\SecurityBundle\Entity\Session                 $session
+     * @return \CCDNUser\SecurityBundle\Model\Gateway\GatewayInterface
      */
     public function persistSession(Session $session)
     {
@@ -159,8 +159,8 @@ class SessionGateway extends BaseGateway implements BaseGatewayInterface
     /**
      *
      * @access public
-     * @param  \CCDNUser\SecurityBundle\Entity\Session               $session
-     * @return \CCDNUser\SecurityBundle\Gateway\BaseGatewayInterface
+     * @param  \CCDNUser\SecurityBundle\Entity\Session                 $session
+     * @return \CCDNUser\SecurityBundle\Model\Gateway\GatewayInterface
      */
     public function updateSession(Session $session)
     {
@@ -172,8 +172,8 @@ class SessionGateway extends BaseGateway implements BaseGatewayInterface
     /**
      *
      * @access public
-     * @param  \CCDNUser\SecurityBundle\Entity\Session               $session
-     * @return \CCDNUser\SecurityBundle\Gateway\BaseGatewayInterface
+     * @param  \CCDNUser\SecurityBundle\Entity\Session                 $session
+     * @return \CCDNUser\SecurityBundle\Model\Gateway\GatewayInterface
      */
     public function deleteSession(Session $session)
     {

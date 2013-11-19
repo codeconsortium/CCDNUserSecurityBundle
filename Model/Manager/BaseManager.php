@@ -11,13 +11,16 @@
  * file that was distributed with this source code.
  */
 
-namespace CCDNUser\SecurityBundle\Manager;
+namespace CCDNUser\SecurityBundle\Model\Manager;
+
+use Symfony\Component\EventDispatcher\ContainerAwareEventDispatcher;
+use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Security\Core\SecurityContext;
 
 use Doctrine\Bundle\DoctrineBundle\Registry;
 use Doctrine\ORM\QueryBuilder;
 
-use CCDNUser\SecurityBundle\Manager\BaseManagerInterface;
-use CCDNUser\SecurityBundle\Gateway\BaseGatewayInterface;
+use CCDNUser\SecurityBundle\Model\Gateway\GatewayInterface;
 
 /**
  *
@@ -30,7 +33,7 @@ use CCDNUser\SecurityBundle\Gateway\BaseGatewayInterface;
  * @link     https://github.com/codeconsortium/CCDNUserSecurityBundle
  *
  */
-abstract class BaseManager implements BaseManagerInterface
+abstract class BaseManager
 {
     /**
      *
@@ -49,29 +52,56 @@ abstract class BaseManager implements BaseManagerInterface
     /**
      *
      * @access protected
-     * @var \CCDNUser\SecurityBundle\Manager\BaseManagerInterface $gateway
+     * @var \CCDNUser\SecurityBundle\Model\Manager\ManagerInterface $gateway
      */
     protected $gateway;
 
     /**
      *
-     * @access public
-     * @param \Doctrine\Bundle\DoctrineBundle\Registry              $doctrine
-     * @param \CCDNUser\SecurityBundle\Gateway\BaseGatewayInterface $gateway
+     * @access protected
+     * @var \CCDNUser\SecurityBundle\Model\Model\ModelInterface $model
      */
-    public function __construct(Registry $doctrine, BaseGatewayInterface $gateway)
+    protected $model;
+
+    /**
+     *
+     * @access protected
+     * @var \Symfony\Component\EventDispatcher\ContainerAwareEventDispatcher  $dispatcher
+     */
+    protected $dispatcher;
+
+    /**
+     *
+     * @access public
+     * @param \Symfony\Component\EventDispatcher\ContainerAwareEventDispatcher  $dispatcher
+     * @param \Doctrine\Bundle\DoctrineBundle\Registry                          $doctrine
+     * @param \CCDNUser\SecurityBundle\Model\Gateway\GatewayInterface           $gateway
+     */
+    public function __construct(ContainerAwareEventDispatcher $dispatcher, Registry $doctrine, GatewayInterface $gateway)
     {
+		$this->dispatcher = $dispatcher;
         $this->doctrine = $doctrine;
-
         $this->em = $doctrine->getEntityManager();
-
         $this->gateway = $gateway;
     }
 
     /**
      *
      * @access public
-     * @return \CCDNUser\SecurityBundle\Gateway\BaseGatewayInterface
+     * @param  \CCDNUser\ProfileBundle\Model\Model\ModelInterface           $model
+     * @return \CCDNUser\ProfileBundle\Model\Repository\RepositoryInterface
+     */
+    public function setModel($model)
+    {
+        $this->model = $model;
+
+        return $this;
+    }
+
+    /**
+     *
+     * @access public
+     * @return \CCDNUser\SecurityBundle\Model\Gateway\GatewayInterface
      */
     public function getGateway()
     {
@@ -137,7 +167,7 @@ abstract class BaseManager implements BaseManagerInterface
      *
      * @access public
      * @param $entity
-     * @return \CCDNUser\SecurityBundle\Manager\BaseManagerInterface
+     * @return \CCDNUser\SecurityBundle\Model\Manager\ManagerInterface
      */
     public function persist($entity)
     {
@@ -150,7 +180,7 @@ abstract class BaseManager implements BaseManagerInterface
      *
      * @access public
      * @param $entity
-     * @return \CCDNUser\SecurityBundle\Manager\BaseManagerInterface
+     * @return \CCDNUser\SecurityBundle\Model\Manager\ManagerInterface
      */
     public function remove($entity)
     {
@@ -162,7 +192,7 @@ abstract class BaseManager implements BaseManagerInterface
     /**
      *
      * @access public
-     * @return \CCDNUser\SecurityBundle\Manager\BaseManagerInterface
+     * @return \CCDNUser\SecurityBundle\Model\Manager\ManagerInterface
      */
     public function flush()
     {
@@ -175,7 +205,7 @@ abstract class BaseManager implements BaseManagerInterface
      *
      * @access public
      * @param $entity
-     * @return \CCDNUser\SecurityBundle\Manager\BaseManagerInterface
+     * @return \CCDNUser\SecurityBundle\Model\Manager\ManagerInterface
      */
     public function refresh($entity)
     {

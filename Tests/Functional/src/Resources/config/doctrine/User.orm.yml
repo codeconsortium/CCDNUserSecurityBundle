@@ -1,0 +1,7 @@
+CCDNUser\SecurityBundle\Tests\Functional\src\Entity\User:
+    type: entity
+    table: cc_user
+    id:
+        id:
+            type: integer
+            generator: { strategy: AUTO }

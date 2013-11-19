@@ -56,23 +56,26 @@ class CCDNUserSecurityExtension extends Extension
         $config = $this->processConfiguration($configuration, $configs);
 
         // Class file namespaces.
-        $this
-            ->getEntitySection($container, $config)
-            ->getRepositorySection($container, $config)
-            ->getGatewaySection($container, $config)
-            ->getManagerSection($container, $config)
-            ->getComponentSection($container, $config)
-        ;
+        $this->getEntitySection($container, $config);
+        $this->getGatewaySection($container, $config);
+        $this->getRepositorySection($container, $config);
+        $this->getManagerSection($container, $config);
+        $this->getModelSection($container, $config);
+        $this->getComponentSection($container, $config);
 
         // Configuration stuff.
-        $this
-            ->getRouteRefererSection($container, $config)
-            ->getLoginShieldSection($container, $config)
-        ;
+        $this->getRouteRefererSection($container, $config);
+        $this->getLoginShieldSection($container, $config);
 
         // Load Service definitions.
         $loader = new Loader\YamlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
+		
         $loader->load('services.yml');
+        $loader->load('services/components.yml');
+        $loader->load('services/model-gateway.yml');
+        $loader->load('services/model-repository.yml');
+        $loader->load('services/model-manager.yml');
+        $loader->load('services/model.yml');
     }
 
     /**
@@ -84,21 +87,8 @@ class CCDNUserSecurityExtension extends Extension
      */
     private function getEntitySection(ContainerBuilder $container, $config)
     {
+        $container->setParameter('ccdn_user_security.entity.user.class', $config['entity']['user']['class']);
         $container->setParameter('ccdn_user_security.entity.session.class', $config['entity']['session']['class']);
-
-        return $this;
-    }
-
-    /**
-     *
-     * @access private
-     * @param  array                                                                  $config
-     * @param  \Symfony\Component\DependencyInjection\ContainerBuilder                $container
-     * @return \CCDNUser\SecurityBundle\DependencyInjection\CCDNUserSecurityExtension
-     */
-    private function getRepositorySection(ContainerBuilder $container, $config)
-    {
-        $container->setParameter('ccdn_user_security.repository.session.class', $config['repository']['session']['class']);
 
         return $this;
     }
@@ -124,9 +114,37 @@ class CCDNUserSecurityExtension extends Extension
      * @param  \Symfony\Component\DependencyInjection\ContainerBuilder                $container
      * @return \CCDNUser\SecurityBundle\DependencyInjection\CCDNUserSecurityExtension
      */
+    private function getRepositorySection(ContainerBuilder $container, $config)
+    {
+        $container->setParameter('ccdn_user_security.repository.session.class', $config['repository']['session']['class']);
+
+        return $this;
+    }
+
+    /**
+     *
+     * @access private
+     * @param  array                                                                  $config
+     * @param  \Symfony\Component\DependencyInjection\ContainerBuilder                $container
+     * @return \CCDNUser\SecurityBundle\DependencyInjection\CCDNUserSecurityExtension
+     */
     private function getManagerSection(ContainerBuilder $container, $config)
     {
         $container->setParameter('ccdn_user_security.manager.session.class', $config['manager']['session']['class']);
+
+        return $this;
+    }
+
+    /**
+     *
+     * @access private
+     * @param  array                                                                  $config
+     * @param  \Symfony\Component\DependencyInjection\ContainerBuilder                $container
+     * @return \CCDNUser\SecurityBundle\DependencyInjection\CCDNUserSecurityExtension
+     */
+    private function getModelSection(ContainerBuilder $container, $config)
+    {
+        $container->setParameter('ccdn_user_security.model.session.class', $config['model']['session']['class']);
 
         return $this;
     }

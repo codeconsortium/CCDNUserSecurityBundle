@@ -1,0 +1,14 @@
+parameters:
+
+    # Service Parameters defined in app/config
+
+services:
+
+    #
+    # Repositories.
+    #
+    ccdn_user_security.repository.session:
+        class: %ccdn_user_security.repository.session.class%
+        arguments:
+            - @doctrine.orm.entity_manager
+            - @ccdn_user_security.gateway.session

@@ -44,19 +44,16 @@ class Configuration implements ConfigurationInterface
         $rootNode = $treeBuilder->root('ccdn_user_security');
 
         // Class file namespaces.
-        $this
-            ->addEntitySection($rootNode)
-            ->addRepositorySection($rootNode)
-            ->addGatewaySection($rootNode)
-            ->addManagerSection($rootNode)
-            ->addComponentSection($rootNode)
-        ;
+        $this->addEntitySection($rootNode);
+        $this->addGatewaySection($rootNode);
+        $this->addRepositorySection($rootNode);
+        $this->addManagerSection($rootNode);
+        $this->addModelSection($rootNode);
+        $this->addComponentSection($rootNode);
 
         // Configuration stuff.
-        $this
-            ->addRouteRefererSection($rootNode)
-            ->addLoginShieldSection($rootNode)
-        ;
+        $this->addRouteRefererSection($rootNode);
+        $this->addLoginShieldSection($rootNode);
 
         return $treeBuilder;
     }
@@ -76,41 +73,18 @@ class Configuration implements ConfigurationInterface
                     ->addDefaultsIfNotSet()
                     ->canBeUnset()
                     ->children()
+                        ->arrayNode('user')
+                            ->addDefaultsIfNotSet()
+                            ->canBeUnset()
+                            ->children()
+                                ->scalarNode('class')->defaultValue('CCDNUser\SecurityBundle\Entity\User')->end()
+                            ->end()
+                        ->end()
                         ->arrayNode('session')
                             ->addDefaultsIfNotSet()
                             ->canBeUnset()
                             ->children()
                                 ->scalarNode('class')->defaultValue('CCDNUser\SecurityBundle\Entity\Session')->end()
-                            ->end()
-                        ->end()
-                    ->end()
-                ->end()
-            ->end()
-        ;
-
-        return $this;
-    }
-
-    /**
-     *
-     * @access private
-     * @param  \Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition $node
-     * @return \CCDNUser\SecurityBundle\DependencyInjection\Configuration
-     */
-    private function addRepositorySection(ArrayNodeDefinition $node)
-    {
-        $node
-            ->addDefaultsIfNotSet()
-            ->children()
-                ->arrayNode('repository')
-                    ->addDefaultsIfNotSet()
-                    ->canBeUnset()
-                    ->children()
-                        ->arrayNode('session')
-                            ->addDefaultsIfNotSet()
-                            ->canBeUnset()
-                            ->children()
-                                ->scalarNode('class')->defaultValue('CCDNUser\SecurityBundle\Repository\SessionRepository')->end()
                             ->end()
                         ->end()
                     ->end()
@@ -140,7 +114,37 @@ class Configuration implements ConfigurationInterface
                             ->addDefaultsIfNotSet()
                             ->canBeUnset()
                             ->children()
-                                ->scalarNode('class')->defaultValue('CCDNUser\SecurityBundle\Gateway\SessionGateway')->end()
+                                ->scalarNode('class')->defaultValue('CCDNUser\SecurityBundle\Model\Gateway\SessionGateway')->end()
+                            ->end()
+                        ->end()
+                    ->end()
+                ->end()
+            ->end()
+        ;
+
+        return $this;
+    }
+
+    /**
+     *
+     * @access private
+     * @param  \Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition $node
+     * @return \CCDNUser\SecurityBundle\DependencyInjection\Configuration
+     */
+    private function addRepositorySection(ArrayNodeDefinition $node)
+    {
+        $node
+            ->addDefaultsIfNotSet()
+            ->children()
+                ->arrayNode('repository')
+                    ->addDefaultsIfNotSet()
+                    ->canBeUnset()
+                    ->children()
+                        ->arrayNode('session')
+                            ->addDefaultsIfNotSet()
+                            ->canBeUnset()
+                            ->children()
+                                ->scalarNode('class')->defaultValue('CCDNUser\SecurityBundle\Model\Repository\SessionRepository')->end()
                             ->end()
                         ->end()
                     ->end()
@@ -170,7 +174,37 @@ class Configuration implements ConfigurationInterface
                             ->addDefaultsIfNotSet()
                             ->canBeUnset()
                             ->children()
-                                ->scalarNode('class')->defaultValue('CCDNUser\SecurityBundle\Manager\SessionManager')->end()
+                                ->scalarNode('class')->defaultValue('CCDNUser\SecurityBundle\Model\Manager\SessionManager')->end()
+                            ->end()
+                        ->end()
+                    ->end()
+                ->end()
+            ->end()
+        ;
+
+        return $this;
+    }
+
+    /**
+     *
+     * @access private
+     * @param  \Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition $node
+     * @return \CCDNUser\SecurityBundle\DependencyInjection\Configuration
+     */
+    private function addModelSection(ArrayNodeDefinition $node)
+    {
+        $node
+            ->addDefaultsIfNotSet()
+            ->children()
+                ->arrayNode('model')
+                    ->addDefaultsIfNotSet()
+                    ->canBeUnset()
+                    ->children()
+                        ->arrayNode('session')
+                            ->addDefaultsIfNotSet()
+                            ->canBeUnset()
+                            ->children()
+                                ->scalarNode('class')->defaultValue('CCDNUser\SecurityBundle\Model\Model\SessionModel')->end()
                             ->end()
                         ->end()
                     ->end()

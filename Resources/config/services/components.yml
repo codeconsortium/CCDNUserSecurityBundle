@@ -1,0 +1,83 @@
+parameters:
+
+    # Service Parameters defined in app/config
+
+services:
+
+    #
+    # Login/Logout Success/Failure Handlers.
+    #
+    ccdn_user_security.component.authentication.handler.login_failure_handler:
+        class: %ccdn_user_security.component.authentication.handler.login_failure_handler.class%
+        arguments:
+            - @router
+            - @ccdn_user_security.component.authentication.tracker.login_failure_tracker
+            - %ccdn_user_security.login_shield.enable_shield%
+            - %ccdn_user_security.login_shield.primary_login_route.name%
+            - %ccdn_user_security.login_shield.primary_login_route.params%
+        tags:
+            - { name: 'monolog.logger', channel: 'security' }
+
+    ccdn_user_security.component.authentication.handler.login_success_handler:
+        class: %ccdn_user_security.component.authentication.handler.login_success_handler.class%
+        arguments: []
+        tags:
+            - { name: 'monolog.logger', channel: 'security' }
+
+    ccdn_user_security.component.authentication.handler.logout_success_handler:
+        class: %ccdn_user_security.component.authentication.handler.logout_success_handler.class%
+        arguments: []
+        tags:
+            - { name: 'monolog.logger', channel: 'security' }
+
+    #
+    # Referer Listener.
+    #
+    ccdn_user_security.component.route_referer_ignore.chain:
+        class: %ccdn_user_security.component.route_referer_ignore.chain.class%
+
+    ccdn_user_security.component.listener.route_referer_listener:
+        class: %ccdn_user_security.component.listener.route_referer_listener.class%
+        arguments:
+            - @router
+            - @ccdn_user_security.component.route_referer_ignore.chain
+            - %ccdn_user_security.route_referer.route_ignore_list%
+        tags:
+            - { name: kernel.event_listener, event: kernel.request, method: onKernelRequest }
+
+    ccdn_user_security.component.listener.blocking_login_listener:
+        class: %ccdn_user_security.component.listener.blocking_login_listener.class%
+        arguments:
+            - @router
+            - @ccdn_user_security.component.authentication.tracker.login_failure_tracker
+            - %ccdn_user_security.login_shield.enable_shield%
+            - %ccdn_user_security.login_shield.block_routes_when_denied%
+            - %ccdn_user_security.login_shield.block_for_minutes%
+            - %ccdn_user_security.login_shield.limit_failed_login_attempts.before_recover_account%
+            - %ccdn_user_security.login_shield.limit_failed_login_attempts.before_return_http_500%
+            - %ccdn_user_security.login_shield.recover_account_route.name%
+            - %ccdn_user_security.login_shield.recover_account_route.params%
+            - %ccdn_user_security.login_shield.primary_login_route.name%
+        tags:
+            - { name: kernel.event_listener, event: kernel.request, method: onKernelRequest }
+
+    #
+    # Authorisation Voter
+    #
+    ccdn_user_security.component.authorisation.voter.client_login_voter:
+        class: %ccdn_user_security.component.authorisation.voter.client_login_voter.class%
+        arguments:
+            - @service_container # for getting Request service
+            - @ccdn_user_security.component.authentication.tracker.login_failure_tracker
+            - %ccdn_user_security.login_shield.enable_shield%
+            - %ccdn_user_security.login_shield.block_routes_when_denied%
+            - %ccdn_user_security.login_shield.block_for_minutes%
+            - %ccdn_user_security.login_shield.limit_failed_login_attempts.before_return_http_500%
+        tags:
+            - { name: security.voter }
+
+    ccdn_user_security.component.authentication.tracker.login_failure_tracker:
+        class: %ccdn_user_security.component.authentication.tracker.login_failure_tracker.class%
+        arguments:
+            - @ccdn_user_security.model.session
+            - %ccdn_user_security.login_shield.block_for_minutes%

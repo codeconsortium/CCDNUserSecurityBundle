@@ -11,12 +11,10 @@
  * file that was distributed with this source code.
  */
 
-namespace CCDNUser\SecurityBundle\Gateway;
+namespace CCDNUser\SecurityBundle\Model\Gateway;
 
 use Doctrine\Bundle\DoctrineBundle\Registry;
 use Doctrine\ORM\QueryBuilder;
-
-use CCDNUser\SecurityBundle\Gateway\BaseGatewayInterface;
 
 /**
  *
@@ -29,7 +27,7 @@ use CCDNUser\SecurityBundle\Gateway\BaseGatewayInterface;
  * @link     https://github.com/codeconsortium/CCDNUserSecurityBundle
  *
  */
-interface BaseGatewayInterface
+interface GatewayInterface
 {
     /**
      *
@@ -74,7 +72,7 @@ interface BaseGatewayInterface
     /**
      *
      * @access public
-     * @return \CCDNUser\SecurityBundle\Gateway\BaseGatewayInterface
+     * @return \CCDNUser\SecurityBundle\Model\Gateway\GatewayInterface
      */
     public function flush();
 }

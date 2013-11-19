@@ -1,0 +1,14 @@
+parameters:
+
+    # Service Parameters defined in app/config
+
+services:
+
+    #
+    # Gateways.
+    #
+    ccdn_user_security.gateway.session:
+        class: %ccdn_user_security.gateway.session.class%
+        arguments:
+            - @doctrine
+            - %ccdn_user_security.entity.session.class%

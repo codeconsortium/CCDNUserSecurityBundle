@@ -1,7 +1,6 @@
 CCDNUser\SecurityBundle\Entity\Session:
     type: entity
     table: cc_security_session
-    repositoryClass: CCDNUser\SecurityBundle\Repository\SessionRepository
     id:
         id:
             type: integer

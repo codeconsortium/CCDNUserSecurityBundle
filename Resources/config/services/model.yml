@@ -1,0 +1,14 @@
+parameters:
+
+    # Service Parameters defined in app/config
+
+services:
+
+    #
+    # Models.
+    #
+    ccdn_user_security.model.session:
+        class: %ccdn_user_security.model.session.class%
+        arguments:
+            - @ccdn_user_security.repository.session
+            - @ccdn_user_security.manager.session

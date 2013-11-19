@@ -11,10 +11,10 @@
  * file that was distributed with this source code.
  */
 
-namespace CCDNUser\SecurityBundle\Manager;
+namespace CCDNUser\SecurityBundle\Model\Manager;
 
-use CCDNUser\SecurityBundle\Manager\BaseManagerInterface;
-use CCDNUser\SecurityBundle\Manager\BaseManager;
+use CCDNUser\SecurityBundle\Model\Manager\ManagerInterface;
+use CCDNUser\SecurityBundle\Model\Manager\BaseManager;
 
 use CCDNUser\SecurityBundle\Entity\Session;
 
@@ -29,37 +29,13 @@ use CCDNUser\SecurityBundle\Entity\Session;
  * @link     https://github.com/codeconsortium/CCDNUserSecurityBundle
  *
  */
-class SessionManager extends BaseManager implements BaseManagerInterface
+class SessionManager extends BaseManager implements ManagerInterface
 {
     /**
      *
      * @access public
-     * @param  string                                          $ipAddress
-     * @param  string                                          $timeLimit
-     * @return \CCDNUser\SecurityBundle\Manager\SessionManager
-     */
-    public function findAllByIpAddressAndLoginAttemptDate($ipAddress, $timeLimit)
-    {
-        $qb = $this->createSelectQuery(array('s'));
-
-        $params = array('1' => $ipAddress, '2' => $timeLimit);
-
-        $qb
-            ->where(
-                $qb->expr()->andx(
-                    $qb->expr()->eq('s.ipAddress', '?1'),
-                    $qb->expr()->gt('s.loginAttemptDate', '?2')
-                )
-            )
-        ;
-
-        return $this->gateway->findSessions($qb, $params);
-    }
-
-    /**
-     *
-     * @access public
-     * @param  string $ipAddress, string $username
+     * @param  string $ipAddress
+	 * @param  string $username
      * @return self
      */
     public function newRecord($ipAddress, $username)
