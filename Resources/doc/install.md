@@ -123,7 +123,7 @@ Use the ignore list for routes you do not want to track for the redirect path af
 
 >Please note that for either 'force_account_recovery' or 'block_pages' to function, you need to specify the 'route_login' config, also you must specify the route for the account recovery page.
 >Once you have enabled either 'force_account_recovery' or 'block_pages', you must specify the routes that you want blocked once the number of attempts has been reached.
->In order that the forced account recovery process works, the limit must be set lower than the block_pages process, otherwise page blocking will supersede this and prevent it from working.
+>In order that the forced account recovery process works, the limit must be set lower than the block_pages process, otherwise page blocking will supersede this and prevent it from working and the route must be provided for the account recovery page.
 
 ### Step 4: enable handlers
 

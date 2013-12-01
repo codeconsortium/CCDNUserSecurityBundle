@@ -26,20 +26,26 @@ For the full copyright and license information, please view the [LICENSE](http:/
 
 ## Description:
 
-Use this bundle to redirect users upon login/logout success to the last page they were on and mitigate brute force dictionary attacks on your sites login.
+Use this bundle to mitigate brute force dictionary attacks on your sites. Excessive failed logins will force users to recover their account, additional attempts
+to circumvent that will block the user from specified webpages by returning an HTTP 500 response on all specified routes.
+
+### You can use this bundle with any User Bundle you like.
+
+> This bundle does *NOT*  provide user registration/login/logout etc features. This bundle is for brute force dictionary attack mitigation only. Use this bundle in conjunction with your preferred user bundle.
 
 ## Features.
 
 SecurityBundle Provides the following features:
 
-1. Redirect user to last page they were on upon successful login.
-2. Redirect user to last page they were on upon successful logout.
-3. Prevent brute force attacks being carried out by limiting number of login attempts:
+1. Prevent brute force attacks being carried out by limiting number of login attempts:
 	1. When first limit is reached, redirect to an account recovery page.
 	2. When secondary limit is reached, return an HTTP 500 status to block login pages etc.
-4. All limits are configurable.
-5. Routes to block are configurable.
-6. Route for account recovery page is configurable.
+3. All limits are configurable.
+4. Routes to block are configurable.
+5. Route for account recovery page is configurable.
+6. Decoupled from UserBundle specifics. You can use this with any user bundle you like.
+6. Redirect user to last page they were on upon successful login.
+7. Redirect user to last page they were on upon successful logout.
 
 ## Documentation.
 
