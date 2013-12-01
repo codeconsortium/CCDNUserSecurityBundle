@@ -17,12 +17,11 @@ Available on:
 * [Github](http://www.github.com/codeconsortium/CCDNUserSecurityBundle)
 * [Packagist](https://packagist.org/packages/codeconsortium/ccdn-user-security-bundle)
 
-Icons courtesy of [PC.de Icons](http://pc.de/icons/) licensed under [Creative Commons](http://creativecommons.org/licenses/by/3.0/).
-Theme and Sprite graphics courtesy of [twitter bootstrap](http://twitter.github.com/bootstrap/index.html) and [GLYPHICONS](http://glyphicons.com/).
-
-Other graphics are works of CodeConsortium.
-
 For the full copyright and license information, please view the [LICENSE](http://github.com/codeconsortium/CCDNUserSecurityBundle/blob/master/Resources/meta/LICENSE) file that was distributed with this source code.
+
+[![Build Status](https://secure.travis-ci.org/codeconsortium/CCDNUserSecurityBundle.png)](https://travis-ci.org/codeconsortium/CCDNUserSecurityBundle) [![Latest Stable Version](https://poser.pugx.org/codeconsortium/ccdn-user-security-bundle/v/stable.png)](https://packagist.org/packages/codeconsortium/ccdn-user-security-bundle) [![Total Downloads](https://poser.pugx.org/codeconsortium/ccdn-user-security-bundle/downloads.png)](https://packagist.org/packages/codeconsortium/ccdn-user-security-bundle)
+
+[![knpbundles.com](http://knpbundles.com/codeconsortium/CCDNUserSecurityBundle/badge-short)](http://knpbundles.com/codeconsortium/CCDNUserSecurityBundle) 
 
 ## Description:
 
