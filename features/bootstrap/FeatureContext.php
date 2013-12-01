@@ -134,16 +134,10 @@ class FeatureContext extends RawMinkContext implements KernelAwareInterface
      */
     public function iCircumventLoginWithAnd($username, $password)
     {
-		//ldd($this->getPage()->findButton('_submit'));
-		//ldd($this->getMainContext()->getSession()->getCurrentUrl());
-		//$fields = array(
-		//    '_username' => $username,
-		//    '_password' => $password
-		//);
-        //
-		//$response = http_post_fields('/login_check', $fields);
-		//
-        //throw new PendingException();
+		$this->getMainContext()->getSession()->visit('/circumvent_login');
+        $this->getMainContext()->getSession()->getPage()->fillField('_username', $username);
+        $this->getMainContext()->getSession()->getPage()->fillField('_password', $password);
+        $this->getMainContext()->getSession()->getPage()->pressButton('Login');
     }
 
     /**

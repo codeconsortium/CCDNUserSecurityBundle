@@ -1,0 +1,13 @@
+<form action="{{- path('fos_user_security_check') -}}" method="post" class="form-vertical">
+	<fieldset>
+
+	    <input type="hidden" name="_csrf_token" value="{{ csrf_token }}" />
+
+		<input type="text" id="username" name="_username" required="required" placeholder="Username" />
+
+		<input type="password" id="password" name="_password" required="required" placeholder="Password" />
+
+		<input type="submit" id="_submit" name="_submit" value="Login">
+
+	</fieldset>
+</form>

@@ -34,4 +34,9 @@ Feature: Check Blocking Functionalities
 		And I should not be logged in
 		And I circumvent login with "user1@foo.com" and "wrongpass"
 		And I should not be logged in
+		And I circumvent login with "user1@foo.com" and "wrongpass"
+		And I should not be logged in
+		And I circumvent login with "user1@foo.com" and "wrongpass"
+		And I should not be logged in
 		And I should be blocked
+

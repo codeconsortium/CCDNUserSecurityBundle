@@ -17,3 +17,7 @@ fos_user_resetting:
 fos_user_change_password:
     resource: "@FOSUserBundle/Resources/config/routing/change_password.xml"
     prefix: /profile
+
+ccdn_user_security_circumvent_login:
+    pattern:  /circumvent_login
+    defaults: { _controller: CCDNUserSecurityBundle:TestLogin:circumvent }
