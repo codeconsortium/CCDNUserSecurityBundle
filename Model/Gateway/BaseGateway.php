@@ -129,7 +129,7 @@ abstract class BaseGateway
     /**
      *
      * @access protected
-     * @param $item
+     * @param  $item
      * @return \CCDNUser\SecurityBundle\Gateway\BaseGatewayInterface
      */
     protected function persist($item)
@@ -142,7 +142,7 @@ abstract class BaseGateway
     /**
      *
      * @access protected
-     * @param $item
+     * @param  $item
      * @return \CCDNUser\SecurityBundle\Gateway\BaseGatewayInterface
      */
     protected function remove($item)

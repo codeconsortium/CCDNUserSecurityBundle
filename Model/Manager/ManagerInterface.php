@@ -94,7 +94,7 @@ interface ManagerInterface
     /**
      *
      * @access public
-     * @param $entity
+     * @param  $entity
      * @return \CCDNUser\SecurityBundle\Model\Manager\ManagerInterface
      */
     public function persist($entity);
@@ -102,7 +102,7 @@ interface ManagerInterface
     /**
      *
      * @access public
-     * @param $entity
+     * @param  $entity
      * @return \CCDNUser\SecurityBundle\Model\Manager\ManagerInterface
      */
     public function remove($entity);
@@ -117,7 +117,7 @@ interface ManagerInterface
     /**
      *
      * @access public
-     * @param $entity
+     * @param  $entity
      * @return \CCDNUser\SecurityBundle\Model\Manager\ManagerInterface
      */
     public function refresh($entity);

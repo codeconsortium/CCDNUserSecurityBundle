@@ -52,7 +52,7 @@ abstract class BaseManager
     /**
      *
      * @access protected
-     * @var \CCDNUser\SecurityBundle\Model\Manager\ManagerInterface $gateway
+     * @var \CCDNUser\SecurityBundle\Model\Gateway\GatewayInterface $gateway
      */
     protected $gateway;
 
@@ -166,7 +166,7 @@ abstract class BaseManager
     /**
      *
      * @access public
-     * @param $entity
+     * @param  $entity
      * @return \CCDNUser\SecurityBundle\Model\Manager\ManagerInterface
      */
     public function persist($entity)
@@ -179,7 +179,7 @@ abstract class BaseManager
     /**
      *
      * @access public
-     * @param $entity
+     * @param  $entity
      * @return \CCDNUser\SecurityBundle\Model\Manager\ManagerInterface
      */
     public function remove($entity)

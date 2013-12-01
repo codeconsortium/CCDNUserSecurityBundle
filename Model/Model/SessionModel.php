@@ -46,8 +46,9 @@ class SessionModel extends BaseModel implements ModelInterface
     /**
      *
      * @access public
-     * @param  string $ipAddress, string $username
-     * @return self
+     * @param  string                                            $ipAddress
+	 * @param  string                                            $username
+     * @return \CCDNUser\SecurityBundle\Model\Model\SessionModel
      */
     public function newRecord($ipAddress, $username)
 	{
