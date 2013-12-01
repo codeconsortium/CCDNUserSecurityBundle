@@ -15,7 +15,6 @@ namespace CCDNUser\SecurityBundle\Component\Listener;
 
 use Symfony\Component\HttpKernel\Event\GetResponseEvent;
 use Symfony\Bundle\FrameworkBundle\Routing\Router;
-use CCDNUser\SecurityBundle\Component\Listener\Chain\RouteRefererIgnoreChain;
 
 /**
  *
@@ -40,26 +39,19 @@ class RouteRefererListener
     /**
      *
      * @access protected
-     * @var \CCDNUser\SecurityBundle\Component\Listener\Chain\RouteRefererIgnoreChain $routeIgnoreChain
-     */
-    protected $routeIgnoreChain;
-
-    /**
-     *
-     * @access protected
      * @var array $routeIgnoreList
      */
     protected $routeIgnoreList;
 
     /**
-     * @param \Symfony\Bundle\FrameworkBundle\Routing\Router                            $router
-     * @param \CCDNUser\SecurityBundle\Component\Listener\Chain\RouteRefererIgnoreChain $routeIgnoreChain
-     * @param array                                                                     $routeIgnoreList
+     * 
+     * @access public
+     * @param  \Symfony\Bundle\FrameworkBundle\Routing\Router $router
+     * @param  array                                          $routeIgnoreList
      */
-    public function __construct(Router $router, RouteRefererIgnoreChain $routeIgnoreChain, $routeIgnoreList)
+    public function __construct(Router $router, $routeIgnoreList)
     {
         $this->router = $router;
-        $this->routeIgnoreChain = $routeIgnoreChain;
         $this->routeIgnoreList = $routeIgnoreList;
     }
 
@@ -80,23 +72,12 @@ class RouteRefererListener
 
         // Get the route from the request object.
         $request = $event->getRequest();
-
         $route = $request->get('_route');
 
-        // Get the list of routes we must ignore.
-        $logIgnore = $this->routeIgnoreList;
-
-        $routeIgnoreChain = $this->routeIgnoreChain;
-
-        $ignorable = is_array($routeIgnoreChain) ? array_merge($routeIgnoreChain, $logIgnore) : $logIgnore;
-
-        // Abort if the route is ignorable.
-        foreach ($ignorable as $ignore) {
-            if ($route == $ignore['route']) {
-                return;
-            }
-        }
-
+		if (in_array($route, $this->routeIgnoreList)) {
+			return;
+		}
+		
         // Check for any internal routes.
         if ($route[0] == '_') {
             return;
@@ -104,9 +85,7 @@ class RouteRefererListener
 
         // Get the session and assign it the url we are at presently.
         $session = $request->getSession();
-
         $script = ($request->getScriptName() == $request->getBasePath() . '/app_dev.php') ? $request->getScriptName() : $request->getBasePath();
-
         $session->set('referer', $script . $request->getPathInfo());
     }
 }

@@ -11,9 +11,15 @@
  * file that was distributed with this source code.
  */
 
-namespace CCDNUser\SecurityBundle\Component\Listener\Chain;
+namespace CCDNUser\SecurityBundle\features\bootstrap;
+
+use Behat\MinkExtension\Context\MinkContext;
+use Behat\Symfony2Extension\Context\KernelAwareInterface;
+use Symfony\Component\HttpKernel\KernelInterface;
 
 /**
+ *
+ * Web user context.
  *
  * @category CCDNUser
  * @package  SecurityBundle
@@ -24,47 +30,32 @@ namespace CCDNUser\SecurityBundle\Component\Listener\Chain;
  * @link     https://github.com/codeconsortium/CCDNUserSecurityBundle
  *
  */
-class RouteRefererIgnoreChain
+class WebUser extends MinkContext implements KernelAwareInterface
 {
     /**
      *
-     * @access private
-     * @var array $chain
+     * Kernel.
+     *
+     * @var KernelInterface
      */
-    private $chain;
+    protected $kernel;
 
     /**
      *
-     * @access public
+     * Constructor.
      */
     public function __construct()
     {
-        $this->chain = array();
+        // Bundle data creation context.
+        $this->useContext('data', new DataContext());
     }
 
     /**
      *
-      * @access public
-     * @param array $list
+     * {@inheritdoc}
      */
-    public function addRoutesToIgnore($list)
+    public function setKernel(KernelInterface $kernel)
     {
-        $this->chain[] = $list;
-    }
-
-    /**
-     *
-      * @access public
-     * @return mixed[]
-     */
-    public function getRoutes()
-    {
-        $ignore = array();
-
-        foreach ($this->chain as $object) {
-            $ignore = array_merge($ignore, $object->getRoutes());
-        }
-
-        return $ignore;
+        $this->kernel = $kernel;
     }
 }

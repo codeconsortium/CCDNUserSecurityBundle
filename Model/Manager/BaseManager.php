@@ -88,8 +88,8 @@ abstract class BaseManager
     /**
      *
      * @access public
-     * @param  \CCDNUser\ProfileBundle\Model\Model\ModelInterface           $model
-     * @return \CCDNUser\ProfileBundle\Model\Repository\RepositoryInterface
+     * @param  \CCDNUser\SecurityBundle\Model\Model\ModelInterface           $model
+     * @return \CCDNUser\SecurityBundle\Model\Repository\RepositoryInterface
      */
     public function setModel($model)
     {

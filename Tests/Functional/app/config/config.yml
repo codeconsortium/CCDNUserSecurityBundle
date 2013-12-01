@@ -93,6 +93,23 @@ security:
 #                    admin:      { password: root, roles: [ 'ROLE_ADMIN' ] }
     firewalls:
         main:
+            switch_user: true
+            pattern: ^/
+            form_login:
+                provider:        fos_userbundle
+                login_path:      /login
+                use_forward:     false
+                check_path:      /login_check
+                success_handler: ccdn_user_security.component.authentication.handler.login_success_handler
+                failure_handler: ccdn_user_security.component.authentication.handler.login_failure_handler
+                failure_path:    null
+                csrf_provider:   form.csrf_provider
+                #success_handler:
+            logout:
+                path: /logout
+                target: /
+                success_handler: ccdn_user_security.component.authentication.handler.logout_success_handler
+            anonymous: true
             http_basic:
             #switch_user: true
             #pattern: ^/
@@ -120,3 +137,47 @@ ccdn_user_security:
     entity:
         user:
             class: CCDNUser\SecurityBundle\Tests\Functional\src\Entity\User
+    route_referer:
+        enabled: false
+        route_ignore_list:
+            - fos_user_security_login
+            - fos_user_security_check
+            - fos_user_security_logout
+            - fos_user_registration_register
+            - fos_user_registration_check_email
+            - fos_user_registration_confirm
+            - fos_user_registration_confirmed
+            - fos_user_resetting_request
+            - fos_user_resetting_send_email
+            - fos_user_resetting_check_email
+            - fos_user_resetting_reset
+            - fos_user_change_password
+    login_shield:
+        route_login:
+            name:                  fos_user_security_login
+            params:                []
+        force_account_recovery:    # Specify all routes to block after attempt limit is reached, and account recovery route to force browser redirect.
+            enabled:               true
+            after_attempts:        2
+            duration_in_minutes:   1
+            route_recover_account:
+                name:              fos_user_resetting_request
+                params:            []
+            routes:
+                - fos_user_security_login
+                - fos_user_security_check
+                - fos_user_security_logout
+        block_pages:               # Specify all routes to block after attempt limit is reached.
+            enabled:               true
+            after_attempts:        4
+            duration_in_minutes:   2
+            routes:
+                - fos_user_security_login
+                - fos_user_security_check
+                - fos_user_security_logout
+                - fos_user_registration_register
+                - fos_user_registration_check_email
+                - fos_user_registration_confirm
+                - fos_user_registration_confirmed
+                - fos_user_resetting_request
+                - fos_user_resetting_send_email

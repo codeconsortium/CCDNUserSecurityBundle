@@ -182,22 +182,9 @@ class CCDNUserSecurityExtension extends Extension
      */
     private function getRouteRefererSection(ContainerBuilder $container, $config)
     {
-        $defaults = array(
-            array('bundle' => 'fosuserbundle', 'route' => 'fos_user_security_login'),
-            array('bundle' => 'fosuserbundle', 'route' => 'fos_user_security_check'),
-            array('bundle' => 'fosuserbundle', 'route' => 'fos_user_security_logout'),
-            array('bundle' => 'fosuserbundle', 'route' => 'fos_user_registration_register'),
-            array('bundle' => 'fosuserbundle', 'route' => 'fos_user_registration_check_email'),
-            array('bundle' => 'fosuserbundle', 'route' => 'fos_user_registration_confirm'),
-            array('bundle' => 'fosuserbundle', 'route' => 'fos_user_registration_confirmed'),
-            array('bundle' => 'fosuserbundle', 'route' => 'fos_user_resetting_request'),
-            array('bundle' => 'fosuserbundle', 'route' => 'fos_user_resetting_send_email'),
-            array('bundle' => 'fosuserbundle', 'route' => 'fos_user_resetting_check_email'),
-            array('bundle' => 'fosuserbundle', 'route' => 'fos_user_resetting_reset'),
-            array('bundle' => 'fosuserbundle', 'route' => 'fos_user_change_password'),
-        );
-
-        $container->setParameter('ccdn_user_security.route_referer.route_ignore_list', array_merge($config['route_referer']['route_ignore_list'], $defaults));
+        $container->setParameter('ccdn_user_security.route_referer', $config['route_referer']);
+        $container->setParameter('ccdn_user_security.route_referer.enabled', $config['route_referer']['enabled']);
+        $container->setParameter('ccdn_user_security.route_referer.route_ignore_list', $config['route_referer']['route_ignore_list']);
 
         return $this;
     }
@@ -211,25 +198,10 @@ class CCDNUserSecurityExtension extends Extension
      */
     private function getLoginShieldSection(ContainerBuilder $container, $config)
     {
-        $container->setParameter('ccdn_user_security.login_shield.enable_shield', $config['login_shield']['enable_shield']);
-        $container->setParameter('ccdn_user_security.login_shield.block_for_minutes', $config['login_shield']['block_for_minutes']);
-        $container->setParameter('ccdn_user_security.login_shield.limit_failed_login_attempts.before_recover_account', $config['login_shield']['limit_failed_login_attempts']['before_recover_account']);
-        $container->setParameter('ccdn_user_security.login_shield.limit_failed_login_attempts.before_return_http_500', $config['login_shield']['limit_failed_login_attempts']['before_return_http_500']);
-
-        $container->setParameter('ccdn_user_security.login_shield.primary_login_route.name', $config['login_shield']['primary_login_route']['name']);
-        $container->setParameter('ccdn_user_security.login_shield.primary_login_route.params', $config['login_shield']['primary_login_route']['params']);
-
-        $container->setParameter('ccdn_user_security.login_shield.recover_account_route.name', $config['login_shield']['recover_account_route']['name']);
-        $container->setParameter('ccdn_user_security.login_shield.recover_account_route.params', $config['login_shield']['recover_account_route']['params']);
-
-        $blockRoutesWhenDeniedDefaults = array(
-            'fos_user_security_login',
-            'fos_user_security_check',
-            'fos_user_security_logout',
-        );
-
-        $container->setParameter('ccdn_user_security.login_shield.block_routes_when_denied', array_merge($config['login_shield']['block_routes_when_denied'], $blockRoutesWhenDeniedDefaults));
-
+        $container->setParameter('ccdn_user_security.login_shield.route_login', $config['login_shield']['route_login']);
+		$container->setParameter('ccdn_user_security.login_shield.force_account_recovery', $config['login_shield']['force_account_recovery']);
+		$container->setParameter('ccdn_user_security.login_shield.block_pages', $config['login_shield']['block_pages']);
+		
         return $this;
     }
 }

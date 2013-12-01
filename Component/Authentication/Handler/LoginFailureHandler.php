@@ -53,40 +53,22 @@ class LoginFailureHandler implements AuthenticationFailureHandlerInterface
     /**
      *
      * @access protected
-     * @var bool $enableShield
+     * @var array $routeLogin
      */
-    protected $enableShield;
-
-    /**
-     *
-     * @access protected
-     * @var string $loginRoute
-     */
-    protected $loginRoute;
-
-    /**
-     *
-     * @access protected
-     * @var array $loginRouteParams
-     */
-    protected $loginRouteParams;
+    protected $routeLogin;
 
     /**
      *
      * @access public
-     * @param \Symfony\Bundle\FrameworkBundle\Routing\Router                                $router
-     * @param \CCDNUser\SecurityBundle\Component\Authentication\Tracker\LoginFailureTracker $loginFailureTracker
-     * @param bool                                                                          $enableShield
-     * @param string                                                                        $loginRoute
-     * @param array                                                                         $loginRouteParams
+     * @param  \Symfony\Bundle\FrameworkBundle\Routing\Router                                $router
+     * @param  \CCDNUser\SecurityBundle\Component\Authentication\Tracker\LoginFailureTracker $loginFailureTracker
+     * @param  array                                                                         $routeLogin
      */
-    public function __construct(Router $router, LoginFailureTracker $loginFailureTracker, $enableShield, $loginRoute, $loginRouteParams)
+    public function __construct(Router $router, LoginFailureTracker $loginFailureTracker, $routeLogin)
     {
         $this->router = $router;
         $this->loginFailureTracker = $loginFailureTracker;
-        $this->enableShield = $enableShield;
-        $this->loginRoute = $loginRoute;
-        $this->loginRouteParams = $loginRouteParams;
+        $this->routeLogin = $routeLogin;
     }
 
     /**
@@ -98,25 +80,19 @@ class LoginFailureHandler implements AuthenticationFailureHandlerInterface
      */
     public function onAuthenticationFailure(Request $request, AuthenticationException $exception)
     {
-        if ($this->enableShield) {
-            // Get the attempted username.
-            if ($request->request->has('_username')) {
-                $username = $request->request->get('_username');
-            } else {
-                $username = '';
-            }
-
-            // Get our visitors Session & IP address.
-            $session = $request->getSession();
-
-            $ipAddress = $request->getClientIp();
-
-            // Make a note of the failed login.
-            $this->loginFailureTracker->addAttempt($session, $ipAddress, $username);
-
-            $session->set(SecurityContext::AUTHENTICATION_ERROR, $exception);
+        // Get the visitors IP address and attempted username.
+        $ipAddress = $request->getClientIp();
+        if ($request->request->has('_username')) {
+            $username = $request->request->get('_username');
+        } else {
+            $username = '';
         }
 
+        // Make a note of the failed login.
+        $this->loginFailureTracker->addAttempt($ipAddress, $username);
+        $request->getSession()->set(SecurityContext::AUTHENTICATION_ERROR, $exception);
+
+		// Send response back to browser depending on wether this is XML request or not.
         if ($request->isXmlHttpRequest() || $request->request->get('_format') === 'json') {
             $response = new Response(
                 json_encode(
@@ -128,15 +104,15 @@ class LoginFailureHandler implements AuthenticationFailureHandlerInterface
             );
 
             $response->headers->set('Content-Type', 'application/json');
-
-            return $response;
         } else {
-            return new RedirectResponse(
+            $response = new RedirectResponse(
                 $this->router->generate(
-                    $this->loginRoute,
-                    $this->loginRouteParams
+                    $this->routeLogin['name'],
+                    $this->routeLogin['params']
                 )
             );
         }
+		
+        return $response;
     }
 }

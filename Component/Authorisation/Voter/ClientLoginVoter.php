@@ -33,66 +33,21 @@ use CCDNUser\SecurityBundle\Component\Authentication\Tracker\LoginFailureTracker
  */
 class ClientLoginVoter implements VoterInterface
 {
-    /**
-     *
-     * @access protected
-     * @var \Symfony\Component\DependencyInjection\ContainerInterface $container
-     */
-    protected $container;
-
-    /**
-     *
-     * @access protected
-     * @var \CCDNUser\SecurityBundle\Component\Authentication\Tracker\LoginFailureTracker $loginFailureTracker
-     */
-    protected $loginFailureTracker;
-
-    /**
-     *
-     * @access protected
-     * @var bool $enableShield
-     */
-    protected $enableShield;
-
-    /**
-     *
-     * @access protected
-     * @var array $blockRoutes
-     */
-    protected $blockRoutes;
-
-    /**
-     *
-     * @access protected
-     * @var int $blockForMinutes
-     */
-    protected $blockForMinutes;
-
-    /**
-     *
-     * @access protected
-     * @var int $limitBeforeHttp500
-     */
-    protected $limitBeforeHttp500;
+	/**
+	 * 
+	 * @access protected
+	 * @var \CCDNUser\SecurityBundle\Component\Authorisation\SecurityManager $securityManager
+	 */
+	protected $securityManager;
 
     /**
      *
      * @access public
-     * @param \Symfony\Component\HttpFoundation\Request                                     $request
-     * @param \CCDNUser\SecurityBundle\Component\Authentication\Tracker\LoginFailureTracker $loginFailureTracker
-     * @param bool                                                                          $enableShield
-     * @param array                                                                         $blockRoutes
-     * @param int                                                                           $blockForMinutes
-     * @param int                                                                           $limitBeforeHttp500
+     * @param  \CCDNUser\SecurityBundle\Component\Authorisation\SecurityManager $loginFailureTracker
      */
-    public function __construct(ContainerInterface $container, LoginFailureTracker $loginFailureTracker, $enableShield, $blockRoutes, $blockForMinutes, $limitBeforeHttp500)
+    public function __construct($securityManager)
     {
-        $this->container = $container;
-        $this->loginFailureTracker = $loginFailureTracker;
-        $this->enableShield = $enableShield;
-        $this->blockRoutes = $blockRoutes;
-        $this->blockForMinutes = $blockForMinutes;
-        $this->limitBeforeHttp500 = $limitBeforeHttp500;
+		$this->securityManager = $securityManager;
     }
 
     /**
@@ -129,32 +84,19 @@ class ClientLoginVoter implements VoterInterface
      */
     public function vote(TokenInterface $token, $object, array $attributes)
     {
-        if ($this->enableShield) {
-            $request = $this->container->get('request');
-
-            $route = $request->get('_route');
-
-            // Abort if the route is not a login route.
-            if (! in_array($route, $this->blockRoutes)) {
-                return VoterInterface::ACCESS_ABSTAIN;
-            }
-
-            // Set a limit on how far back we want to look at failed login attempts.
-            $timeLimit = new \DateTime('-' . $this->blockForMinutes . ' minutes');
-
-            // Get session and check if it has any entries of failed logins.
-            $session = $request->getSession();
-
-            $ipAddress = $request->getClientIp();
-
-            // Get number of failed login attempts.
-            $attempts = $this->loginFailureTracker->getAttempts($session, $ipAddress);
-
-            if (count($attempts) > $this->limitBeforeHttp500) {
-                return VoterInterface::ACCESS_DENIED;
-            }
-        }
-
-        return VoterInterface::ACCESS_ABSTAIN;
+		$securityManager = $this->securityManager; // Avoid the silly cryptic error 'T_PAAMAYIM_NEKUDOTAYIM'
+		$result = $securityManager->vote();
+		
+		if ($result == $securityManager::ACCESS_ALLOWED) {
+			return VoterInterface::ACCESS_ABSTAIN;
+		}
+		
+		if ($result == $securityManager::ACCESS_DENIED_DEFER) {
+			return VoterInterface::ACCESS_ABSTAIN;
+		}
+		
+		if ($result == $securityManager::ACCESS_DENIED_BLOCK) {
+			return VoterInterface::ACCESS_DENIED;
+		}
     }
 }
