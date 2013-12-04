@@ -3,7 +3,6 @@
 namespace CCDNUser\SecurityBundle\Tests\Functional\src\Entity;
 
 use FOS\UserBundle\Model\User as BaseUser;
-use CCDNUser\SecurityBundle\Entity\Security;
 
 class User extends BaseUser
 {

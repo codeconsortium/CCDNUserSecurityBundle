@@ -147,12 +147,4 @@ class FeatureContext extends RawMinkContext implements KernelAwareInterface
     {
 		WebTestCase::assertSame(500, $this->getMainContext()->getSession()->getStatusCode());
     }
-
-    /**
-     * @Given /^I dump$/
-     */
-    public function iDump()
-    {
-		ldd($this->getPage()->getHtml());
-	}
 }
