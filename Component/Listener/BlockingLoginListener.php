@@ -17,7 +17,6 @@ use Symfony\Component\HttpKernel\Exception\HttpException;
 use Symfony\Component\HttpKernel\Event\GetResponseEvent;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Bundle\FrameworkBundle\Routing\Router;
-use CCDNUser\SecurityBundle\Component\Authentication\Tracker\LoginFailureTracker;
 
 /**
  *

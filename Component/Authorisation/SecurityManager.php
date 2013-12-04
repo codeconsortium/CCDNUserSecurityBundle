@@ -14,10 +14,6 @@
 namespace CCDNUser\SecurityBundle\Component\Authorisation;
 
 use Symfony\Component\DependencyInjection\ContainerInterface;
-use Symfony\Component\HttpKernel\Exception\HttpException;
-use Symfony\Component\HttpKernel\Event\GetResponseEvent;
-use Symfony\Component\HttpFoundation\RedirectResponse;
-use Symfony\Bundle\FrameworkBundle\Routing\Router;
 use CCDNUser\SecurityBundle\Component\Authentication\Tracker\LoginFailureTracker;
 
 /**
@@ -103,10 +99,7 @@ class SecurityManager
 		if ($this->forceAccountRecovery['enabled'] || $this->blockPages['enabled']) {
 			$request = $this->container->get('request');
             $route = $request->get('_route');
-			
-            // Get session and check if it has any entries of failed logins.
-            $session = $request->getSession();
-            $ipAddress = $request->getClientIp();
+			$ipAddress = $request->getClientIp();
 
 			$this->blockPages['routes'][] = $this->routeLogin['name'];
 			if ($this->blockPages['enabled'] && in_array($route, $this->blockPages['routes'])) {

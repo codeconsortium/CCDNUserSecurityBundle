@@ -14,13 +14,10 @@
 namespace CCDNUser\SecurityBundle\Model\Manager;
 
 use Symfony\Component\EventDispatcher\ContainerAwareEventDispatcher;
-use Symfony\Component\Security\Core\User\UserInterface;
-use Symfony\Component\Security\Core\SecurityContext;
-
 use Doctrine\Bundle\DoctrineBundle\Registry;
 use Doctrine\ORM\QueryBuilder;
-
 use CCDNUser\SecurityBundle\Model\Gateway\GatewayInterface;
+use CCDNUser\SecurityBundle\Model\Model\ModelInterface;
 
 /**
  *
@@ -91,7 +88,7 @@ abstract class BaseManager
      * @param  \CCDNUser\SecurityBundle\Model\Model\ModelInterface           $model
      * @return \CCDNUser\SecurityBundle\Model\Repository\RepositoryInterface
      */
-    public function setModel($model)
+    public function setModel(ModelInterface $model)
     {
         $this->model = $model;
 

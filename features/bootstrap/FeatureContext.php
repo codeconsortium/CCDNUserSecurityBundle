@@ -14,13 +14,11 @@
 namespace CCDNUser\SecurityBundle\features\bootstrap;
 
 use Behat\MinkExtension\Context\RawMinkContext;
-use Behat\Mink\Element\NodeElement;
-
 use Behat\Symfony2Extension\Context\KernelAwareInterface;
 use Doctrine\Common\DataFixtures\Purger\ORMPurger;
 use Symfony\Component\HttpKernel\KernelInterface;
-
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
+use CCDNUser\SecurityBundle\features\bootstrap\WebUser;
 
 /**
  *
@@ -88,11 +86,6 @@ class FeatureContext extends RawMinkContext implements KernelAwareInterface
 
         $purger = new ORMPurger($entityManager);
         $purger->purge();
-    }
-
-    private function getPage()
-    {
-        return $this->getMainContext()->getSession()->getPage();
     }
 
     /**

@@ -13,7 +13,6 @@
 
 namespace CCDNUser\SecurityBundle\Component\Authentication\Tracker;
 
-use Symfony\Component\HttpFoundation\Session\Session;
 use CCDNUser\SecurityBundle\Model\Model\SessionModel;
 
 /**

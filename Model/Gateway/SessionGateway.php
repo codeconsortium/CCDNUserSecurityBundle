@@ -13,13 +13,9 @@
 
 namespace CCDNUser\SecurityBundle\Model\Gateway;
 
-use Symfony\Component\Security\Core\User\UserInterface;
-
 use Doctrine\ORM\QueryBuilder;
-
 use CCDNUser\SecurityBundle\Model\Gateway\GatewayInterface;
 use CCDNUser\SecurityBundle\Model\Gateway\BaseGateway;
-
 use CCDNUser\SecurityBundle\Entity\Session;
 
 /**

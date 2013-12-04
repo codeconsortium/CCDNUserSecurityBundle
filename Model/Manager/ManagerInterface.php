@@ -14,13 +14,10 @@
 namespace CCDNUser\SecurityBundle\Model\Manager;
 
 use Symfony\Component\EventDispatcher\ContainerAwareEventDispatcher;
-use Symfony\Component\Security\Core\User\UserInterface;
-use Symfony\Component\Security\Core\SecurityContext;
-
 use Doctrine\Bundle\DoctrineBundle\Registry;
 use Doctrine\ORM\QueryBuilder;
-
 use CCDNUser\SecurityBundle\Model\Gateway\GatewayInterface;
+use CCDNUser\SecurityBundle\Model\Model\ModelInterface;
 
 /**
  *
@@ -43,6 +40,14 @@ interface ManagerInterface
      * @param  \CCDNUser\SecurityBundle\Model\Gateway\GatewayInterface           $gateway
      */
     public function __construct(ContainerAwareEventDispatcher $dispatcher, Registry $doctrine, GatewayInterface $gateway);
+
+    /**
+     *
+     * @access public
+     * @param  \CCDNUser\SecurityBundle\Model\Model\ModelInterface           $model
+     * @return \CCDNUser\SecurityBundle\Model\Repository\RepositoryInterface
+     */
+    public function setModel(ModelInterface $model);
 
     /**
      *

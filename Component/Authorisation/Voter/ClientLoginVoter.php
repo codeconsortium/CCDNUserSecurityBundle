@@ -13,12 +13,8 @@
 
 namespace CCDNUser\SecurityBundle\Component\Authorisation\Voter;
 
-use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\Security\Core\Authorization\Voter\VoterInterface;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
-use Symfony\Component\HttpFoundation\Request;
-
-use CCDNUser\SecurityBundle\Component\Authentication\Tracker\LoginFailureTracker;
 
 /**
  *

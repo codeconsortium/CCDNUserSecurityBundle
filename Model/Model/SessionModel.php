@@ -13,8 +13,6 @@
 
 namespace CCDNUser\SecurityBundle\Model\Model;
 
-use Symfony\Component\Security\Core\User\UserInterface;
-
 use CCDNUser\SecurityBundle\Model\Model\BaseModel;
 use CCDNUser\SecurityBundle\Model\Model\ModelInterface;
 
