@@ -50,7 +50,7 @@ class ClientLoginVoter implements VoterInterface
      *
      * @access public
      * @param $attribute
-      * @return bool
+     * @return bool
      */
     public function supportsAttribute($attribute)
     {
@@ -82,7 +82,7 @@ class ClientLoginVoter implements VoterInterface
     {
 		$securityManager = $this->securityManager; // Avoid the silly cryptic error 'T_PAAMAYIM_NEKUDOTAYIM'
 		$result = $securityManager->vote();
-		
+
 		if ($result == $securityManager::ACCESS_ALLOWED) {
 			return VoterInterface::ACCESS_ABSTAIN;
 		}

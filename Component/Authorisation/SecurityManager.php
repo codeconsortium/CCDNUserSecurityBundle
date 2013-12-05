@@ -32,10 +32,9 @@ class SecurityManager
     /**
      *
      * @access protected
-     * @var \Symfony\Component\DependencyInjection\ContainerInterface $container
+     * @var \Symfony\Component\HttpFoundation\Request $request
      */
-    protected $container;
-
+    protected $request;
     /**
      *
      * @access protected
@@ -80,7 +79,7 @@ class SecurityManager
      */
     public function __construct(ContainerInterface $container, LoginFailureTracker $loginFailureTracker, $routeLogin, $forceAccountRecovery, $blockPages)
     {
-	    $this->container = $container;
+		$this->request = $container->get('request');
 		$this->loginFailureTracker = $loginFailureTracker;
 		$this->routeLogin = $routeLogin;
 		$this->forceAccountRecovery = $forceAccountRecovery;
@@ -97,9 +96,8 @@ class SecurityManager
     public function vote()
     {
 		if ($this->forceAccountRecovery['enabled'] || $this->blockPages['enabled']) {
-			$request = $this->container->get('request');
-            $route = $request->get('_route');
-			$ipAddress = $request->getClientIp();
+            $route = $this->request->get('_route');
+			$ipAddress = $this->request->getClientIp();
 
 			$this->blockPages['routes'][] = $this->routeLogin['name'];
 			if ($this->blockPages['enabled'] && in_array($route, $this->blockPages['routes'])) {
