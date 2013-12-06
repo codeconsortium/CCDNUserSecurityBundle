@@ -38,7 +38,6 @@ class AppKernel extends Kernel
      */
     public function getCacheDir()
     {
-		//return __DIR__ . '//cache//' . $this->getEnvironment();
         return sys_get_temp_dir().'/CCDNUserSecurityBundle/cache/' . $this->getEnvironment();
     }
 
@@ -47,7 +46,6 @@ class AppKernel extends Kernel
      */
     public function getLogDir()
     {
-		//return __DIR__ . '//logs';
         return sys_get_temp_dir().'/CCDNUserSecurityBundle/logs';
     }
 
