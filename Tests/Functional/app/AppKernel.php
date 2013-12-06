@@ -19,7 +19,7 @@ class AppKernel extends Kernel
             //new Sensio\Bundle\FrameworkExtraBundle\SensioFrameworkExtraBundle(),
             new Doctrine\Bundle\DoctrineBundle\DoctrineBundle(),
 			new Knp\Bundle\PaginatorBundle\KnpPaginatorBundle(),
-            new RaulFraile\Bundle\LadybugBundle\RaulFraileLadybugBundle(),
+            //new RaulFraile\Bundle\LadybugBundle\RaulFraileLadybugBundle(),
 			new FOS\UserBundle\FOSUserBundle(),
 			new CCDNUser\SecurityBundle\CCDNUserSecurityBundle(),
         );

@@ -78,8 +78,6 @@ class TestBase extends WebTestCase
 		$user->setPlainPassword($password);
 		
 		$this->em->persist($user);
-		$this->em->flush();
-		$this->em->refresh($user);
 		
 		return $user;
 	}
@@ -92,6 +90,8 @@ class TestBase extends WebTestCase
 		foreach ($userNames as $username) {
 			$users[$username] = $this->addNewUser($username, $username . '@foobar.com', 'password');
 		}
+	
+		$this->em->flush();
 	
 		return $users;
 	}
