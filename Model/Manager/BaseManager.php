@@ -14,7 +14,6 @@
 namespace CCDNUser\SecurityBundle\Model\Manager;
 
 use Symfony\Component\EventDispatcher\ContainerAwareEventDispatcher;
-use Doctrine\Bundle\DoctrineBundle\Registry;
 use Doctrine\ORM\QueryBuilder;
 use CCDNUser\SecurityBundle\Model\Gateway\GatewayInterface;
 use CCDNUser\SecurityBundle\Model\Model\ModelInterface;
@@ -32,20 +31,6 @@ use CCDNUser\SecurityBundle\Model\Model\ModelInterface;
  */
 abstract class BaseManager
 {
-    /**
-     *
-     * @access protected
-     * @var \Doctrine\Bundle\DoctrineBundle\Registry $doctrine
-     */
-    protected $doctrine;
-
-    /**
-     *
-     * @access protected
-     * @var \Doctrine\ORM\EntityManager $em
-     */
-    protected $em;
-
     /**
      *
      * @access protected
@@ -71,14 +56,11 @@ abstract class BaseManager
      *
      * @access public
      * @param \Symfony\Component\EventDispatcher\ContainerAwareEventDispatcher  $dispatcher
-     * @param \Doctrine\Bundle\DoctrineBundle\Registry                          $doctrine
      * @param \CCDNUser\SecurityBundle\Model\Gateway\GatewayInterface           $gateway
      */
-    public function __construct(ContainerAwareEventDispatcher $dispatcher, Registry $doctrine, GatewayInterface $gateway)
+    public function __construct(ContainerAwareEventDispatcher $dispatcher, GatewayInterface $gateway)
     {
 		$this->dispatcher = $dispatcher;
-        $this->doctrine = $doctrine;
-        $this->em = $doctrine->getEntityManager();
         $this->gateway = $gateway;
     }
 
@@ -163,12 +145,12 @@ abstract class BaseManager
     /**
      *
      * @access public
-     * @param  $entity
+     * @param  Object                                                  $entity
      * @return \CCDNUser\SecurityBundle\Model\Manager\ManagerInterface
      */
     public function persist($entity)
     {
-        $this->em->persist($entity);
+        $this->gateway->persist($entity);
 
         return $this;
     }
@@ -176,12 +158,12 @@ abstract class BaseManager
     /**
      *
      * @access public
-     * @param  $entity
+     * @param  Object                                                  $entity
      * @return \CCDNUser\SecurityBundle\Model\Manager\ManagerInterface
      */
     public function remove($entity)
     {
-        $this->em->remove($entity);
+        $this->gateway->remove($entity);
 
         return $this;
     }
@@ -193,7 +175,7 @@ abstract class BaseManager
      */
     public function flush()
     {
-        $this->em->flush();
+        $this->gateway->flush();
 
         return $this;
     }
@@ -201,12 +183,12 @@ abstract class BaseManager
     /**
      *
      * @access public
-     * @param $entity
+     * @param  Object                                                  $entity
      * @return \CCDNUser\SecurityBundle\Model\Manager\ManagerInterface
      */
     public function refresh($entity)
     {
-        $this->em->refresh($entity);
+        $this->gateway->refresh($entity);
 
         return $this;
     }

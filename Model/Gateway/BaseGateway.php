@@ -60,9 +60,12 @@ abstract class BaseGateway
     public function __construct(Registry $doctrine, $entityClass)
     {
         $this->doctrine = $doctrine;
-
         $this->em = $doctrine->getEntityManager();
 
+        if (null == $entityClass) {
+            throw new \Exception('Entity class for gateway must be specified!');
+        }
+		
         $this->entityClass = $entityClass;
     }
 
@@ -128,26 +131,26 @@ abstract class BaseGateway
 
     /**
      *
-     * @access protected
-     * @param  $item
+     * @access public
+     * @param  Object                                                $entity
      * @return \CCDNUser\SecurityBundle\Gateway\BaseGatewayInterface
      */
-    protected function persist($item)
+    public function persist($entity)
     {
-        $this->em->persist($item);
+        $this->em->persist($entity);
 
         return $this;
     }
 
     /**
      *
-     * @access protected
-     * @param  $item
+     * @access public
+     * @param  Object                                                $entity
      * @return \CCDNUser\SecurityBundle\Gateway\BaseGatewayInterface
      */
-    protected function remove($item)
+    public function remove($entity)
     {
-        $this->em->remove($item);
+        $this->em->remove($entity);
 
         return $this;
     }
@@ -160,6 +163,19 @@ abstract class BaseGateway
     public function flush()
     {
         $this->em->flush();
+
+        return $this;
+    }
+
+    /**
+     *
+     * @access public
+     * @param  Object                                                $entity
+     * @return \CCDNUser\SecurityBundle\Gateway\BaseGatewayInterface
+     */
+    public function refresh($entity)
+    {
+        $this->em->refresh($entity);
 
         return $this;
     }

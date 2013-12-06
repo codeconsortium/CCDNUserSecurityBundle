@@ -72,7 +72,31 @@ interface GatewayInterface
     /**
      *
      * @access public
-     * @return \CCDNUser\SecurityBundle\Model\Gateway\GatewayInterface
+     * @param  Object                                                $entity
+     * @return \CCDNUser\SecurityBundle\Gateway\BaseGatewayInterface
+     */
+    public function persist($entity);
+
+    /**
+     *
+     * @access public
+     * @param  Object                                                $entity
+     * @return \CCDNUser\SecurityBundle\Gateway\BaseGatewayInterface
+     */
+    public function remove($entity);
+
+    /**
+     *
+     * @access public
+     * @return \CCDNUser\SecurityBundle\Gateway\BaseGatewayInterface
      */
     public function flush();
+
+    /**
+     *
+     * @access public
+     * @param  Object                                                $entity
+     * @return \CCDNUser\SecurityBundle\Gateway\BaseGatewayInterface
+     */
+    public function refresh($entity);
 }

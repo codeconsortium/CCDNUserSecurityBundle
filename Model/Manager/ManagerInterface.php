@@ -14,7 +14,6 @@
 namespace CCDNUser\SecurityBundle\Model\Manager;
 
 use Symfony\Component\EventDispatcher\ContainerAwareEventDispatcher;
-use Doctrine\Bundle\DoctrineBundle\Registry;
 use Doctrine\ORM\QueryBuilder;
 use CCDNUser\SecurityBundle\Model\Gateway\GatewayInterface;
 use CCDNUser\SecurityBundle\Model\Model\ModelInterface;
@@ -36,10 +35,9 @@ interface ManagerInterface
      *
      * @access public
      * @param  \Symfony\Component\EventDispatcher\ContainerAwareEventDispatcher  $dispatcher
-     * @param  \Doctrine\Bundle\DoctrineBundle\Registry                          $doctrine
      * @param  \CCDNUser\SecurityBundle\Model\Gateway\GatewayInterface           $gateway
      */
-    public function __construct(ContainerAwareEventDispatcher $dispatcher, Registry $doctrine, GatewayInterface $gateway);
+    public function __construct(ContainerAwareEventDispatcher $dispatcher, GatewayInterface $gateway);
 
     /**
      *
@@ -99,7 +97,7 @@ interface ManagerInterface
     /**
      *
      * @access public
-     * @param  $entity
+     * @param  Object                                                  $entity
      * @return \CCDNUser\SecurityBundle\Model\Manager\ManagerInterface
      */
     public function persist($entity);
@@ -107,7 +105,7 @@ interface ManagerInterface
     /**
      *
      * @access public
-     * @param  $entity
+     * @param  Object                                                  $entity
      * @return \CCDNUser\SecurityBundle\Model\Manager\ManagerInterface
      */
     public function remove($entity);
@@ -122,7 +120,7 @@ interface ManagerInterface
     /**
      *
      * @access public
-     * @param  $entity
+     * @param  Object                                                  $entity
      * @return \CCDNUser\SecurityBundle\Model\Manager\ManagerInterface
      */
     public function refresh($entity);
