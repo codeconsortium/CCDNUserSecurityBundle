@@ -10,5 +10,5 @@ services:
     ccdn_user_security.gateway.session:
         class: %ccdn_user_security.gateway.session.class%
         arguments:
-            - @doctrine
+            - @doctrine.orm.entity_manager
             - %ccdn_user_security.entity.session.class%

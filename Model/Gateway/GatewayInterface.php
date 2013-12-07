@@ -13,7 +13,7 @@
 
 namespace CCDNUser\SecurityBundle\Model\Gateway;
 
-use Doctrine\Bundle\DoctrineBundle\Registry;
+use Doctrine\Common\Persistence\ObjectManager;
 use Doctrine\ORM\QueryBuilder;
 
 /**
@@ -32,10 +32,10 @@ interface GatewayInterface
     /**
      *
      * @access public
-     * @param \Doctrine\Bundle\DoctrineBundle\Registry $doctrine
-     * @param string                                   $entityClass
+     * @param  \Doctrine\Common\Persistence\ObjectManager $em
+     * @param  string                                     $entityClass
      */
-    public function __construct(Registry $doctrine, $entityClass);
+    public function __construct(ObjectManager $em, $entityClass);
 
     /**
      *
