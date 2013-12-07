@@ -1,9 +1,9 @@
-Installing CCDNUser SecurityBundle 1.x
+Installing CCDNUser SecurityBundle 2.x
 ======================================
 
 ## Dependencies:
 
-No Dependencies.
+> Note you will need a User Bundle so that you can map the UserInterface to your own User entity. You can use whatecer User Bundle you prefer. FOSUserBundle is highly rated.
 
 ## Installation:
 
@@ -67,7 +67,7 @@ In your app/config/config.yml add:
 ccdn_user_security:
     entity:
         user:
-            class: CCDNUser\SecurityBundle\Tests\Functional\src\Entity\User
+            class: Acme\YourUserBundle\Entity\User # Required
     route_referer:
         enabled: true
         route_ignore_list:
@@ -116,6 +116,8 @@ ccdn_user_security:
 ```
 
 > Routes added are for FOSUserBundle and are added as an example only, choose the correct routes for the user bundle of your choice. If however you are using FOSUserBundle then the routes shown above should work for you.
+
+Replace Acme\YourUserBundle\Entity\User with the user class of your chosen user bundle.
 
 Add or remove routes as you see fit to the ignore list or list of routes to block when denied.
 

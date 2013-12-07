@@ -10,7 +10,7 @@ All available configuration options are listed below with their default values.
 ccdn_user_security:
     entity:
         user:
-            class: CCDNUser\SecurityBundle\Tests\Functional\src\Entity\User
+            class: Acme\YourUserBundle\Entity\User # Required
     route_referer:
         enabled: true
         route_ignore_list:
@@ -63,5 +63,7 @@ Please note that for either 'force_account_recovery' or 'block_pages' to functio
 Once you have enabled either 'force_account_recovery' or 'block_pages', you must specify the routes that you want blocked once the number of attempts has been reached.
 
 In order that the forced account recovery process works, the limit must be set lower than the block_pages process, otherwise page blocking will supersede this and prevent it from working.
+
+Replace Acme\YourUserBundle\Entity\User with the user class of your chosen user bundle.
 
 - [Return back to the docs index](index.md).

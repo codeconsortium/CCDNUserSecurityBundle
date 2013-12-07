@@ -69,7 +69,6 @@ class CCDNUserSecurityExtension extends Extension
 
         // Load Service definitions.
         $loader = new Loader\YamlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
-		
         $loader->load('services.yml');
         $loader->load('services/components.yml');
         $loader->load('services/model-gateway.yml');
