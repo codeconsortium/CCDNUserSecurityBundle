@@ -13,7 +13,7 @@
 
 namespace CCDNUser\SecurityBundle\Component\Authentication\Tracker;
 
-use CCDNUser\SecurityBundle\Model\Model\SessionModel;
+use CCDNUser\SecurityBundle\Model\FrontModel\SessionModel;
 
 /**
  *
@@ -31,14 +31,14 @@ class LoginFailureTracker
     /**
      *
      * @access protected
-     * @var \CCDNUser\SecurityBundle\Model\Model\SessionModel $sessionModel
+     * @var \CCDNUser\SecurityBundle\Model\FrontModel\SessionModel $sessionModel
      */
     protected $sessionModel;
 
     /**
      *
      * @access public
-     * @param  \CCDNUser\SecurityBundle\Model\Model\SessionModel $sessionModel
+     * @param  \CCDNUser\SecurityBundle\Model\FrontModel\SessionModel $sessionModel
      */
     public function __construct(SessionModel $sessionModel)
     {

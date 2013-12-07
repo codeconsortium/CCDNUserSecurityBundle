@@ -98,14 +98,14 @@ class TestBase extends WebTestCase
 
     /**
      *
-     * @var \CCDNUser\SecurityBundle\Model\Model\SessionModel $sessionModel
+     * @var \CCDNUser\SecurityBundle\Model\FrontModel\SessionModel $sessionModel
      */
     private $sessionModel;
 
     /**
      *
      * @access protected
-     * @return \CCDNUser\SecurityBundle\Model\Model\SessionModel
+     * @return \CCDNUser\SecurityBundle\Model\FrontModel\SessionModel
      */
     protected function getSessionModel()
     {
