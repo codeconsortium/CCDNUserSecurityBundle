@@ -13,6 +13,7 @@
 
 namespace CCDNUser\SecurityBundle\Model\FrontModel;
 
+use Symfony\Component\EventDispatcher\ContainerAwareEventDispatcher;
 use CCDNUser\SecurityBundle\Model\Component\Manager\ManagerInterface;
 use CCDNUser\SecurityBundle\Model\Component\Repository\RepositoryInterface;
 
@@ -33,10 +34,11 @@ interface ModelInterface
     /**
      *
      * @access public
-     * @param \CCDNUser\SecurityBundle\Model\Component\Repository\RepositoryInterface $repository
-     * @param \CCDNUser\SecurityBundle\Model\Component\Manager\ManagerInterface       $manager
+	 * @param  \Symfony\Component\EventDispatcher\ContainerAwareEventDispatcher        $dispatcher
+     * @param  \CCDNUser\SecurityBundle\Model\Component\Repository\RepositoryInterface $repository
+     * @param  \CCDNUser\SecurityBundle\Model\Component\Manager\ManagerInterface       $manager
      */
-    public function __construct(RepositoryInterface $repository, ManagerInterface $manager);
+    public function __construct(ContainerAwareEventDispatcher $dispatcher, RepositoryInterface $repository, ManagerInterface $manager);
 
     /**
      *

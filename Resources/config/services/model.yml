@@ -10,5 +10,6 @@ services:
     ccdn_user_security.model.session:
         class: %ccdn_user_security.model.session.class%
         arguments:
+            - @event_dispatcher
             - @ccdn_user_security.repository.session
             - @ccdn_user_security.manager.session
