@@ -49,7 +49,7 @@ abstract class BaseRepository
     /**
      *
      * @access public
-     * @param  \CCDNUser\SecurityBundle\Model\Component\Gateway\GatewayInterface $gateway
+     * @param \CCDNUser\SecurityBundle\Model\Component\Gateway\GatewayInterface $gateway
      */
     public function __construct(GatewayInterface $gateway)
     {
@@ -59,7 +59,7 @@ abstract class BaseRepository
     /**
      *
      * @access public
-     * @param  \CCDNUser\SecurityBundle\Model\FrontModel\ModelInterface           $model
+     * @param  \CCDNUser\SecurityBundle\Model\FrontModel\ModelInterface                $model
      * @return \CCDNUser\SecurityBundle\Model\Component\Repository\RepositoryInterface
      */
     public function setModel(ModelInterface $model)

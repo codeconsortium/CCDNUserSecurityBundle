@@ -142,7 +142,7 @@ class SessionGateway extends BaseGateway implements GatewayInterface
     /**
      *
      * @access public
-     * @param  \CCDNUser\SecurityBundle\Entity\Session                 $session
+     * @param  \CCDNUser\SecurityBundle\Entity\Session                           $session
      * @return \CCDNUser\SecurityBundle\Model\Component\Gateway\GatewayInterface
      */
     public function persistSession(Session $session)
@@ -155,7 +155,7 @@ class SessionGateway extends BaseGateway implements GatewayInterface
     /**
      *
      * @access public
-     * @param  \CCDNUser\SecurityBundle\Entity\Session                 $session
+     * @param  \CCDNUser\SecurityBundle\Entity\Session                           $session
      * @return \CCDNUser\SecurityBundle\Model\Component\Gateway\GatewayInterface
      */
     public function updateSession(Session $session)
@@ -168,7 +168,7 @@ class SessionGateway extends BaseGateway implements GatewayInterface
     /**
      *
      * @access public
-     * @param  \CCDNUser\SecurityBundle\Entity\Session                 $session
+     * @param  \CCDNUser\SecurityBundle\Entity\Session                           $session
      * @return \CCDNUser\SecurityBundle\Model\Component\Gateway\GatewayInterface
      */
     public function deleteSession(Session $session)

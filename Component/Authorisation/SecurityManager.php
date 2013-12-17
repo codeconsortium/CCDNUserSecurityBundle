@@ -64,27 +64,27 @@ class SecurityManager
      */
     protected $blockPages;
 
-	const ACCESS_ALLOWED = 0;
-	const ACCESS_DENIED_DEFER = 1;
-	const ACCESS_DENIED_BLOCK = 2;
+    const ACCESS_ALLOWED = 0;
+    const ACCESS_DENIED_DEFER = 1;
+    const ACCESS_DENIED_BLOCK = 2;
 
     /**
      *
      * @access public
-     * @param  \Symfony\Component\DependencyInjection\ContainerInterface                     $container
-     * @param  \Symfony\Bundle\FrameworkBundle\Routing\Router                                $router
-     * @param  \CCDNUser\SecurityBundle\Component\Authentication\Tracker\LoginFailureTracker $loginFailureTracker
-     * @param  array                                                                         $routeLogin
-     * @param  array                                                                         $forceAccountRecovery
-     * @param  array                                                                         $blockPages
+     * @param \Symfony\Component\DependencyInjection\ContainerInterface                     $container
+     * @param \Symfony\Bundle\FrameworkBundle\Routing\Router                                $router
+     * @param \CCDNUser\SecurityBundle\Component\Authentication\Tracker\LoginFailureTracker $loginFailureTracker
+     * @param array                                                                         $routeLogin
+     * @param array                                                                         $forceAccountRecovery
+     * @param array                                                                         $blockPages
      */
     public function __construct(ContainerInterface $container, LoginFailureTracker $loginFailureTracker, $routeLogin, $forceAccountRecovery, $blockPages)
     {
-		$this->container = $container;
-		$this->loginFailureTracker = $loginFailureTracker;
-		$this->routeLogin = $routeLogin;
-		$this->forceAccountRecovery = $forceAccountRecovery;
-		$this->blockPages = $blockPages;
+        $this->container = $container;
+        $this->loginFailureTracker = $loginFailureTracker;
+        $this->routeLogin = $routeLogin;
+        $this->forceAccountRecovery = $forceAccountRecovery;
+        $this->blockPages = $blockPages;
     }
 
     /**
@@ -96,34 +96,34 @@ class SecurityManager
      */
     public function vote()
     {
-		if ($this->forceAccountRecovery['enabled'] || $this->blockPages['enabled']) {
-			$request = $this->container->get('request');
+        if ($this->forceAccountRecovery['enabled'] || $this->blockPages['enabled']) {
+            $request = $this->container->get('request');
             $route = $request->get('_route');
-			$ipAddress = $request->getClientIp();
+            $ipAddress = $request->getClientIp();
 
-			$this->blockPages['routes'][] = $this->routeLogin['name'];
-			if ($this->blockPages['enabled'] && in_array($route, $this->blockPages['routes'])) {
-	            // Get number of failed login attempts.
-	            $attempts = $this->loginFailureTracker->getAttempts($ipAddress, $this->blockPages['duration_in_minutes']);
+            $this->blockPages['routes'][] = $this->routeLogin['name'];
+            if ($this->blockPages['enabled'] && in_array($route, $this->blockPages['routes'])) {
+                // Get number of failed login attempts.
+                $attempts = $this->loginFailureTracker->getAttempts($ipAddress, $this->blockPages['duration_in_minutes']);
 
-	            if (count($attempts) >= $this->blockPages['after_attempts']) {
-					// You have too many failed login attempts, login access is temporarily blocked.
-					return self::ACCESS_DENIED_BLOCK;
-				}
-			}
-			
-			$this->forceAccountRecovery['routes'][] = $this->routeLogin['name'];
-			if ($this->forceAccountRecovery['enabled'] && in_array($route, $this->forceAccountRecovery['routes'])) {
-	            // Get number of failed login attempts.
-	            $attempts = $this->loginFailureTracker->getAttempts($ipAddress, $this->forceAccountRecovery['duration_in_minutes']);
+                if (count($attempts) >= $this->blockPages['after_attempts']) {
+                    // You have too many failed login attempts, login access is temporarily blocked.
+                    return self::ACCESS_DENIED_BLOCK;
+                }
+            }
 
-	            if (count($attempts) >= $this->forceAccountRecovery['after_attempts']) {
-					// You have too many failed login attempts, login access is temporarily blocked, go recover your account.
+            $this->forceAccountRecovery['routes'][] = $this->routeLogin['name'];
+            if ($this->forceAccountRecovery['enabled'] && in_array($route, $this->forceAccountRecovery['routes'])) {
+                // Get number of failed login attempts.
+                $attempts = $this->loginFailureTracker->getAttempts($ipAddress, $this->forceAccountRecovery['duration_in_minutes']);
+
+                if (count($attempts) >= $this->forceAccountRecovery['after_attempts']) {
+                    // You have too many failed login attempts, login access is temporarily blocked, go recover your account.
                     return self::ACCESS_DENIED_DEFER;
-				}
-			}
-		}
-		
+                }
+            }
+        }
+
         return self::ACCESS_ALLOWED;
     }
 }

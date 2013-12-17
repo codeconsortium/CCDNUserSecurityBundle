@@ -20,7 +20,7 @@ use Symfony\Component\DependencyInjection\ContainerAware;
  * This controller is only for testing the POST request circumvention of login
  * protection and is not used during prod environment. Routes are only imported
  * during the test env for Behat under Tests/Functional/app/config
- * 
+ *
  * @category CCDNUser
  * @package  SecurityBundle
  *
@@ -32,10 +32,10 @@ use Symfony\Component\DependencyInjection\ContainerAware;
  */
 class TestLoginController extends ContainerAware
 {
-	public function circumventAction()
-	{
+    public function circumventAction()
+    {
         $csrfToken = $this->container->get('form.csrf_provider')->generateCsrfToken('authenticate');
-		
-		return $this->container->get('templating')->renderResponse('CCDNUserSecurityBundle::login.html.twig', array('csrf_token' => $csrfToken));
-	}
+
+        return $this->container->get('templating')->renderResponse('CCDNUserSecurityBundle::login.html.twig', array('csrf_token' => $csrfToken));
+    }
 }

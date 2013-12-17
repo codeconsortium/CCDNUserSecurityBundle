@@ -45,29 +45,29 @@ class BlockingLoginListener
      */
     protected $forceAccountRecovery;
 
-	/**
-	 * 
-	 * @access protected
-	 * @var \CCDNUser\SecurityBundle\Component\Authorisation\SecurityManager $securityManager
-	 */
-	protected $securityManager;
+    /**
+     *
+     * @access protected
+     * @var \CCDNUser\SecurityBundle\Component\Authorisation\SecurityManager $securityManager
+     */
+    protected $securityManager;
 
     /**
      *
      * @access public
-     * @param  \Symfony\Bundle\FrameworkBundle\Routing\Router                   $router
-     * @param  \CCDNUser\SecurityBundle\Component\Authorisation\SecurityManager $loginFailureTracker
-     * @param  array                                                            $forceAccountRecovery
+     * @param \Symfony\Bundle\FrameworkBundle\Routing\Router                   $router
+     * @param \CCDNUser\SecurityBundle\Component\Authorisation\SecurityManager $loginFailureTracker
+     * @param array                                                            $forceAccountRecovery
      */
     public function __construct(Router $router, $securityManager, $forceAccountRecovery)
     {
-		$this->securityManager = $securityManager;
+        $this->securityManager = $securityManager;
         $this->router = $router;
-		$this->forceAccountRecovery = $forceAccountRecovery;
+        $this->forceAccountRecovery = $forceAccountRecovery;
     }
 
     /**
-     * 
+     *
      * If you have failed to login too many times,
      * a log of this will be present in the databse.
      *
@@ -76,32 +76,32 @@ class BlockingLoginListener
      */
     public function onKernelRequest(GetResponseEvent $event)
     {
-		if ($event->getRequestType() !== \Symfony\Component\HttpKernel\HttpKernel::MASTER_REQUEST) {
-		    return;
-		}
-		
-		$securityManager = $this->securityManager; // Avoid the silly cryptic error 'T_PAAMAYIM_NEKUDOTAYIM'
-		$result = $securityManager->vote();
-		
-		if ($result == $securityManager::ACCESS_ALLOWED) {
-			return;
-		}
-		
-		if ($result == $securityManager::ACCESS_DENIED_DEFER) {
-			$event->stopPropagation();
+        if ($event->getRequestType() !== \Symfony\Component\HttpKernel\HttpKernel::MASTER_REQUEST) {
+            return;
+        }
 
-			$redirectUrl = $this->router->generate(
-				$this->forceAccountRecovery['route_recover_account']['name'],
-				$this->forceAccountRecovery['route_recover_account']['params']
-			);
-			
-			$event->setResponse(new RedirectResponse($redirectUrl));
-		}
-		
-		if ($result == $securityManager::ACCESS_DENIED_BLOCK) {
-			$event->stopPropagation();
-			
-			throw new HttpException(500, 'flood control - login blocked');
-		}
+        $securityManager = $this->securityManager; // Avoid the silly cryptic error 'T_PAAMAYIM_NEKUDOTAYIM'
+        $result = $securityManager->vote();
+
+        if ($result == $securityManager::ACCESS_ALLOWED) {
+            return;
+        }
+
+        if ($result == $securityManager::ACCESS_DENIED_DEFER) {
+            $event->stopPropagation();
+
+            $redirectUrl = $this->router->generate(
+                $this->forceAccountRecovery['route_recover_account']['name'],
+                $this->forceAccountRecovery['route_recover_account']['params']
+            );
+
+            $event->setResponse(new RedirectResponse($redirectUrl));
+        }
+
+        if ($result == $securityManager::ACCESS_DENIED_BLOCK) {
+            $event->stopPropagation();
+
+            throw new HttpException(500, 'flood control - login blocked');
+        }
     }
 }

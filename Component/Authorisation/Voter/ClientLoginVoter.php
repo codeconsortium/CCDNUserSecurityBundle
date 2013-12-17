@@ -29,21 +29,21 @@ use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
  */
 class ClientLoginVoter implements VoterInterface
 {
-	/**
-	 * 
-	 * @access protected
-	 * @var \CCDNUser\SecurityBundle\Component\Authorisation\SecurityManager $securityManager
-	 */
-	protected $securityManager;
+    /**
+     *
+     * @access protected
+     * @var \CCDNUser\SecurityBundle\Component\Authorisation\SecurityManager $securityManager
+     */
+    protected $securityManager;
 
     /**
      *
      * @access public
-     * @param  \CCDNUser\SecurityBundle\Component\Authorisation\SecurityManager $loginFailureTracker
+     * @param \CCDNUser\SecurityBundle\Component\Authorisation\SecurityManager $loginFailureTracker
      */
     public function __construct($securityManager)
     {
-		$this->securityManager = $securityManager;
+        $this->securityManager = $securityManager;
     }
 
     /**
@@ -80,19 +80,19 @@ class ClientLoginVoter implements VoterInterface
      */
     public function vote(TokenInterface $token, $object, array $attributes)
     {
-		$securityManager = $this->securityManager; // Avoid the silly cryptic error 'T_PAAMAYIM_NEKUDOTAYIM'
-		$result = $securityManager->vote();
+        $securityManager = $this->securityManager; // Avoid the silly cryptic error 'T_PAAMAYIM_NEKUDOTAYIM'
+        $result = $securityManager->vote();
 
-		if ($result == $securityManager::ACCESS_ALLOWED) {
-			return VoterInterface::ACCESS_ABSTAIN;
-		}
-		
-		if ($result == $securityManager::ACCESS_DENIED_DEFER) {
-			return VoterInterface::ACCESS_ABSTAIN;
-		}
-		
-		if ($result == $securityManager::ACCESS_DENIED_BLOCK) {
-			return VoterInterface::ACCESS_DENIED;
-		}
+        if ($result == $securityManager::ACCESS_ALLOWED) {
+            return VoterInterface::ACCESS_ABSTAIN;
+        }
+
+        if ($result == $securityManager::ACCESS_DENIED_DEFER) {
+            return VoterInterface::ACCESS_ABSTAIN;
+        }
+
+        if ($result == $securityManager::ACCESS_DENIED_BLOCK) {
+            return VoterInterface::ACCESS_DENIED;
+        }
     }
 }

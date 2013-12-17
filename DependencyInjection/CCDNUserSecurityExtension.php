@@ -198,9 +198,9 @@ class CCDNUserSecurityExtension extends Extension
     private function getLoginShieldSection(ContainerBuilder $container, $config)
     {
         $container->setParameter('ccdn_user_security.login_shield.route_login', $config['login_shield']['route_login']);
-		$container->setParameter('ccdn_user_security.login_shield.force_account_recovery', $config['login_shield']['force_account_recovery']);
-		$container->setParameter('ccdn_user_security.login_shield.block_pages', $config['login_shield']['block_pages']);
-		
+        $container->setParameter('ccdn_user_security.login_shield.force_account_recovery', $config['login_shield']['force_account_recovery']);
+        $container->setParameter('ccdn_user_security.login_shield.block_pages', $config['login_shield']['block_pages']);
+
         return $this;
     }
 }

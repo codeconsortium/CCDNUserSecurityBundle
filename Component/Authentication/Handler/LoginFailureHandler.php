@@ -60,9 +60,9 @@ class LoginFailureHandler implements AuthenticationFailureHandlerInterface
     /**
      *
      * @access public
-     * @param  \Symfony\Bundle\FrameworkBundle\Routing\Router                                $router
-     * @param  \CCDNUser\SecurityBundle\Component\Authentication\Tracker\LoginFailureTracker $loginFailureTracker
-     * @param  array                                                                         $routeLogin
+     * @param \Symfony\Bundle\FrameworkBundle\Routing\Router                                $router
+     * @param \CCDNUser\SecurityBundle\Component\Authentication\Tracker\LoginFailureTracker $loginFailureTracker
+     * @param array                                                                         $routeLogin
      */
     public function __construct(Router $router, LoginFailureTracker $loginFailureTracker, $routeLogin)
     {
@@ -92,7 +92,7 @@ class LoginFailureHandler implements AuthenticationFailureHandlerInterface
         $this->loginFailureTracker->addAttempt($ipAddress, $username);
         $request->getSession()->set(SecurityContext::AUTHENTICATION_ERROR, $exception);
 
-		// Send response back to browser depending on wether this is XML request or not.
+        // Send response back to browser depending on wether this is XML request or not.
         if ($request->isXmlHttpRequest() || $request->request->get('_format') === 'json') {
             $response = new Response(
                 json_encode(
@@ -112,7 +112,7 @@ class LoginFailureHandler implements AuthenticationFailureHandlerInterface
                 )
             );
         }
-		
+
         return $response;
     }
 }

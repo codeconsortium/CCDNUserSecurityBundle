@@ -34,9 +34,9 @@ interface ModelInterface
     /**
      *
      * @access public
-	 * @param  \Symfony\Component\EventDispatcher\ContainerAwareEventDispatcher        $dispatcher
-     * @param  \CCDNUser\SecurityBundle\Model\Component\Repository\RepositoryInterface $repository
-     * @param  \CCDNUser\SecurityBundle\Model\Component\Manager\ManagerInterface       $manager
+     * @param \Symfony\Component\EventDispatcher\ContainerAwareEventDispatcher        $dispatcher
+     * @param \CCDNUser\SecurityBundle\Model\Component\Repository\RepositoryInterface $repository
+     * @param \CCDNUser\SecurityBundle\Model\Component\Manager\ManagerInterface       $manager
      */
     public function __construct(ContainerAwareEventDispatcher $dispatcher, RepositoryInterface $repository, ManagerInterface $manager);
 

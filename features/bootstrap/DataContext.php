@@ -97,8 +97,8 @@ class DataContext extends BehatContext implements KernelAwareInterface
     public function thereAreFollowingUsersDefined(TableNode $table)
     {
         foreach ($table->getHash() as $data) {
-			$username = isset($data['name']) ? $data['name'] : sha1(uniqid(mt_rand(), true));
-			
+            $username = isset($data['name']) ? $data['name'] : sha1(uniqid(mt_rand(), true));
+
             $this->users[$username] = $this->thereIsUser(
                 $username,
                 isset($data['email']) ? $data['email'] : sha1(uniqid(mt_rand(), true)),
@@ -107,8 +107,8 @@ class DataContext extends BehatContext implements KernelAwareInterface
                 isset($data['enabled']) ? $data['enabled'] : true
             );
         }
-		
-		$this->getEntityManager()->flush();
+
+        $this->getEntityManager()->flush();
     }
 
     public function thereIsUser($username, $email, $password, $role = 'ROLE_USER', $enabled = true)
@@ -123,13 +123,13 @@ class DataContext extends BehatContext implements KernelAwareInterface
         if (null !== $role) {
             $user->addRole($role);
         }
-		
+
         $this->getEntityManager()->persist($user);
 
         return $user;
     }
 
-	protected $profiles = array();
+    protected $profiles = array();
 
     /**
      *
@@ -138,28 +138,28 @@ class DataContext extends BehatContext implements KernelAwareInterface
     public function thereAreFollowingProfilesDefined(TableNode $table)
     {
         foreach ($table->getHash() as $data) {
-			$username = isset($data['user']) ? $data['user'] : sha1(uniqid(mt_rand(), true));
-			
-			if (isset($this->users[$username])) {
-	            $this->profiles[$username] = $this->thereIsProfile(
-	                $this->users[$username],
-					isset($data['country']) ? $data['country'] : null,
-					isset($data['city']) ? $data['city'] : null,
-					isset($data['real_name']) ? $data['real_name'] : null,
-					isset($data['birthday']) ? new \Datetime($data['birthday']) : null,
-					isset($data['company']) ? $data['company'] : null,
-					isset($data['position']) ? $data['position'] : null,
-					isset($data['bio']) ? $data['bio'] : null,
-					isset($data['signature']) ? $data['signature'] : null,
-	                isset($data['msn']) ? $data['msn'] : null,
-	                isset($data['aim']) ? $data['aim'] : null,
-	                isset($data['yahoo']) ? $data['yahoo'] : null,
-	                isset($data['icq']) ? $data['icq'] : true
-	            );
-			}
+            $username = isset($data['user']) ? $data['user'] : sha1(uniqid(mt_rand(), true));
+
+            if (isset($this->users[$username])) {
+                $this->profiles[$username] = $this->thereIsProfile(
+                    $this->users[$username],
+                    isset($data['country']) ? $data['country'] : null,
+                    isset($data['city']) ? $data['city'] : null,
+                    isset($data['real_name']) ? $data['real_name'] : null,
+                    isset($data['birthday']) ? new \Datetime($data['birthday']) : null,
+                    isset($data['company']) ? $data['company'] : null,
+                    isset($data['position']) ? $data['position'] : null,
+                    isset($data['bio']) ? $data['bio'] : null,
+                    isset($data['signature']) ? $data['signature'] : null,
+                    isset($data['msn']) ? $data['msn'] : null,
+                    isset($data['aim']) ? $data['aim'] : null,
+                    isset($data['yahoo']) ? $data['yahoo'] : null,
+                    isset($data['icq']) ? $data['icq'] : true
+                );
+            }
         }
-		
-		$this->getEntityManager()->flush();
+
+        $this->getEntityManager()->flush();
     }
 
     public function thereIsProfile(User $user, $country, $city, $realName, \Datetime $birthday, $company, $position, $bio, $signature, $msn, $aim, $yahoo, $icq)
@@ -170,20 +170,20 @@ class DataContext extends BehatContext implements KernelAwareInterface
         $profile->setLocationCountry($country);
         $profile->setLocationCity($city);
         $profile->setRealName($realName);
-		$profile->setBirthDate($birthday);
-		$profile->setCompany($company);
-		$profile->setPosition($position);
-		$profile->setBio($bio);
-		$profile->setSignature($signature);
-		$profile->setMsn($msn);
-		$profile->setMsnPublic(true);
-		$profile->setAim($aim);
-		$profile->setAimPublic(true);
-		$profile->setYahoo($yahoo);
-		$profile->setYahooPublic(true);
-		$profile->setIcq($icq);
-		$profile->setIcqPublic(true);
-		
+        $profile->setBirthDate($birthday);
+        $profile->setCompany($company);
+        $profile->setPosition($position);
+        $profile->setBio($bio);
+        $profile->setSignature($signature);
+        $profile->setMsn($msn);
+        $profile->setMsnPublic(true);
+        $profile->setAim($aim);
+        $profile->setAimPublic(true);
+        $profile->setYahoo($yahoo);
+        $profile->setYahooPublic(true);
+        $profile->setIcq($icq);
+        $profile->setIcqPublic(true);
+
         $this->getEntityManager()->persist($profile);
 
         return $user;

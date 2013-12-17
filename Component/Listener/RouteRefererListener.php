@@ -44,10 +44,10 @@ class RouteRefererListener
     protected $routeIgnoreList;
 
     /**
-     * 
+     *
      * @access public
-     * @param  \Symfony\Bundle\FrameworkBundle\Routing\Router $router
-     * @param  array                                          $routeIgnoreList
+     * @param \Symfony\Bundle\FrameworkBundle\Routing\Router $router
+     * @param array                                          $routeIgnoreList
      */
     public function __construct(Router $router, $routeIgnoreList)
     {
@@ -74,10 +74,10 @@ class RouteRefererListener
         $request = $event->getRequest();
         $route = $request->get('_route');
 
-		if (in_array($route, $this->routeIgnoreList)) {
-			return;
-		}
-		
+        if (in_array($route, $this->routeIgnoreList)) {
+            return;
+        }
+
         // Check for any internal routes.
         if ($route[0] == '_') {
             return;

@@ -47,15 +47,15 @@ abstract class BaseGateway
     /**
      *
      * @access public
-     * @param  \Doctrine\Common\Persistence\ObjectManager $em
-     * @param  string                                     $entityClass
+     * @param \Doctrine\Common\Persistence\ObjectManager $em
+     * @param string                                     $entityClass
      */
     public function __construct(ObjectManager $em, $entityClass)
     {
         if (null == $entityClass) {
             throw new \Exception('Entity class for gateway must be specified!');
         }
-		
+
         $this->entityClass = $entityClass;
         $this->em = $em;
     }

@@ -40,31 +40,31 @@ class LoginSuccessHandler implements AuthenticationSuccessHandlerInterface
      */
     protected $router;
 
-	/**
-	 * 
-	 * @param  array $routeReferer
-	 */
-	protected $routeReferer;
+    /**
+     *
+     * @param array $routeReferer
+     */
+    protected $routeReferer;
 
-	/**
-	 * 
-	 * @param  array $routeLogin
-	 */
-	protected $routeLogin;
+    /**
+     *
+     * @param array $routeLogin
+     */
+    protected $routeLogin;
 
-	/**
-	 * 
-	 * @access public
-     * @param  \Symfony\Bundle\FrameworkBundle\Routing\Router $router
-	 * @param  array $routeReferer
-	 * @param  array $routeLogin
-	 */
-	public function __construct(Router $router, $routeReferer, $routeLogin)
-	{
-		$this->router = $router;
-		$this->routeReferer = $routeReferer;
-		$this->routeLogin = $routeLogin;
-	}
+    /**
+     *
+     * @access public
+     * @param \Symfony\Bundle\FrameworkBundle\Routing\Router $router
+     * @param array                                          $routeReferer
+     * @param array                                          $routeLogin
+     */
+    public function __construct(Router $router, $routeReferer, $routeLogin)
+    {
+        $this->router = $router;
+        $this->routeReferer = $routeReferer;
+        $this->routeLogin = $routeLogin;
+    }
 
     /**
      *
@@ -75,46 +75,46 @@ class LoginSuccessHandler implements AuthenticationSuccessHandlerInterface
      */
     public function onAuthenticationSuccess(Request $request, TokenInterface $token)
     {
-		if ($this->routeReferer['enabled']) {
-	        $session = $request->getSession();
+        if ($this->routeReferer['enabled']) {
+            $session = $request->getSession();
 
-	        if ($session->has('referer')) {
-	            if ($session->get('referer') !== null && $session->get('referer') !== '') {
-	                $response = new RedirectResponse($session->get('referer'));
-	            } else {
-	                $response = new RedirectResponse($request->getBasePath() . '/');
-	            }
-	        } else {
-	            // if no referer then go to homepage
-	            $response = new RedirectResponse($request->getBasePath() . '/');
-	        }
+            if ($session->has('referer')) {
+                if ($session->get('referer') !== null && $session->get('referer') !== '') {
+                    $response = new RedirectResponse($session->get('referer'));
+                } else {
+                    $response = new RedirectResponse($request->getBasePath() . '/');
+                }
+            } else {
+                // if no referer then go to homepage
+                $response = new RedirectResponse($request->getBasePath() . '/');
+            }
 
-	        if ($request->isXmlHttpRequest() || $request->request->get('_format') === 'json') {
-	            $response = new Response(json_encode(array('status' => 'success')));
-	            $response->headers->set('Content-Type', 'application/json');
-	        }
-		} else {
-	        if ($request->isXmlHttpRequest() || $request->request->get('_format') === 'json') {
-	            $response = new Response(
-	                json_encode(
-	                    array(
-	                        'status' => 'failed',
-	                        'errors' => array($exception->getMessage())
-	                    )
-	                )
-	            );
+            if ($request->isXmlHttpRequest() || $request->request->get('_format') === 'json') {
+                $response = new Response(json_encode(array('status' => 'success')));
+                $response->headers->set('Content-Type', 'application/json');
+            }
+        } else {
+            if ($request->isXmlHttpRequest() || $request->request->get('_format') === 'json') {
+                $response = new Response(
+                    json_encode(
+                        array(
+                            'status' => 'failed',
+                            'errors' => array($exception->getMessage())
+                        )
+                    )
+                );
 
-	            $response->headers->set('Content-Type', 'application/json');
-	        } else {
-	            $response = new RedirectResponse(
-	                $this->router->generate(
-	                    $this->routeLogin['name'],
-	                    $this->routeLogin['params']
-	                )
-	            );
-	        }
-		}
-		
+                $response->headers->set('Content-Type', 'application/json');
+            } else {
+                $response = new RedirectResponse(
+                    $this->router->generate(
+                        $this->routeLogin['name'],
+                        $this->routeLogin['params']
+                    )
+                );
+            }
+        }
+
         return $response;
     }
 }

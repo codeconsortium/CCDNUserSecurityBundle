@@ -37,19 +37,19 @@ class SessionModel extends BaseModel implements ModelInterface
      * @return \Doctrine\Common\Collections\ArrayCollection
      */
     public function findAllByIpAddressAndLoginAttemptDate($ipAddress, $timeLimit)
-	{
-		return $this->getRepository()->findAllByIpAddressAndLoginAttemptDate($ipAddress, $timeLimit);
-	}
+    {
+        return $this->getRepository()->findAllByIpAddressAndLoginAttemptDate($ipAddress, $timeLimit);
+    }
 
     /**
      *
      * @access public
-     * @param  string                                            $ipAddress
-	 * @param  string                                            $username
+     * @param  string                                                 $ipAddress
+     * @param  string                                                 $username
      * @return \CCDNUser\SecurityBundle\Model\FrontModel\SessionModel
      */
     public function newRecord($ipAddress, $username)
-	{
-		return $this->getManager()->newRecord($ipAddress, $username);
-	}
+    {
+        return $this->getManager()->newRecord($ipAddress, $username);
+    }
 }

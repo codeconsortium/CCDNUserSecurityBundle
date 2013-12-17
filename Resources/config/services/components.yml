@@ -41,7 +41,7 @@ services:
 
     #
     # Access Decision Manager
-    # 
+    #
     ccdn_user_security.component.authorisation.security_manager:
         class: 'CCDNUser\SecurityBundle\Component\Authorisation\SecurityManager'
         arguments:

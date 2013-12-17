@@ -103,7 +103,7 @@ class FeatureContext extends RawMinkContext implements KernelAwareInterface
      */
     public function iLogout()
     {
-		$this->kernel->getContainer()->get('security.context')->getToken()->eraseCredentials();
+        $this->kernel->getContainer()->get('security.context')->getToken()->eraseCredentials();
     }
 
     /**
@@ -111,7 +111,7 @@ class FeatureContext extends RawMinkContext implements KernelAwareInterface
      */
     public function iShouldBeLoggedIn()
     {
-		WebTestCase::assertTrue($this->kernel->getContainer()->get('security.context')->getToken()->getUser() instanceof \Symfony\Component\Security\Core\User\UserInterface);
+        WebTestCase::assertTrue($this->kernel->getContainer()->get('security.context')->getToken()->getUser() instanceof \Symfony\Component\Security\Core\User\UserInterface);
     }
 
     /**
@@ -119,7 +119,7 @@ class FeatureContext extends RawMinkContext implements KernelAwareInterface
      */
     public function iShouldNotBeLoggedIn()
     {
-		WebTestCase::assertFalse($this->kernel->getContainer()->get('security.context')->getToken()->getUser() instanceof \Symfony\Component\Security\Core\User\UserInterface);
+        WebTestCase::assertFalse($this->kernel->getContainer()->get('security.context')->getToken()->getUser() instanceof \Symfony\Component\Security\Core\User\UserInterface);
     }
 
     /**
@@ -127,7 +127,7 @@ class FeatureContext extends RawMinkContext implements KernelAwareInterface
      */
     public function iCircumventLoginWithAnd($username, $password)
     {
-		$this->getMainContext()->getSession()->visit('/circumvent_login');
+        $this->getMainContext()->getSession()->visit('/circumvent_login');
         $this->getMainContext()->getSession()->getPage()->fillField('_username', $username);
         $this->getMainContext()->getSession()->getPage()->fillField('_password', $password);
         $this->getMainContext()->getSession()->getPage()->pressButton('Login');
@@ -138,6 +138,6 @@ class FeatureContext extends RawMinkContext implements KernelAwareInterface
      */
     public function iShouldBeBlocked()
     {
-		WebTestCase::assertSame(500, $this->getMainContext()->getSession()->getStatusCode());
+        WebTestCase::assertSame(500, $this->getMainContext()->getSession()->getStatusCode());
     }
 }

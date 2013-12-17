@@ -34,8 +34,8 @@ class SessionManager extends BaseManager implements ManagerInterface
     /**
      *
      * @access public
-     * @param  string                                                $ipAddress
-	 * @param  string                                                $username
+     * @param  string                                                          $ipAddress
+     * @param  string                                                          $username
      * @return \CCDNUser\SecurityBundle\Model\Component\Manager\SessionManager
      */
     public function newRecord($ipAddress, $username)

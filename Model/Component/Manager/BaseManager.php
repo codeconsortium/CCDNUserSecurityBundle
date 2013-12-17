@@ -56,18 +56,18 @@ abstract class BaseManager
      *
      * @access public
      * @param \Symfony\Component\EventDispatcher\ContainerAwareEventDispatcher  $dispatcher
-     * @param \CCDNUser\SecurityBundle\Model\Component\Gateway\GatewayInterface           $gateway
+     * @param \CCDNUser\SecurityBundle\Model\Component\Gateway\GatewayInterface $gateway
      */
     public function __construct(ContainerAwareEventDispatcher $dispatcher, GatewayInterface $gateway)
     {
-		$this->dispatcher = $dispatcher;
+        $this->dispatcher = $dispatcher;
         $this->gateway = $gateway;
     }
 
     /**
      *
      * @access public
-     * @param  \CCDNUser\SecurityBundle\Model\FrontModel\ModelInterface           $model
+     * @param  \CCDNUser\SecurityBundle\Model\FrontModel\ModelInterface                $model
      * @return \CCDNUser\SecurityBundle\Model\Component\Repository\RepositoryInterface
      */
     public function setModel(ModelInterface $model)
@@ -145,7 +145,7 @@ abstract class BaseManager
     /**
      *
      * @access public
-     * @param  Object                                                  $entity
+     * @param  Object                                                            $entity
      * @return \CCDNUser\SecurityBundle\Model\Component\Manager\ManagerInterface
      */
     public function persist($entity)
@@ -158,7 +158,7 @@ abstract class BaseManager
     /**
      *
      * @access public
-     * @param  Object                                                  $entity
+     * @param  Object                                                            $entity
      * @return \CCDNUser\SecurityBundle\Model\Component\Manager\ManagerInterface
      */
     public function remove($entity)
@@ -183,7 +183,7 @@ abstract class BaseManager
     /**
      *
      * @access public
-     * @param  Object                                                  $entity
+     * @param  Object                                                            $entity
      * @return \CCDNUser\SecurityBundle\Model\Component\Manager\ManagerInterface
      */
     public function refresh($entity)

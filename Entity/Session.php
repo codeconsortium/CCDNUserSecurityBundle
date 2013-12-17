@@ -26,26 +26,26 @@ namespace CCDNUser\SecurityBundle\Entity;
  */
 class Session
 {
-	/**
-	 * 
-	 * @var int $id
-	 */ 
+    /**
+     *
+     * @var int $id
+     */
     protected $id;
 
     /**
-     * 
+     *
      * @var string $ipAddress
      */
     protected $ipAddress;
 
     /**
-     * 
+     *
      * @var \Datetime $loginAttemptDate
      */
     protected $loginAttemptDate;
 
     /**
-     * 
+     *
      * @var string $loginAttemptUsername
      */
     protected $loginAttemptUsername;

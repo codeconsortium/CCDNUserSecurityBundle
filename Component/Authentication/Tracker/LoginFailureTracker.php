@@ -38,7 +38,7 @@ class LoginFailureTracker
     /**
      *
      * @access public
-     * @param  \CCDNUser\SecurityBundle\Model\FrontModel\SessionModel $sessionModel
+     * @param \CCDNUser\SecurityBundle\Model\FrontModel\SessionModel $sessionModel
      */
     public function __construct(SessionModel $sessionModel)
     {
@@ -48,8 +48,8 @@ class LoginFailureTracker
     /**
      *
      * @access public
-     * @param  string                                            $ipAddress
-	 * @param  int                                               $blockingPeriod
+     * @param  string $ipAddress
+     * @param  int    $blockingPeriod
      * @return array
      */
     public function getAttempts($ipAddress, $blockingPeriod)
@@ -64,8 +64,8 @@ class LoginFailureTracker
     /**
      *
      * @access public
-     * @param  string                                            $ipAddress
-     * @param  string                                            $username
+     * @param string $ipAddress
+     * @param string $username
      */
     public function addAttempt($ipAddress, $username)
     {
