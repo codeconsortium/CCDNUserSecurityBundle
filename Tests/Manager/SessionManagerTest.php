@@ -30,11 +30,9 @@ class SessionManagerTest extends TestBase
 {
 	public function testNewRecord()
 	{
-		$users = $this->addFixturesForUsers();
-		
+		$this->addFixturesForUsers();
 		$ipAddress = '127.0.0.1';
 		$this->getSessionModel()->newRecord($ipAddress, 'tom');
-		
 		$timeLimit = new \DateTime('-' . 1 . ' minutes');
 		$sessions = $this->getSessionModel()->findAllByIpAddressAndLoginAttemptDate($ipAddress, $timeLimit);
 

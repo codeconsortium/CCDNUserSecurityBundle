@@ -30,8 +30,7 @@ class SessionRepositoryTest extends TestBase
 {
     public function testFindAllByIpAddressAndLoginAttemptDate()
     {
-		$users = $this->addFixturesForUsers();
-		
+		$this->addFixturesForUsers();
 		$ipAddress = '127.0.0.1';
 		$this->getSessionModel()->newRecord($ipAddress, 'tom');
 		$this->getSessionModel()->newRecord($ipAddress, 'tom');
