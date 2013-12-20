@@ -8,11 +8,11 @@ CCDNUser\SecurityBundle\Entity\Session:
     fields:
         ipAddress:
             type: string
-            name: ip_address
+            column: ip_address
             length: 50
         loginAttemptDate:
             type: datetime
-            name: login_attempt_date
+            column: login_attempt_date
         loginAttemptUsername:
             type: text
-            name: login_attempt_username
+            column: login_attempt_username
