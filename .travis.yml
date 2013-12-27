@@ -1,26 +1,40 @@
 language: php
 
 php:
+#    - hhvm
     - 5.3
     - 5.4
+    - 5.5
 
 matrix:
     allow_failures:
         - php: 5.3
 
 before_script:
+    - echo 'date.timezone = "Europe/London"' >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini
+    - mysql -e 'CREATE DATABASE ccdn_test'
+    - > 
+        echo 'parameters:
+            database_driver: pdo_mysql
+            database_host: 127.0.0.1
+            database_port: null
+            database_name: ccdn_test
+            database_user: root
+            database_password: ~
+            locale: en
+       
+        ' > ./Tests/Functional/app/config/parameters.yml
     - curl -s http://getcomposer.org/installer | php
-    - php composer.phar --dev install
-    - mysql -e 'CREATE DATABASE ccdndev_travis_test'
+    - php composer.phar --dev install --prefer-dist
     - php ./Tests/Functional/app/console doctrine:schema:create
     - php ./Tests/Functional/app/console doctrine:schema:update --force
 
 script:
-    - 'phpunit -c ./ --testdox'
-    - './vendor/bin/behat'
+    - 'php ./vendor/bin/phpunit -c ./ --testdox'
+    - 'php ./vendor/bin/behat'
 
 after_script:
-    - mysql -e 'DROP DATABASE ccdndev_travis_test;'
+    - mysql -e 'DROP DATABASE ccdn_test;'
 
 notifications:
     email: status@codeconsortium.com
