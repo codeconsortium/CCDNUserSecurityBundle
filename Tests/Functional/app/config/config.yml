@@ -1,4 +1,5 @@
 imports:
+    - { resource: parameters.yml }
     - { resource: ccdn/user-security.yml }
 
 framework:
