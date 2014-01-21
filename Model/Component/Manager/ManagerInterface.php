@@ -13,7 +13,7 @@
 
 namespace CCDNUser\SecurityBundle\Model\Component\Manager;
 
-use Symfony\Component\EventDispatcher\ContainerAwareEventDispatcher;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Doctrine\ORM\QueryBuilder;
 use CCDNUser\SecurityBundle\Model\Component\Gateway\GatewayInterface;
 use CCDNUser\SecurityBundle\Model\FrontModel\ModelInterface;
@@ -34,10 +34,10 @@ interface ManagerInterface
     /**
      *
      * @access public
-     * @param \Symfony\Component\EventDispatcher\ContainerAwareEventDispatcher  $dispatcher
+     * @param \Symfony\Component\EventDispatcher\EventDispatcherInterface  $dispatcher
      * @param \CCDNUser\SecurityBundle\Model\Component\Gateway\GatewayInterface $gateway
      */
-    public function __construct(ContainerAwareEventDispatcher $dispatcher, GatewayInterface $gateway);
+    public function __construct(EventDispatcherInterface $dispatcher, GatewayInterface $gateway);
 
     /**
      *
