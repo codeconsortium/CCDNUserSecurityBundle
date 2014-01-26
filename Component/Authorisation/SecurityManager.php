@@ -13,7 +13,7 @@
 
 namespace CCDNUser\SecurityBundle\Component\Authorisation;
 
-use Symfony\Component\DependencyInjection\ContainerInterface;
+use Symfony\Component\HttpFoundation\RequestStack;
 use CCDNUser\SecurityBundle\Component\Authentication\Tracker\LoginFailureTracker;
 
 /**
@@ -32,9 +32,9 @@ class SecurityManager
     /**
      *
      * @access protected
-     * @var \Symfony\Component\DependencyInjection\ContainerInterface $container
+     * @var \Symfony\Component\HttpFoundation\RequestStack $requestStack
      */
-    protected $container;
+    protected $requestStack;
 
     /**
      *
@@ -71,16 +71,16 @@ class SecurityManager
     /**
      *
      * @access public
-     * @param \Symfony\Component\DependencyInjection\ContainerInterface                     $container
+     * @param \Symfony\Component\HttpFoundation\RequestStack                                $requestStack
      * @param \Symfony\Bundle\FrameworkBundle\Routing\Router                                $router
      * @param \CCDNUser\SecurityBundle\Component\Authentication\Tracker\LoginFailureTracker $loginFailureTracker
      * @param array                                                                         $routeLogin
      * @param array                                                                         $forceAccountRecovery
      * @param array                                                                         $blockPages
      */
-    public function __construct(ContainerInterface $container, LoginFailureTracker $loginFailureTracker, $routeLogin, $forceAccountRecovery, $blockPages)
+    public function __construct(RequestStack $requestStack, LoginFailureTracker $loginFailureTracker, $routeLogin, $forceAccountRecovery, $blockPages)
     {
-        $this->container = $container;
+        $this->requestStack = $requestStack;
         $this->loginFailureTracker = $loginFailureTracker;
         $this->routeLogin = $routeLogin;
         $this->forceAccountRecovery = $forceAccountRecovery;
@@ -97,7 +97,7 @@ class SecurityManager
     public function vote()
     {
         if ($this->forceAccountRecovery['enabled'] || $this->blockPages['enabled']) {
-            $request = $this->container->get('request');
+            $request = $this->requestStack->getMasterRequest();
             $route = $request->get('_route');
             $ipAddress = $request->getClientIp();
 
