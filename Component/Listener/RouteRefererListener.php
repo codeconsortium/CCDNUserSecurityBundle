@@ -82,10 +82,8 @@ class RouteRefererListener
         if ($route[0] == '_') {
             return;
         }
-
         // Get the session and assign it the url we are at presently.
         $session = $request->getSession();
-        $script = ($request->getScriptName() == $request->getBasePath() . '/app_dev.php') ? $request->getScriptName() : $request->getBasePath();
-        $session->set('referer', $script . $request->getPathInfo());
+        $session->set('referer', $request->getPathInfo());
     }
 }
