@@ -3,12 +3,11 @@ CCDNUser SecurityBundle README.
 
 [![SensioLabsInsight](https://insight.sensiolabs.com/projects/bc552d3d-50ea-4287-8398-ed165db32f78/mini.png)](https://insight.sensiolabs.com/projects/bc552d3d-50ea-4287-8398-ed165db32f78) [![Build Status](https://secure.travis-ci.org/codeconsortium/CCDNUserSecurityBundle.png)](https://travis-ci.org/codeconsortium/CCDNUserSecurityBundle) [![Scrutinizer Quality Score](https://scrutinizer-ci.com/g/codeconsortium/CCDNUserSecurityBundle/badges/quality-score.png?s=3a911241b61b93285d75b45356860adbd5775add)](https://scrutinizer-ci.com/g/codeconsortium/CCDNUserSecurityBundle/) [![Code Coverage](https://scrutinizer-ci.com/g/codeconsortium/CCDNUserSecurityBundle/badges/coverage.png?s=f9bb5214fc860a3fca0b887780485a92ba3ba124)](https://scrutinizer-ci.com/g/codeconsortium/CCDNUserSecurityBundle/) [![Latest Stable Version](https://poser.pugx.org/codeconsortium/ccdn-user-security-bundle/v/stable.png)](https://packagist.org/packages/codeconsortium/ccdn-user-security-bundle) [![Total Downloads](https://poser.pugx.org/codeconsortium/ccdn-user-security-bundle/downloads.png)](https://packagist.org/packages/codeconsortium/ccdn-user-security-bundle) [![Stories in Ready](https://badge.waffle.io/codeconsortium/ccdnusersecuritybundle.png?label=ready)](https://waffle.io/codeconsortium/ccdnusersecuritybundle)
 
-## Notes:  
-  
-This bundle is for the symfony framework and requires Symfony >=2.1 and PHP >=5.3.2
-  
+## Notes:
+
+This bundle is for the symfony framework and requires Symfony ~2.4 and PHP >=5.3.2
+
 This project uses Doctrine >=2.1 and so does not require any specific database.
-  
 
 This file is part of the CCDNUser bundles(s)
 

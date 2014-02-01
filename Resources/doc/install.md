@@ -1,5 +1,5 @@
-Installing CCDNUser SecurityBundle 2.x
-======================================
+Installing CCDNUser SecurityBundle.
+===================================
 
 ## Dependencies:
 
@@ -50,9 +50,9 @@ register the new bundle:
 public function registerBundles()
 {
     $bundles = array(
-		new CCDNUser\SecurityBundle\CCDNUserSecurityBundle(),
-		...
-	);
+        new CCDNUser\SecurityBundle\CCDNUserSecurityBundle(),
+        // ...
+    );
 }
 ```
 
