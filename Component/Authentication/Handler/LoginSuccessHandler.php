@@ -13,12 +13,12 @@
 
 namespace CCDNUser\SecurityBundle\Component\Authentication\Handler;
 
+use Symfony\Component\Routing\RouterInterface;
 use Symfony\Component\Security\Http\Authentication\AuthenticationSuccessHandlerInterface;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Bundle\FrameworkBundle\Routing\Router;
 
 /**
  *
@@ -36,7 +36,7 @@ class LoginSuccessHandler implements AuthenticationSuccessHandlerInterface
     /**
      *
      * @access protected
-     * @var \Symfony\Bundle\FrameworkBundle\Routing\Router $router
+     * @var \Symfony\Component\Routing\RouterInterface $router
      */
     protected $router;
 
@@ -55,11 +55,11 @@ class LoginSuccessHandler implements AuthenticationSuccessHandlerInterface
     /**
      *
      * @access public
-     * @param \Symfony\Bundle\FrameworkBundle\Routing\Router $router
-     * @param array                                          $routeReferer
-     * @param array                                          $routeLogin
+     * @param \Symfony\Component\Routing\RouterInterface $router
+     * @param array                                      $routeReferer
+     * @param array                                      $routeLogin
      */
-    public function __construct(Router $router, $routeReferer, $routeLogin)
+    public function __construct(RouterInterface $router, $routeReferer, $routeLogin)
     {
         $this->router = $router;
         $this->routeReferer = $routeReferer;
