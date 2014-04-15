@@ -16,7 +16,7 @@ namespace CCDNUser\SecurityBundle\Component\Listener;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 use Symfony\Component\HttpKernel\Event\GetResponseEvent;
 use Symfony\Component\HttpFoundation\RedirectResponse;
-use Symfony\Bundle\FrameworkBundle\Routing\Router;
+use Symfony\Component\Routing\RouterInterface;
 
 /**
  *
@@ -34,7 +34,7 @@ class BlockingLoginListener
     /**
      *
      * @access protected
-     * @var \Symfony\Bundle\FrameworkBundle\Routing\Router $router
+     * @var \Symfony\Component\Routing\RouterInterface $router
      */
     protected $router;
 
@@ -55,11 +55,11 @@ class BlockingLoginListener
     /**
      *
      * @access public
-     * @param \Symfony\Bundle\FrameworkBundle\Routing\Router                   $router
-     * @param \CCDNUser\SecurityBundle\Component\Authorisation\SecurityManager $loginFailureTracker
-     * @param array                                                            $forceAccountRecovery
+     * @param \Symfony\Component\Routing\RouterInterface                        $router
+     * @param \CCDNUser\SecurityBundle\Component\Authorisation\SecurityManager  $loginFailureTracker
+     * @param array                                                             $forceAccountRecovery
      */
-    public function __construct(Router $router, $securityManager, $forceAccountRecovery)
+    public function __construct(RouterInterface $router, $securityManager, $forceAccountRecovery)
     {
         $this->securityManager = $securityManager;
         $this->router = $router;
