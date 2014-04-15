@@ -13,13 +13,13 @@
 
 namespace CCDNUser\SecurityBundle\Component\Authentication\Handler;
 
+use Symfony\Component\Routing\RouterInterface;
 use Symfony\Component\Security\Http\Authentication\AuthenticationFailureHandlerInterface;
 use Symfony\Component\Security\Core\Exception\AuthenticationException;
 use Symfony\Component\Security\Core\SecurityContext;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Bundle\FrameworkBundle\Routing\Router;
 
 use CCDNUser\SecurityBundle\Component\Authentication\Tracker\LoginFailureTracker;
 
@@ -39,7 +39,7 @@ class LoginFailureHandler implements AuthenticationFailureHandlerInterface
     /**
      *
      * @access protected
-     * @var \Symfony\Bundle\FrameworkBundle\Routing\Router $router
+     * @var \Symfony\Component\Routing\RouterInterface $router
      */
     protected $router;
 
@@ -60,11 +60,11 @@ class LoginFailureHandler implements AuthenticationFailureHandlerInterface
     /**
      *
      * @access public
-     * @param \Symfony\Bundle\FrameworkBundle\Routing\Router                                $router
+     * @param \Symfony\Component\Routing\RouterInterface                                    $router
      * @param \CCDNUser\SecurityBundle\Component\Authentication\Tracker\LoginFailureTracker $loginFailureTracker
      * @param array                                                                         $routeLogin
      */
-    public function __construct(Router $router, LoginFailureTracker $loginFailureTracker, $routeLogin)
+    public function __construct(RouterInterface $router, LoginFailureTracker $loginFailureTracker, $routeLogin)
     {
         $this->router = $router;
         $this->loginFailureTracker = $loginFailureTracker;
