@@ -14,7 +14,6 @@
 namespace CCDNUser\SecurityBundle\Component\Listener;
 
 use Symfony\Component\HttpKernel\Event\GetResponseEvent;
-use Symfony\Bundle\FrameworkBundle\Routing\Router;
 
 /**
  *
@@ -32,13 +31,6 @@ class RouteRefererListener
     /**
      *
      * @access protected
-     * @var \Symfony\Bundle\FrameworkBundle\Routing\Router $router
-     */
-    protected $router;
-
-    /**
-     *
-     * @access protected
      * @var array $routeIgnoreList
      */
     protected $routeIgnoreList;
@@ -46,12 +38,10 @@ class RouteRefererListener
     /**
      *
      * @access public
-     * @param \Symfony\Bundle\FrameworkBundle\Routing\Router $router
-     * @param array                                          $routeIgnoreList
+     * @param array $routeIgnoreList
      */
-    public function __construct(Router $router, $routeIgnoreList)
+    public function __construct($routeIgnoreList)
     {
-        $this->router = $router;
         $this->routeIgnoreList = $routeIgnoreList;
     }
 

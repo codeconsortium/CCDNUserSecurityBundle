@@ -76,7 +76,6 @@ services:
     ccdn_user_security.component.listener.route_referer_listener:
         class: %ccdn_user_security.component.listener.route_referer_listener.class%
         arguments:
-            - @router
             - %ccdn_user_security.route_referer.route_ignore_list%
         tags:
             - { name: kernel.event_listener, event: kernel.request, method: onKernelRequest }
