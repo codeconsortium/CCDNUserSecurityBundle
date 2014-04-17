@@ -13,7 +13,7 @@
 
 namespace CCDNUser\SecurityBundle\Component\Listener;
 
-use Symfony\Component\HttpKernel\Exception\HttpException;
+use CCDNUser\SecurityBundle\Component\Authorisation\SecurityManager;
 use Symfony\Component\HttpKernel\Event\GetResponseEvent;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\Routing\RouterInterface;
@@ -53,17 +53,24 @@ class BlockingLoginListener
     protected $securityManager;
 
     /**
+     * @var AccessDeniedExceptionFactoryInterface
+     */
+    protected $exceptionFactory;
+
+    /**
      *
      * @access public
-     * @param \Symfony\Component\Routing\RouterInterface                        $router
-     * @param \CCDNUser\SecurityBundle\Component\Authorisation\SecurityManager  $loginFailureTracker
-     * @param array                                                             $forceAccountRecovery
+     * @param \Symfony\Component\Routing\RouterInterface                                              $router
+     * @param \CCDNUser\SecurityBundle\Component\Authorisation\SecurityManager                        $loginFailureTracker
+     * @param \CCDNUser\SecurityBundle\Component\Listener\AccessDeniedExceptionFactoryInterface $exceptionFactory
+     * @param array                                                                                   $forceAccountRecovery
      */
-    public function __construct(RouterInterface $router, $securityManager, $forceAccountRecovery)
+    public function __construct(RouterInterface $router, SecurityManager $securityManager, AccessDeniedExceptionFactoryInterface $exceptionFactory, $forceAccountRecovery)
     {
         $this->securityManager = $securityManager;
         $this->router = $router;
         $this->forceAccountRecovery = $forceAccountRecovery;
+        $this->exceptionFactory = $exceptionFactory;
     }
 
     /**
@@ -101,7 +108,7 @@ class BlockingLoginListener
         if ($result == $securityManager::ACCESS_DENIED_BLOCK) {
             $event->stopPropagation();
 
-            throw new HttpException(500, 'flood control - login blocked');
+            throw $this->exceptionFactory->createAccessDeniedException();
         }
     }
 }

@@ -61,14 +61,20 @@ services:
         tags:
             - { name: security.voter }
 
+    #
+    # Blocking login Listener.
+    #
     ccdn_user_security.component.listener.blocking_login_listener:
         class: %ccdn_user_security.component.listener.blocking_login_listener.class%
         arguments:
             - @router
             - @ccdn_user_security.component.authorisation.security_manager
+            - @ccdn_user_security.component.access_denied_exception_factory
             - %ccdn_user_security.login_shield.force_account_recovery%
         tags:
             - { name: kernel.event_listener, event: kernel.request, method: onKernelRequest }
+    ccdn_user_security.component.access_denied_exception_factory:
+        class: %ccdn_user_security.component.access_denied_exception_factory.class%
 
     #
     # Referer Listener.
