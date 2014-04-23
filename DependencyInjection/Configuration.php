@@ -315,6 +315,7 @@ class Configuration implements ConfigurationInterface
                                     ->canBeUnset()
                                     ->children()
                                         ->scalarNode('class')->defaultValue('CCDNUser\SecurityBundle\Component\Listener\BlockingLoginListener')->end()
+                                        ->scalarNode('access_denied_exception_factory')->defaultValue('CCDNUser\SecurityBundle\Component\Listener\AccessDeniedExceptionFactory')->end()
                                     ->end()
                                 ->end()
                             ->end()
