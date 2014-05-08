@@ -96,8 +96,8 @@ class SecurityManager
      */
     public function vote()
     {
-        if ($this->forceAccountRecovery['enabled'] || $this->blockPages['enabled']) {
-            $request = $this->requestStack->getMasterRequest();
+        $request = $this->requestStack->getMasterRequest();
+        if (($this->forceAccountRecovery['enabled'] || $this->blockPages['enabled']) && $request) {
             $route = $request->get('_route');
             $ipAddress = $request->getClientIp();
 
