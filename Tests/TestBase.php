@@ -57,7 +57,9 @@ class TestBase extends WebTestCase
      * message when running many tests
      */
 	public function tearDown(){
-		$this->container->get('doctrine')->getConnection()->close();
+		if($this->container !== null){
+			$this->container->get('doctrine')->getConnection()->close();
+		}
 	
 		parent::tearDown();
 	}
