@@ -22,4 +22,4 @@ php ./Tests/Functional/app/console --env=test doctrine:database:create
 php ./Tests/Functional/app/console --env=test doctrine:schema:create
 php ./Tests/Functional/app/console --env=test doctrine:schema:update --force
 
-phpunit -c ./ --testdox
+./vendor/phpunit/phpunit/phpunit.php -c ./ --testdox
