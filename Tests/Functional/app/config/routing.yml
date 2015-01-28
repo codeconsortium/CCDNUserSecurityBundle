@@ -21,3 +21,9 @@ fos_user_change_password:
 ccdn_user_security_circumvent_login:
     pattern:  /circumvent_login
     defaults: { _controller: CCDNUserSecurityBundle:TestLogin:circumvent }
+
+home:
+    path: /
+    defaults:
+        _controller: FrameworkBundle:Template:template
+        template:    'CCDNUserSecurityBundle::home.html.twig'

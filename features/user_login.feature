@@ -37,6 +37,10 @@ Feature: Check Blocking Functionalities
 		And I circumvent login with "user1@foo.com" and "wrongpass"
 		And I should not be logged in
 		And I circumvent login with "user1@foo.com" and "wrongpass"
-		And I should not be logged in
-		And I should be blocked
-
+		Then I should be blocked
+		And I go to "/login"
+		Then I should be blocked
+		And I circumvent login with "user1@foo.com" and "root"
+		Then I should be blocked
+		And I go to "/"
+		Then I should not be logged in
