@@ -166,6 +166,7 @@ class CCDNUserSecurityExtension extends Extension
 
         $container->setParameter('ccdn_user_security.component.listener.route_referer_listener.class', $config['component']['listener']['route_referer_listener']['class']);
         $container->setParameter('ccdn_user_security.component.listener.blocking_login_listener.class', $config['component']['listener']['blocking_login_listener']['class']);
+        $container->setParameter('ccdn_user_security.component.listener.defer_login_listener.class', $config['component']['listener']['defer_login_listener']['class']);
         $container->setParameter('ccdn_user_security.component.access_denied_exception_factory.class', $config['component']['listener']['blocking_login_listener']['access_denied_exception_factory']);
 
         $container->setParameter('ccdn_user_security.component.route_referer_ignore.chain.class', $config['component']['route_referer_ignore']['chain']['class']);
