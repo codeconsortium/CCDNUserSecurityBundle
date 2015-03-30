@@ -9,30 +9,9 @@ services:
     #
     ccdn_user_security.component.authentication.handler.login_failure_handler:
         class: %ccdn_user_security.component.authentication.handler.login_failure_handler.class%
-        arguments:
-            - @router
-            - @ccdn_user_security.component.authentication.tracker.login_failure_tracker
-            - %ccdn_user_security.login_shield.route_login%
-        tags:
-            - { name: 'monolog.logger', channel: 'security' }
-
-    ccdn_user_security.component.authentication.handler.login_success_handler:
-        class: %ccdn_user_security.component.authentication.handler.login_success_handler.class%
-        arguments:
-            - @router
-            - %ccdn_user_security.route_referer%
-            - %ccdn_user_security.login_shield.route_login%
-        tags:
-            - { name: 'monolog.logger', channel: 'security' }
-
-    ccdn_user_security.component.authentication.handler.logout_success_handler:
-        class: %ccdn_user_security.component.authentication.handler.logout_success_handler.class%
-        arguments:
-            - @router
-            - %ccdn_user_security.route_referer%
-            - %ccdn_user_security.login_shield.route_login%
-        tags:
-            - { name: 'monolog.logger', channel: 'security' }
+        parent: security.authentication.failure_handler
+        calls:
+            - [setLoginFailureTracker, ['@ccdn_user_security.component.authentication.tracker.login_failure_tracker']]
 
     ccdn_user_security.component.authentication.tracker.login_failure_tracker:
         class: %ccdn_user_security.component.authentication.tracker.login_failure_tracker.class%
@@ -87,11 +66,10 @@ services:
             - { name: kernel.event_listener, event: kernel.request, method: onKernelRequest }
 
     #
-    # Referer Listener.
+    # For legacy compatibility, we alias deprecated listeners
     #
-    ccdn_user_security.component.listener.route_referer_listener:
-        class: %ccdn_user_security.component.listener.route_referer_listener.class%
-        arguments:
-            - %ccdn_user_security.route_referer.route_ignore_list%
-        tags:
-            - { name: kernel.event_listener, event: kernel.request, method: onKernelRequest }
+    ccdn_user_security.component.authentication.handler.login_success_handler:
+        parent: security.authentication.success_handler
+
+    ccdn_user_security.component.authentication.handler.logout_success_handler:
+        parent: security.logout.success_handler
