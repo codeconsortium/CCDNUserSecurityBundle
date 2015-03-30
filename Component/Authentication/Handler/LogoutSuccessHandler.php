@@ -97,7 +97,7 @@ class LogoutSuccessHandler implements LogoutSuccessHandlerInterface
                     json_encode(
                         array(
                             'status' => 'failed',
-                            'errors' => array($exception->getMessage())
+                            'errors' => array()
                         )
                     )
                 );
