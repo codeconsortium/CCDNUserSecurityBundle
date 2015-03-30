@@ -62,6 +62,12 @@ class RouteRefererListener
 
         // Get the route from the request object.
         $request = $event->getRequest();
+
+        // We skip AJAX requests
+        if ($request->isXmlHttpRequest()) {
+            return;
+        }
+
         $route = $request->get('_route');
 
         if (in_array($route, $this->routeIgnoreList)) {
