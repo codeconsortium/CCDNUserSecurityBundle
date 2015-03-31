@@ -32,7 +32,7 @@ class CCDNUserSecurityBundle extends Bundle
     /**
      *
      * @access public
-     * @param Symfony\Component\DependencyInjection\ContainerBuilder $container
+     * @param ContainerBuilder $container
      */
     public function build(ContainerBuilder $container)
     {

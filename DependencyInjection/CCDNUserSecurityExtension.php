@@ -13,6 +13,7 @@
 
 namespace CCDNUser\SecurityBundle\DependencyInjection;
 
+use Symfony\Component\DependencyInjection\Reference;
 use Symfony\Component\HttpKernel\DependencyInjection\Extension;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Loader;
@@ -64,7 +65,6 @@ class CCDNUserSecurityExtension extends Extension
         $this->getComponentSection($container, $config);
 
         // Configuration stuff.
-        $this->getRouteRefererSection($container, $config);
         $this->getLoginShieldSection($container, $config);
 
         // Load Service definitions.
@@ -158,34 +158,13 @@ class CCDNUserSecurityExtension extends Extension
     private function getComponentSection(ContainerBuilder $container, $config)
     {
         $container->setParameter('ccdn_user_security.component.authentication.handler.login_failure_handler.class', $config['component']['authentication']['handler']['login_failure_handler']['class']);
-        $container->setParameter('ccdn_user_security.component.authentication.handler.login_success_handler.class', $config['component']['authentication']['handler']['login_success_handler']['class']);
-        $container->setParameter('ccdn_user_security.component.authentication.handler.logout_success_handler.class', $config['component']['authentication']['handler']['logout_success_handler']['class']);
         $container->setParameter('ccdn_user_security.component.authentication.tracker.login_failure_tracker.class', $config['component']['authentication']['tracker']['login_failure_tracker']['class']);
 
         $container->setParameter('ccdn_user_security.component.authorisation.voter.client_login_voter.class', $config['component']['authorisation']['voter']['client_login_voter']['class']);
 
-        $container->setParameter('ccdn_user_security.component.listener.route_referer_listener.class', $config['component']['listener']['route_referer_listener']['class']);
         $container->setParameter('ccdn_user_security.component.listener.blocking_login_listener.class', $config['component']['listener']['blocking_login_listener']['class']);
         $container->setParameter('ccdn_user_security.component.listener.defer_login_listener.class', $config['component']['listener']['defer_login_listener']['class']);
         $container->setParameter('ccdn_user_security.component.access_denied_exception_factory.class', $config['component']['listener']['blocking_login_listener']['access_denied_exception_factory']);
-
-        $container->setParameter('ccdn_user_security.component.route_referer_ignore.chain.class', $config['component']['route_referer_ignore']['chain']['class']);
-
-        return $this;
-    }
-
-    /**
-     *
-     * @access private
-     * @param  array                                                                  $config
-     * @param  \Symfony\Component\DependencyInjection\ContainerBuilder                $container
-     * @return \CCDNUser\SecurityBundle\DependencyInjection\CCDNUserSecurityExtension
-     */
-    private function getRouteRefererSection(ContainerBuilder $container, $config)
-    {
-        $container->setParameter('ccdn_user_security.route_referer', $config['route_referer']);
-        $container->setParameter('ccdn_user_security.route_referer.enabled', $config['route_referer']['enabled']);
-        $container->setParameter('ccdn_user_security.route_referer.route_ignore_list', $config['route_referer']['route_ignore_list']);
 
         return $this;
     }

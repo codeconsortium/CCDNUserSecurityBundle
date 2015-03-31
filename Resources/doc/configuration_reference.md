@@ -11,21 +11,6 @@ ccdn_user_security:
     entity:
         user:
             class: Acme\YourUserBundle\Entity\User # Required
-    route_referer:
-        enabled: true
-        route_ignore_list:
-            - fos_user_security_login
-            - fos_user_security_check
-            - fos_user_security_logout
-            - fos_user_registration_register
-            - fos_user_registration_check_email
-            - fos_user_registration_confirm
-            - fos_user_registration_confirmed
-            - fos_user_resetting_request
-            - fos_user_resetting_send_email
-            - fos_user_resetting_check_email
-            - fos_user_resetting_reset
-            - fos_user_change_password
     login_shield:
         route_login:
             name:                  fos_user_security_login
@@ -55,7 +40,6 @@ ccdn_user_security:
                 - fos_user_registration_confirmed
                 - fos_user_resetting_request
                 - fos_user_resetting_send_email
-
 ```
 
 Please note that for either 'force_account_recovery' or 'block_pages' to function, you need to specify the 'route_login' config, also you must specify the route for the account recovery page.
