@@ -22,7 +22,7 @@ services:
     # Access Decision Manager
     #
     ccdn_user_security.component.authorisation.security_manager:
-        class: 'CCDNUser\SecurityBundle\Component\Authorisation\SecurityManager'
+        class: %ccdn_user_security.component.authorisation.security_manager.class%
         arguments:
             - @request_stack
             - @ccdn_user_security.component.authentication.tracker.login_failure_tracker

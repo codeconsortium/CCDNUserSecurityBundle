@@ -2,7 +2,7 @@
 
 namespace CCDNUser\SecurityBundle\Component\Listener;
 
-use CCDNUser\SecurityBundle\Component\Authorisation\SecurityManager;
+use CCDNUser\SecurityBundle\Component\Authorisation\SecurityManagerInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpKernel\Event\GetResponseEvent;
 use Symfony\Component\HttpKernel\HttpKernelInterface;
@@ -27,19 +27,19 @@ class DeferLoginListener
     /**
      *
      * @access protected
-     * @var \CCDNUser\SecurityBundle\Component\Authorisation\SecurityManager $securityManager
+     * @var \CCDNUser\SecurityBundle\Component\Authorisation\SecurityManagerInterface $securityManager
      */
     protected $securityManager;
 
     /**
      *
      * @access public
-     * @param \Symfony\Component\Routing\RouterInterface                        $router
-     * @param \CCDNUser\SecurityBundle\Component\Authorisation\SecurityManager  $securityManager
-     * @param array                                                             $forceAccountRecovery
+     * @param \Symfony\Component\Routing\RouterInterface                                $router
+     * @param \CCDNUser\SecurityBundle\Component\Authorisation\SecurityManagerInterface $securityManager
+     * @param array                                                                     $forceAccountRecovery
      *
      */
-    public function __construct(RouterInterface $router, SecurityManager $securityManager, array $forceAccountRecovery)
+    public function __construct(RouterInterface $router, SecurityManagerInterface $securityManager, array $forceAccountRecovery)
     {
         $this->router               = $router;
         $this->securityManager      = $securityManager;
@@ -52,9 +52,10 @@ class DeferLoginListener
             return;
         }
 
-        $result = $this->securityManager->vote();
+        $securityManager = $this->securityManager; // Avoid the silly cryptic error 'T_PAAMAYIM_NEKUDOTAYIM'
+        $result = $securityManager->vote();
 
-        if ($result === SecurityManager::ACCESS_DENIED_DEFER) {
+        if ($result === $securityManager::ACCESS_DENIED_DEFER) {
             $event->stopPropagation();
 
             $redirectUrl = $this->router->generate(
