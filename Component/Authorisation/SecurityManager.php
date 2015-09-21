@@ -27,7 +27,7 @@ use CCDNUser\SecurityBundle\Component\Authentication\Tracker\LoginFailureTracker
  * @link     https://github.com/codeconsortium/CCDNUserSecurityBundle
  *
  */
-class SecurityManager
+class SecurityManager implements SecurityManagerInterface
 {
     /**
      *
@@ -64,15 +64,10 @@ class SecurityManager
      */
     protected $blockPages;
 
-    const ACCESS_ALLOWED = 0;
-    const ACCESS_DENIED_DEFER = 1;
-    const ACCESS_DENIED_BLOCK = 2;
-
     /**
      *
      * @access public
      * @param \Symfony\Component\HttpFoundation\RequestStack                                $requestStack
-     * @param \Symfony\Bundle\FrameworkBundle\Routing\Router                                $router
      * @param \CCDNUser\SecurityBundle\Component\Authentication\Tracker\LoginFailureTracker $loginFailureTracker
      * @param array                                                                         $routeLogin
      * @param array                                                                         $forceAccountRecovery

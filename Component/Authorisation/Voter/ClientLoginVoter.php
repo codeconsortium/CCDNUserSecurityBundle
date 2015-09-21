@@ -13,6 +13,7 @@
 
 namespace CCDNUser\SecurityBundle\Component\Authorisation\Voter;
 
+use CCDNUser\SecurityBundle\Component\Authorisation\SecurityManagerInterface;
 use Symfony\Component\Security\Core\Authorization\Voter\VoterInterface;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 
@@ -32,16 +33,16 @@ class ClientLoginVoter implements VoterInterface
     /**
      *
      * @access protected
-     * @var \CCDNUser\SecurityBundle\Component\Authorisation\SecurityManager $securityManager
+     * @var \CCDNUser\SecurityBundle\Component\Authorisation\SecurityManagerInterface $securityManager
      */
     protected $securityManager;
 
     /**
      *
      * @access public
-     * @param \CCDNUser\SecurityBundle\Component\Authorisation\SecurityManager $loginFailureTracker
+     * @param \CCDNUser\SecurityBundle\Component\Authorisation\SecurityManagerInterface $securityManager
      */
-    public function __construct($securityManager)
+    public function __construct(SecurityManagerInterface $securityManager)
     {
         $this->securityManager = $securityManager;
     }

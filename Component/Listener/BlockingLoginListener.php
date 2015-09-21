@@ -13,9 +13,8 @@
 
 namespace CCDNUser\SecurityBundle\Component\Listener;
 
-use CCDNUser\SecurityBundle\Component\Authorisation\SecurityManager;
+use CCDNUser\SecurityBundle\Component\Authorisation\SecurityManagerInterface;
 use Symfony\Component\HttpKernel\Event\GetResponseEvent;
-use Symfony\Component\HttpFoundation\RedirectResponse;
 
 /**
  *
@@ -33,7 +32,7 @@ class BlockingLoginListener
     /**
      *
      * @access protected
-     * @var \CCDNUser\SecurityBundle\Component\Authorisation\SecurityManager $securityManager
+     * @var \CCDNUser\SecurityBundle\Component\Authorisation\SecurityManagerInterface $securityManager
      */
     protected $securityManager;
 
@@ -45,11 +44,10 @@ class BlockingLoginListener
     /**
      *
      * @access public
-     * @param \Symfony\Component\Routing\RouterInterface                                              $router
-     * @param \CCDNUser\SecurityBundle\Component\Authorisation\SecurityManager                        $loginFailureTracker
+     * @param \CCDNUser\SecurityBundle\Component\Authorisation\SecurityManagerInterface         $securityManager
      * @param \CCDNUser\SecurityBundle\Component\Listener\AccessDeniedExceptionFactoryInterface $exceptionFactory
      */
-    public function __construct(SecurityManager $securityManager, AccessDeniedExceptionFactoryInterface $exceptionFactory)
+    public function __construct(SecurityManagerInterface $securityManager, AccessDeniedExceptionFactoryInterface $exceptionFactory)
     {
         $this->securityManager = $securityManager;
         $this->exceptionFactory = $exceptionFactory;
