@@ -19,6 +19,6 @@ class AccessDeniedExceptionFactory implements AccessDeniedExceptionFactoryInterf
 {
     public function createAccessDeniedException()
     {
-        return new HttpException(500, 'flood control - login blocked');
+        return new HttpException(429, 'flood control - login blocked');
     }
 }

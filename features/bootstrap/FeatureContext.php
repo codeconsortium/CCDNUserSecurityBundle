@@ -138,6 +138,6 @@ class FeatureContext extends RawMinkContext implements KernelAwareInterface
      */
     public function iShouldBeBlocked()
     {
-        WebTestCase::assertSame(500, $this->getMainContext()->getSession()->getStatusCode());
+        WebTestCase::assertSame(429, $this->getMainContext()->getSession()->getStatusCode());
     }
 }
